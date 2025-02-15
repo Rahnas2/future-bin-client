@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --font-passero: Passero One, cursive;
+  
+  --color-primary: #0D2D2E;
+  --color-seconday: #152526;
+  --color-accent: #009E4F;
+  --color-accent2: #5EEB5B;
+  --color-text: #FFFFFF;
+}
+
+:root {
+  font-family: "Nunito Sans", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #0D2D2E;
+}
+
