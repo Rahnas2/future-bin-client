@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Passero+One&display=swap');
 @import "tailwindcss";
 
+
 @theme {
-  --font-passero: Passero One, cursive;
+  --font-passero: "Passero One", cursive;
   
   --color-primary: #0D2D2E;
   --color-seconday: #152526;
