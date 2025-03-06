@@ -22,8 +22,26 @@ const Input = createTheme({
           color: "white",
           borderRadius: 10,
           // fontFamily: "Nunito Sans",
+
+         
         }
       }
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          "&:-webkit-autofill": {
+            WebkitBoxShadow: "0 0 0 1000px hsl(182, 56% , 11%) inset !important",
+            WebkitTextFillColor: "white !important",
+            caretColor: "white",
+          },
+          "&:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active": {
+            WebkitBoxShadow: "0 0 0 1000px hsl(182, 56% , 11%) inset !important",
+            WebkitTextFillColor: "white !important",
+            caretColor: "white",
+          },
+        },
+      },
     },
     MuiInputLabel: {
       styleOverrides: {

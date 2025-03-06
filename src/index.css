@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Passero+One&display=swap');
 @import "tailwindcss";
 
@@ -9,7 +10,9 @@
   --color-seconday: #152526;
   --color-accent: #009E4F;
   --color-accent2: #5EEB5B;
+  --color-accent3: #2DFB92;
   --color-text: #FFFFFF;
+  --color-text-light: #efefef;
 }
 
 :root {
@@ -20,3 +23,4 @@
   background-color: #0D2D2E;
 }
 
+/* Customize the autofill background color and text color */
