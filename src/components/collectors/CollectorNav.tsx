@@ -4,7 +4,7 @@ import brand from '../../assets/logo (1).png'
 import { MdDashboard, MdFeedback, MdLogout, MdNotifications } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { ImBin2 } from "react-icons/im";
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { FaMoneyBillTrendUp, FaCodePullRequest } from "react-icons/fa6";
 import { FiMessageSquare } from "react-icons/fi";
 
 
@@ -46,6 +46,12 @@ const CollectorNav = (props: Props) => {
                         <span><MdDashboard className='text-2xl' /></span>
                         <span>Dashboard</span>
                     </NavLink>
+
+                    <NavLink to="/collector/requests" className={({ isActive }) => isActive ? "bg-accent3 text-seconday" : "[&>*]:opacity-50"} >
+                        <span><FaCodePullRequest className='text-2xl' /></span>
+                        <span>Requests</span>
+                    </NavLink>
+
                     <div className='opacity-50'>
                         <span><ImBin2 className='text-2xl' /></span>
                         <span>My Collection</span>
@@ -54,10 +60,10 @@ const CollectorNav = (props: Props) => {
                         <span><FaMoneyBillTrendUp className='text-2xl' /></span>
                         <span>My Earnings</span>
                     </div>
-                    <div className='opacity-50'>
+                    <NavLink to="/collector/inbox" className={({ isActive }) => isActive ? "bg-accent3 text-seconday" : "[&>*]:opacity-50"}>
                         <span><FiMessageSquare className='text-2xl' /></span>
                         <span>Inbox</span>
-                    </div>
+                    </NavLink>
                     <div className='opacity-50'>
                         <span><MdNotifications className='text-2xl' /></span>
                         <span>Notification</span>

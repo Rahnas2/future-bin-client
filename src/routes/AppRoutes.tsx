@@ -23,6 +23,8 @@ import ApprovedCollectors from '../components/Admin/ApprovedCollectors'
 import ApprovalRequests from '../components/Admin/ApprovalRequests'
 import CollectorManagement from '../pages/admin/CollectorManagement'
 import CollectorDetails from '../pages/admin/CollectorDetails'
+import WasteTypesManagement from '@/pages/admin/WasteTypesManagement'
+
 
 import PublicRoute from './PublicRoute'
 import AdminRoute from './AdminRoute'
@@ -31,19 +33,43 @@ import CollectorDash from '../pages/collectors/CollectorDash'
 import CollectorProfile from '../pages/collectors/CollectorProfile'
 import UserRoute from './UserRoute'
 import CollectorRoute from './CollectorRoute'
+import SubscriptionManagemnt from '../pages/admin/SubscriptionManagemnt'
+import ResetPassword from '../pages/auth/ResetPassword'
+import NotFound from '../pages/NotFound'
+import AboutUs from '../components/Marketing/AboutUs'
+import AdminNav from '../components/Admin/AdminNav'
+import UserNav from '../components/UserNav'
+import SubscriptionPlans from '../components/Marketing/SubscriptionPlans'
+import CollectorRequests from '../pages/collectors/CollectorRequests'
+import { getSocket, initiateSocket } from '../services/socket'
+import UserPickupRequestHsitory from '../pages/residents/UserPickupRequestHsitory'
+import Loader from '@/components/common/Loader'
+import SubscriptionManagementUser from '@/pages/residents/SubscriptionManagementUser'
+import NotificationUser from '@/pages/residents/NotificationUser'
+import PaymentStatus from '@/components/common/Payment/PaymentStatus'
+import ChatUser from '@/pages/residents/ChatUser'
+import CollectorInbox from '@/pages/collectors/CollectorInbox'
+import Map from '@/pages/common/Map'
+
+
+
+
+
 
 const AppRoutes = () => {
   const location = useLocation();
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const initAuth = async () => {
       await initializeAuth(); // Wait for token refresh
       setIsAuthInitialized(true); // Mark auth as initialized
+      initiateSocket()
     };
     initAuth();
   }, []);
+
 
   useEffect(() => {
     // Define auth-related routes
@@ -54,8 +80,12 @@ const AppRoutes = () => {
       '/otp-verification',
       '/select-role',
       '/complete-profile',
+      '/reset-password',
       '/admin/login',
-      '/profile'
+      '/profile',
+      '/subscription',
+      '/pickup-request/history',
+      '/chat'
     ];
 
     // Get the root element
@@ -84,8 +114,10 @@ const AppRoutes = () => {
   }, [location.pathname]);
 
   if (!isAuthInitialized) {
-    return <div>loading...</div>
+    return <Loader />
   }
+
+
 
 
   return (
@@ -114,11 +146,18 @@ const AppRoutes = () => {
           <SelectRole />
         </PublicRoute>
       } />
-      <Route path='complete-profile' element={
+      <Route path='/complete-profile' element={
         <PublicRoute>
           <CompleteProfile />
         </PublicRoute>
       } />
+
+      <Route path='/reset-password' element={
+        <PublicRoute>
+          <ResetPassword />
+        </PublicRoute>
+      } />
+
 
       {/* user routes */}
       <Route path='/' element={
@@ -126,9 +165,66 @@ const AppRoutes = () => {
           <LandingPage />
         </UserRoute>}
       />
+
+      <Route path='/about-us' element={
+        <UserRoute>
+          <>
+            <UserNav />
+            <AboutUs />
+          </>
+        </UserRoute>
+      } />
+
+      <Route path='/subscription-plans' element={
+        <UserRoute>
+          <>
+            <UserNav />
+            <SubscriptionPlans />
+          </>
+        </UserRoute>
+      } />
+
+      <Route path='/notifications' element={
+        <UserRoute>
+          <NotificationUser />
+        </UserRoute>
+      }>
+
+      </Route>
+
       <Route path='/profile' element={
         <UserRoute>
           <Profile />
+        </UserRoute>
+      } />
+
+      <Route path='/subscription' element={
+        <UserRoute>
+          <>
+            <UserNav />
+            <SubscriptionManagementUser />
+          </>
+        </UserRoute>
+      } />
+
+      <Route path='/pickup-request/history' element={
+        <UserRoute>
+          <>
+            <UserNav />
+            <UserPickupRequestHsitory />
+          </>
+        </UserRoute>
+      } />
+
+      <Route path='/payment-status' element={
+        <UserRoute>
+          <PaymentStatus />
+        </UserRoute>
+      } />
+
+      <Route path='/chat' element={
+        <UserRoute>
+          <ChatUser />
         </UserRoute>
       } />
 
@@ -141,6 +237,19 @@ const AppRoutes = () => {
       <Route path='/collector/profile' element={
         <CollectorRoute>
           <CollectorProfile />
+        </CollectorRoute>
+      } />
+
+      <Route path='/collector/requests' element={
+        <CollectorRoute>
+          <CollectorRequests />
+        </ CollectorRoute >
+      }
+      />
+
+      <Route path='/collector/inbox' element={
+        <CollectorRoute>
+          <CollectorInbox />
         </CollectorRoute>
       } />
 
@@ -169,6 +278,13 @@ const AppRoutes = () => {
           </AdminRoute>
         }
       />
+      <Route
+        path='/admin/subscriptions'
+        element={
+          <AdminRoute>
+            <SubscriptionManagemnt />
+          </AdminRoute>
+        }></Route>
 
 
       <Route
@@ -192,7 +308,18 @@ const AppRoutes = () => {
         }
       />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route
+        path="/admin/waste-types"
+        element={
+          <AdminRoute>
+            <WasteTypesManagement />
+          </AdminRoute>
+        } />
+
+
+      <Route path='/map' element={<Map />}/>
+      
+      <Route path="*" element={<NotFound />} />
     </Routes >
   )
 }

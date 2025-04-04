@@ -1,6 +1,6 @@
 import Banner from "../../components/common/Banner"
 import OAuth from "../../components/OAuth"
-import { MdKeyboardArrowRight } from 'react-icons/md'
+import { MdDisabledVisible, MdKeyboardArrowRight, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { ThemeProvider } from '@mui/material/styles'
@@ -15,6 +15,12 @@ import toast from "react-hot-toast";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Link } from "react-router-dom";
+import ForgotPasswordModal from "../../components/common/ForgotPasswordModal";
+import { IconButton, InputAdornment } from "@mui/material";
+import PasswordField from "../../components/common/PasswordField";
+import { initiateSocket } from "../../services/socket";
+import { fetchUserProfile } from "@/redux/slices/userSlice";
+import { fetchCollectorProfile } from "@/redux/slices/collectorSlice";
 
 const Login = () => {
 
@@ -26,6 +32,20 @@ const Login = () => {
   })
 
   const [errors, setError] = useState<loginSchemaType>({})
+
+
+  //forgot password 
+  const [isOpen, setIsOpen] = useState(false)
+
+  //open modal
+  const handleOpen = () => {
+    setIsOpen(true)
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
+
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -47,17 +67,19 @@ const Login = () => {
     try {
       //validation 
       await loginSchema.validate(data, { abortEarly: false })
-
-      //clear previous error
       setError({})
 
       const res = await dispatch(login(data)).unwrap()
-      console.log('res ', res)
+      initiateSocket()
+      if (res.role === 'resident') {
+        await dispatch(fetchUserProfile())
+      } else if (res.role === 'collector') {
+        await dispatch(fetchCollectorProfile())
+      }
 
       toast.success(res.message)
 
-
-    } catch (error:any) {
+    } catch (error: any) {
       //validation error
       if (error instanceof ValidationError) {
 
@@ -72,7 +94,7 @@ const Login = () => {
         })
         console.log('validaton errors', ValidationErrors)
         setError(ValidationErrors)
-      }else{
+      } else {
         console.error('error ', error)
         error.message && toast.error(error?.message)
       }
@@ -88,8 +110,8 @@ const Login = () => {
         <p className='opacity-50 text-sm font-light'>Fill in the details to get started</p>
 
         {/* social authentication */}
-       <GoogleOAuthProvider clientId="3144012594-6hqsjqjc8gf3880dkp3n7vqsicml2as1.apps.googleusercontent.com">
-        <OAuth />
+        <GoogleOAuthProvider clientId="3144012594-6hqsjqjc8gf3880dkp3n7vqsicml2as1.apps.googleusercontent.com">
+          <OAuth mode="login" />
         </GoogleOAuthProvider>
 
         <div className='flex gap-5 items-center justify-around opacity-50 mb-8 w-[80%]'>
@@ -112,9 +134,8 @@ const Login = () => {
               error={!!errors.email}
               helperText={errors.email}
             />
-            <TextField
+            <PasswordField
               label="Password"
-              variant="outlined"
               name="password"
               value={data.password}
               onChange={handleChange}
@@ -124,11 +145,13 @@ const Login = () => {
           </Box>
         </ ThemeProvider>
 
-        <div className="w-[80%] text-end text-sm mt-1 mb-2 text-accent">Forgot password?</div>
+        <div onClick={handleOpen} className="w-[80%] text-end text-sm mt-1 mb-2 text-accent cursor-pointer">Forgot password?</div>
 
         <button onClick={handleSubmit} className='bg-accent w-[80%] mx-1 my-3 py-3 rounded-2xl flex justify-center items-center cursor-pointer'>Sign In&nbsp;&nbsp;<span className=''><MdKeyboardArrowRight className='inline font-bold' /></span></button>
         <div className='w-[80%] text-center'><span className='opacity-50'>Don’t have an account?</span>&nbsp;<Link to="/register" className='text-accent'>Sign up</Link></div>
 
+        {/* forgot password modal */}
+        {isOpen && <ForgotPasswordModal onClose={handleClose} />}
       </div>
       <Banner />
     </div>

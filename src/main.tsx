@@ -6,20 +6,18 @@ import './index.css'
 import {BrowserRouter as Router} from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import AppRoutes from './routes/AppRoutes'
-
-
-
-
-
+import App from './App'
 
 
 createRoot(document.getElementById('root')!).render(
+  
   <StrictMode>
-    <Router>
+    {/* <Router> */}
       <Provider store={store}>
-      <AppRoutes />
-      <Toaster />
+        <App />
+      {/* <AppRoutes />
+      <Toaster /> */}
       </Provider>
-    </Router>
+    {/* </Router> */}
   </StrictMode>,
 )

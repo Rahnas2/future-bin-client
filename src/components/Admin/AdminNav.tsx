@@ -4,7 +4,7 @@ import { MdDashboard, MdSubscriptions, MdFeedback } from "react-icons/md";
 import { FaTruckMoving, FaLocationDot } from "react-icons/fa6";
 import { FaUserFriends } from "react-icons/fa";
 import { BsBank } from "react-icons/bs";
-import { Link } from 'react-router-dom';
+import { TbLayersDifference } from "react-icons/tb";
 
 import { NavLink } from 'react-router-dom';
 import { isPending } from '@reduxjs/toolkit';
@@ -58,10 +58,14 @@ function AdminNav() {
                     <span><FaLocationDot className='text-2xl' /></span>
                     <span>Service Locations</span>
                 </div>
-                <div className=''>
+                <NavLink to="/admin/subscriptions" className={({ isActive }) => isActive ? "bg-accent3 text-seconday" : "[&>*]:opacity-50"}>
                     <span><MdSubscriptions className='text-2xl' /></span>
                     <span>Subscription Plans</span>
-                </div>
+                </NavLink>
+                <NavLink to="/admin/waste-types" className={({ isActive }) => isActive ? "bg-accent3 text-seconday" : "[&>*]:opacity-50"}>
+                    <span><TbLayersDifference className='text-2xl' /></span>
+                    <span>Waste Types</span>
+                </NavLink>
                 <div className=''>
                     <span><MdFeedback className='text-2xl' /></span>
                     <span>FeedBack</span>

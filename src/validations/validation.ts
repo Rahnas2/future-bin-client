@@ -150,3 +150,35 @@ export const editProfileSchema = object({
             return value instanceof File && value.type.startsWith("image/");
         }),
 })
+
+export interface changePasswordType {
+    currentPassword: string,
+    newPassword: string,
+    confirmPassword: string
+}
+
+export const passwordSchema = object({
+    newPassword: string().required('Password is required')
+        .min(8, 'Password must be at least 8 characters long')
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character'
+        ),
+    confirmPassword: string()
+        .required('Confirm Password is required')
+        .oneOf([ref('newPassword')], 'Passwords must match')
+})
+
+export const changePasswordSchema = passwordSchema.shape({
+    currentPassword: string().trim().required('required')
+    // newPassword: string().required('Password is required')
+    //     .min(8, 'Password must be at least 8 characters long')
+    //     .matches(
+    //         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //         'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character'
+    //     ),
+    // confirmPassword: string()
+    //     .required('Confirm Password is required')
+    //     .oneOf([ref('newPassword')], 'Passwords must match')
+
+})

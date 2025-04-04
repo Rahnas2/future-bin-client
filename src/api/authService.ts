@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
+import { string } from "yup";
 
 export const sendOtpService = async (email: string) =>{
     const response = await axiosInstance.post('/resent-otp', {email})
@@ -16,6 +17,17 @@ export const verifyOtpService = async (email: string, otp: string) =>{
 export const basicInfoApi = async (userData: any) =>{
     const response = await axiosInstance.post('/register/basic-info', {userData})
     console.log('response ', response)
+    return response.data
+}
+
+export const googleRegisterApi = async(code: string) => {
+    const response = await axiosInstance.get(`/register/basic-info/google?code=${code}`)
+    console.log('google register api service register ->', response)
+    return response.data
+}
+
+export const fbRegisterApi = async(userId: string, token: string) => {
+    const response = await axiosInstance.post('/register/basic-info/facebook', {userId, token})
     return response.data
 }
 
@@ -47,9 +59,25 @@ export const googleLoginApi = async(code:string) =>{
     return response.data
 }
 
+export const facebookLoginApi = async(userId: string, token: string) => {
+    const response = await axiosInstance.post('/login/facebook', {userId, token})
+    return response.data
+}
+
 export const adminLoginApi = async (email: string, password: string, secret: string) => {
     const response = await axiosInstance.post('/admin/login', {email, password, secret})
-    return response
+    console.log('response ', response)
+    return response.data
+}
+
+export const forgotPasswordApi = async (email: string) => {
+    const response = await axiosInstance.post('/forgot-password', {email})
+    return response.data
+}
+
+export const resetPasswordApi = async(email: string, newPassword: string) => {
+    const response = await axiosInstance.post('/reset-password', {email, newPassword})
+    return response.data
 }
 
 export const refreshTokenApi = async () => {

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { adminLoginApi, basicInfoApi, completeProfileApi, googleLoginApi, loginApi, logOutApi, refreshTokenApi, sendOtpService as sendOtpApi, updateRoleApi } from "../../api/authService";
+import { adminLoginApi, basicInfoApi, completeProfileApi, facebookLoginApi, fbRegisterApi, googleLoginApi, googleRegisterApi, loginApi, logOutApi, refreshTokenApi, sendOtpService as sendOtpApi, updateRoleApi } from "../../api/authService";
 import { verifyOtpService as verifyOtpApi } from "../../api/authService";
 
 
@@ -37,6 +37,25 @@ export const basicInfo = createAsyncThunk('auth/basicInfo', async (userData: any
     } catch (error: any) {
         console.error(error)
         return rejectWithValue(error.response.data)
+    }
+})
+
+export const googleRegister = createAsyncThunk('auth/googleRegister', async (code: string, {rejectWithValue}) => {
+    try {
+        const response = await googleRegisterApi(code)
+        return response
+    } catch (error: any) {
+        console.error('error google register from slice', error)
+        return rejectWithValue(error.response.data || 'something went wrong')
+    }
+})
+
+export const fbRegister = createAsyncThunk('auth/fbRegister', async({userId, accessToken}: {userId: string, accessToken: string}, {rejectWithValue} ) => {
+    try {
+        const response = await fbRegisterApi(userId, accessToken)
+        return response
+    } catch (error: any) {
+        return rejectWithValue(error.response.data || {message:'something went wrong'})
     }
 })
 
@@ -84,10 +103,22 @@ export const googleLogin = createAsyncThunk('/auth/googleLogin', async (code: st
     }
 })
 
+export const facebookLogin = createAsyncThunk('/auth/facebookLogin', async({userId, accessToken}: {userId: string, accessToken: string}, {rejectWithValue}) => {
+    try {
+        console.log('user id ', userId)
+        console.log('acccess token ', accessToken)
+        const response = await facebookLoginApi(userId, accessToken)
+        return response
+    } catch (error: any) {
+        console.log('error from slice facebook login', error)
+        return rejectWithValue(error.response.data || {message: 'somthing went wrong'})
+    }
+})
+
 export const adminLogin = createAsyncThunk('/auth/adminLogin', async ({ email, password, secret }: { email: string, password: string, secret: string }, { rejectWithValue }) => {
     try {
         const response = await adminLoginApi(email, password, secret)
-        return response.data
+        return response
     } catch (error: any) {
         return rejectWithValue(error.response.data)
     }
@@ -144,6 +175,10 @@ const authSlice = createSlice({
                 state.isLoading = false
             })
 
+            .addCase(googleRegister.fulfilled, (state, action) => {
+                state.email = action.payload.email
+            })
+
             //verify otp 
             .addCase(verifyOtp.pending, state => {
                 state.isLoading = true
@@ -163,6 +198,19 @@ const authSlice = createSlice({
                 state.role = action.payload.role
             })
 
+            //google login
+            .addCase(googleLogin.fulfilled, (state, action) => {
+                state.accessToken = action.payload.accessToken
+                state.role = action.payload.role
+            })
+
+            //facebook login
+            .addCase(facebookLogin.fulfilled, (state, action) => {
+                console.log('fullfilled facebook login ', action)
+                state.accessToken = action.payload.accessToken
+                state.role = action.payload.role
+            })
+
             //completeProfile 
             .addCase(completeProfile.fulfilled, (state, action) => {
                 console.log('complete profile action ', action)
@@ -177,10 +225,11 @@ const authSlice = createSlice({
             })
 
             .addCase(refreshToken.fulfilled, (state, action) => {
-                console.log('actoin', action)
+                console.log('action', action)
                 state.accessToken = action.payload.accessToken;
                 state.role = action.payload.role
             })
+            
 
             .addCase(refreshToken.rejected, (state) => {
                 state.accessToken = null;

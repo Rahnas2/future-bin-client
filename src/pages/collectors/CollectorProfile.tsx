@@ -16,6 +16,7 @@ import IDCard from '../../components/collectors/IDCard'
 import VehicleDetails from '../../components/collectors/VehicleDetails'
 import toast from 'react-hot-toast'
 import { editProfileApi } from '../../api/userService'
+import ChangePasswordModal from '../../components/common/ChangePasswordModal'
 
 type Props = {}
 
@@ -54,6 +55,16 @@ function CollectorProfile({ }: Props) {
     const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
     const [errors, setErrors] = useState<Partial<editProfileType>>({})
+
+     //for change password modal
+     const [isOpen, setIsOpen] = useState(false)
+     const handleOpen = () => {
+         setIsOpen(true)
+     }
+ 
+     const handleClose = () => {
+         setIsOpen(false)
+     }
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -211,11 +222,15 @@ function CollectorProfile({ }: Props) {
 
                     </ ThemeProvider>
 
-                    <div className="text-accent2 font-bold text-sm">Change password?</div>
+                    <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
 
                     {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
-                </div>
 
+                     {/* change password modal */}
+                     {isOpen && <ChangePasswordModal onClose={handleClose} />}
+
+                </div>
+                
                 {/* id card images */}
                 <IDCard front={collector?.details?.idCard.front} back={collector?.details?.idCard.back} />
 

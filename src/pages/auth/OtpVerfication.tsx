@@ -15,7 +15,7 @@ const OtpVerfication = () => {
 
     const navigate = useNavigate()
 
-    const { email } = location.state
+    const { email, mode } = location.state
 
     const [otp, setOtp] = useState(Array(6).fill(""))
 
@@ -90,6 +90,11 @@ const OtpVerfication = () => {
     const handleVerfiy = async () => {
         try {
             await dispatch(verifyOtp({ email: email, otp: otp.join('') })).unwrap()
+
+            if(mode === 'forgot-password'){
+                navigate('/reset-password', {state: {email: email} })
+                return
+            }
             navigate('/select-role', { state: { email: email } })
         } catch (error: any) {
             error.message && toast.error(error.message)

@@ -14,10 +14,11 @@ import ProfileCard from "../../components/ProfileCard";
 
 import { FaEdit } from "react-icons/fa";
 import { editProfileSchema, editProfileType } from "../../validations/validation";
-import { ValidationError } from "yup";
+import { string, ValidationError } from "yup";
 
 import { editProfileApi } from "../../api/userService";
 import toast from "react-hot-toast";
+import ChangePasswordModal from "../../components/common/ChangePasswordModal";
 
 
 function Profile() {
@@ -39,21 +40,36 @@ function Profile() {
 
     const [errors, setErrors] = useState<Partial<editProfileType>>({})
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const result: any = await dispatch(fetchUserProfile()).unwrap()
-                console.log('result ', result)
-                const { firstName, lastName, email, mobile } = result.user
-                setData({ firstName, lastName, email, mobile })
-                setIsloading(false)
-            } catch (error) {
-                console.log('fetch user profile error ', error)
-            }
+    //for change password modal
+    const [isOpen, setIsOpen] = useState(false)
+    const handleOpen = () => {
+        setIsOpen(true)
+    }
 
-            // console.log('user ', user)
+    const handleClose = () => {
+        setIsOpen(false)
+    }
+
+
+    useEffect(() => {
+        if (user) {
+            const { firstName, lastName, email, mobile } = user
+            setData({ firstName, lastName, email, mobile })
+            setIsloading(false)
+        } else {
+            const fetchUser = async () => {
+                try {
+                    const result: any = await dispatch(fetchUserProfile()).unwrap()
+                    console.log('result ', result)
+                    const { firstName, lastName, email, mobile } = result.user
+                    setData({ firstName, lastName, email, mobile })
+                    setIsloading(false)
+                } catch (error) {
+                    console.log('fetch user profile error ', error)
+                }
+            }
+            fetchUser()
         }
-        fetchUser()
     }, [])
 
     console.log('data...', data)
@@ -99,19 +115,19 @@ function Profile() {
 
             const formData = new FormData();
             // Append text fields to FormData
-            if(data.firstName !== user?.firstName){
+            if (data.firstName !== user?.firstName) {
                 formData.append('firstName', data.firstName);
             }
-            if(data.lastName !== user?.lastName){
+            if (data.lastName !== user?.lastName) {
                 formData.append('lastName', data.lastName);
             }
-            if(data.email !== user?.email){
+            if (data.email !== user?.email) {
                 formData.append('email', data.email);
             }
-            if(data.mobile !== user?.mobile){
+            if (data.mobile !== user?.mobile) {
                 formData.append('mobile', data.mobile);
             }
-            
+
             // Append the image file if it exists
             if (selectedImage) {
                 formData.append('profileImage', selectedImage);
@@ -119,8 +135,8 @@ function Profile() {
 
             const formDataLen = Array.from(formData.entries()).length;
 
-            if(!formDataLen){
-                toast('you are not updated any data', {icon: '⚠️'})
+            if (!formDataLen) {
+                toast('you are not updated any data', { icon: '⚠️' })
                 return
             }
 
@@ -222,7 +238,7 @@ function Profile() {
 
                         </ ThemeProvider>
 
-                        <div className="text-accent2 font-bold text-sm">Change password?</div>
+                        <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
 
                         {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
                     </div>
@@ -289,6 +305,9 @@ function Profile() {
 
                         </ ThemeProvider>
                     </div>
+
+                    {/* change password modal */}
+                    {isOpen && <ChangePasswordModal onClose={handleClose} />}
                 </div>
             </div>
         </>

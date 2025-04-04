@@ -14,7 +14,7 @@ export const fetchUserProfile = createAsyncThunk('user/fetchUserProfile', async 
     }
 })
 interface userState {
-    user: null | Partial<UserType>,
+    user: null | UserType,
 }
 
 const initialState: userState = {

@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { adminLoginSchema, adminLoginSchemaType } from "../../validations/validation";
 import { ValidationError } from "yup";
 import toast from "react-hot-toast";
+import PasswordField from "../../components/common/PasswordField";
 
 function SignIn() {
 
@@ -51,8 +52,8 @@ function SignIn() {
 
       setError({})
 
-      await dispatch(adminLogin(data)).unwrap()
-
+      const result = await dispatch(adminLogin(data)).unwrap()
+      console.log('reuslt ', result)
       toast.success('success')
 
       navigate('/admin/dashboard', {replace: true})
@@ -68,6 +69,7 @@ function SignIn() {
         })
         setError(ValidationErrors)
       }else{
+        console.error('error admin login ', error)
         error.message && toast.error(error?.message)
       }
     }
@@ -93,9 +95,8 @@ function SignIn() {
             error={!!errors.email}
             helperText={errors.email}
             />
-            <TextField
+            <PasswordField
               label="Password"
-              variant="outlined"
               name="password"
               value={data.password}
             onChange={handleChange}

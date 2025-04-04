@@ -5,7 +5,6 @@ export interface UserType {
         email: string
         mobile: string
         googleId: string | null
-        password: string | null
         role: string
         image: string | null
         address: {
@@ -20,7 +19,7 @@ export interface UserType {
             };
         }
         isBlock?: boolean
-        subscriptionPlanId: string,
+        subscriptionPlanId: string | null,
     // createdAt: Date,
     // updatedAt: Date
 }

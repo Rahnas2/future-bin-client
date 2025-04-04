@@ -18,6 +18,7 @@ import Banner from '../../components/common/Banner';
 import OAuth from '../../components/OAuth';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import toast from 'react-hot-toast';
+import PasswordField from '../../components/common/PasswordField';
 
 
 const Register = () => {
@@ -99,7 +100,7 @@ const Register = () => {
 
                 {/* social authentication */}
                 <GoogleOAuthProvider clientId="3144012594-6hqsjqjc8gf3880dkp3n7vqsicml2as1.apps.googleusercontent.com" >
-                    <OAuth />
+                    <OAuth mode='register' />
                 </GoogleOAuthProvider>
 
 
@@ -155,18 +156,16 @@ const Register = () => {
                                 error={!!errors.email}
                                 helperText={errors.email}
                             />
-                            <TextField
+                            <PasswordField
                                 label="Password"
-                                variant="outlined"
                                 name="password"
                                 value={data.password}
                                 onChange={handleChange}
                                 error={!!errors.password}
                                 helperText={errors.password}
                             />
-                            <TextField
+                            <PasswordField
                                 label="Confirm Password"
-                                variant="outlined"
                                 name="confirmPassword"
                                 value={data.confirmPassword}
                                 onChange={handleChange}

@@ -76,7 +76,7 @@ const CompleteProfile = () => {
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
-                const { latitude, longitude } = position.coords
+                const { longitude, latitude  } = position.coords
                 try {
                     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
                     console.log(response)
