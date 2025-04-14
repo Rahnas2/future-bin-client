@@ -62,15 +62,17 @@ const wasteTypeSlice = createSlice({
         builder
             // Fetch Waste Types
             .addCase(fetchWasteTypes.pending, (state) => {
+                console.log('fetching...')
                 state.loading = true;
             })
             .addCase(fetchWasteTypes.fulfilled, (state, action) => {
+                console.log('fetch success ')
                 state.loading = false;
                 state.initialized = true;
                 state.wasteTypes = action.payload.wasteTypes;
             })
             .addCase(fetchWasteTypes.rejected, (state) => {
-                console.log('hello 3')
+                console.log('fetch rejected')
                 state.loading = false;
                 state.initialized = true;
             })

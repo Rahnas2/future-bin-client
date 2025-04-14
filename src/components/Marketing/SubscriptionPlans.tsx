@@ -107,9 +107,7 @@ return (
                             {selectedSubscription && selectedSubscription._id === data._id && (
                                 <SubscriptionRequestModal
                                     onClose={handleClose}
-                                    subscriptionId={selectedSubscription._id as string}
-                                    subscriptionName={selectedSubscription.name}
-                                    subscriptionPrice={selectedSubscription.price}
+                                    subscription={selectedSubscription}
                                 />
                             )}
 

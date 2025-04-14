@@ -134,7 +134,7 @@ const PickupReqeustCard = (props: Props) => {
 
                     <div className='mb-3'>
                         <span className='opacity-50'>Approximate Weight:&nbsp;&nbsp;</span>
-                        <span className='text-sm font-medium'>{props.request.type === 'on-demand' && props.request.weight}&nbsp; kg</span>
+                        <span className='text-sm font-medium'>{props.request.type === 'on-demand' && props.request.totalWeight}&nbsp; kg</span>
                     </div>
 
                     <div className='mb-10'>

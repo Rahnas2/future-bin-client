@@ -19,8 +19,8 @@ import Profile from '../pages/residents/Profile'
 import SignIn from '../pages/admin/SignIn'
 import AdmDash from '../pages/admin/AdmDash'
 import UserManagement from '../pages/admin/UserManagement'
-import ApprovedCollectors from '../components/Admin/ApprovedCollectors'
-import ApprovalRequests from '../components/Admin/ApprovalRequests'
+import ApprovedCollectors from '@/components/Admin/UserManagement.tsx/Collector/ApprovedCollectors'
+import ApprovalRequests from '@/components/Admin/UserManagement.tsx/Collector/ApprovalRequests'
 import CollectorManagement from '../pages/admin/CollectorManagement'
 import CollectorDetails from '../pages/admin/CollectorDetails'
 import WasteTypesManagement from '@/pages/admin/WasteTypesManagement'
@@ -28,7 +28,6 @@ import WasteTypesManagement from '@/pages/admin/WasteTypesManagement'
 
 import PublicRoute from './PublicRoute'
 import AdminRoute from './AdminRoute'
-import ProtectedRoute from './ProtectedRoute'
 import CollectorDash from '../pages/collectors/CollectorDash'
 import CollectorProfile from '../pages/collectors/CollectorProfile'
 import UserRoute from './UserRoute'
@@ -50,6 +49,10 @@ import PaymentStatus from '@/components/common/Payment/PaymentStatus'
 import ChatUser from '@/pages/residents/ChatUser'
 import CollectorInbox from '@/pages/collectors/CollectorInbox'
 import Map from '@/pages/common/Map'
+import CollectorCacelRequest from '@/pages/collectors/CollectorCacelRequest'
+import CollectorOnDemandCompleted from '@/pages/collectors/CollectorOnDemandCompleted'
+import UserFeedback from '@/pages/residents/UserFeedback'
+import SinglePickupRequest from '@/pages/residents/SinglePickupRequest'
 
 
 
@@ -84,6 +87,7 @@ const AppRoutes = () => {
       '/admin/login',
       '/profile',
       '/subscription',
+      '/feedback',
       '/pickup-request/history',
       '/chat'
     ];
@@ -137,9 +141,9 @@ const AppRoutes = () => {
       } />
 
       <Route path='/otp-verification' element={
-        <PublicRoute>
-          <OtpVerfication />
-        </PublicRoute>
+        // <PublicRoute>
+        <OtpVerfication />
+        // </PublicRoute>
       } />
       <Route path='/select-role' element={
         <PublicRoute>
@@ -207,7 +211,7 @@ const AppRoutes = () => {
         </UserRoute>
       } />
 
-      <Route path='/pickup-request/history' element={
+      <Route path='/pickup-requests' element={
         <UserRoute>
           <>
             <UserNav />
@@ -215,6 +219,22 @@ const AppRoutes = () => {
           </>
         </UserRoute>
       } />
+
+      <Route path='/pickup-reqeusts/:id' element={
+        <UserRoute>
+          <SinglePickupRequest />
+        </UserRoute>
+      } />
+
+      <Route path='/feedback' element={
+        <UserRoute>
+          <>
+            <UserNav />
+            <UserFeedback />
+          </>
+        </UserRoute>
+      }
+      />
 
       <Route path='/payment-status' element={
         <UserRoute>
@@ -229,16 +249,18 @@ const AppRoutes = () => {
       } />
 
       {/* colllector routes */}
-      <Route path='/collector/dashboard' element={
-        <CollectorRoute>
-          <CollectorDash />
-        </CollectorRoute>
-      } />
       <Route path='/collector/profile' element={
         <CollectorRoute>
           <CollectorProfile />
         </CollectorRoute>
       } />
+
+      <Route path='/collector/dashboard' element={
+        <CollectorRoute>
+          <CollectorDash />
+        </CollectorRoute>
+      } />
+
 
       <Route path='/collector/requests' element={
         <CollectorRoute>
@@ -246,6 +268,18 @@ const AppRoutes = () => {
         </ CollectorRoute >
       }
       />
+
+      <Route path='/collector/request/cancel' element={
+        <CollectorRoute>
+          <CollectorCacelRequest />
+        </CollectorRoute>
+      } />
+
+      <Route path='/collector/request/on-demand/complete' element={
+        <CollectorRoute>
+          <CollectorOnDemandCompleted />
+        </CollectorRoute>
+      } />
 
       <Route path='/collector/inbox' element={
         <CollectorRoute>
@@ -270,6 +304,20 @@ const AppRoutes = () => {
           </AdminRoute>
         }
       />
+
+      <Route
+        path="/admin/collectors"
+        element={
+          <AdminRoute>
+            <CollectorManagement />
+          </AdminRoute>
+        }
+      >
+        <Route path="approved" element={<ApprovedCollectors />} />
+        <Route path="requests" element={<ApprovalRequests />} />
+      </Route>
+
+
       <Route
         path="/admin/users"
         element={
@@ -286,18 +334,6 @@ const AppRoutes = () => {
           </AdminRoute>
         }></Route>
 
-
-      <Route
-        path="/admin/collectors"
-        element={
-          <AdminRoute>
-            <CollectorManagement />
-          </AdminRoute>
-        }
-      >
-        <Route path="approved" element={<ApprovedCollectors />} />
-        <Route path="requests" element={<ApprovalRequests />} />
-      </Route>
 
       <Route
         path="/admin/collectors/:name"
@@ -317,8 +353,8 @@ const AppRoutes = () => {
         } />
 
 
-      <Route path='/map' element={<Map />}/>
-      
+      <Route path='/map' element={<Map />} />
+
       <Route path="*" element={<NotFound />} />
     </Routes >
   )

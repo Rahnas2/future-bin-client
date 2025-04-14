@@ -9,12 +9,14 @@ import { BiCurrentLocation } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { completeProfile } from '../../redux/slices/authSlice';
 import { AppDispatch } from '../../redux/store';
 import { completeProfileSchema, completeProfileType } from '../../validations/validation';
 import toast from 'react-hot-toast';
 import { ValidationError } from 'yup';
+import { IRootState } from '@/redux/slices';
+import ButtonSpinner from '@/components/common/ButtonSpinner';
 
 
 const CompleteProfile = () => {
@@ -23,6 +25,7 @@ const CompleteProfile = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
+    const { isLoading } = useSelector((state: IRootState) => state.auth)
 
     const { Role, Email } = location.state
     const role = Role
@@ -76,7 +79,7 @@ const CompleteProfile = () => {
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
-                const { longitude, latitude  } = position.coords
+                const { longitude, latitude } = position.coords
                 try {
                     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
                     console.log(response)
@@ -128,14 +131,14 @@ const CompleteProfile = () => {
             setProfileImg(e.target.files[0])
             try {
                 console.log('changing image ')
-                await completeProfileSchema.validateAt('profileImg', { ...dataToValidate, profileImg: e.target.files[0]})
+                await completeProfileSchema.validateAt('profileImg', { ...dataToValidate, profileImg: e.target.files[0] })
                 setError((prevError) => ({
                     ...prevError,
                     ['profileImg']: undefined
                 }))
                 console.log('success')
             } catch (error) {
-                if(error instanceof ValidationError) {
+                if (error instanceof ValidationError) {
                     console.log('fald image validation ')
                     setError((prevError) => ({
                         ...prevError,
@@ -163,7 +166,7 @@ const CompleteProfile = () => {
                     }
                 }))
             } catch (error) {
-                if(error instanceof ValidationError){
+                if (error instanceof ValidationError) {
                     setError((prevError) => ({
                         ...prevError,
                         idCard: {
@@ -226,7 +229,7 @@ const CompleteProfile = () => {
             setError((prevErrors) => ({
                 ...prevErrors,
                 address: {
-                    ...prevErrors?.address, 
+                    ...prevErrors?.address,
                     [name]: null
                 }
             }));
@@ -529,12 +532,17 @@ const CompleteProfile = () => {
                                     helperText={error.vehicleDetails?.model}
                                     onChange={handleVehicleDetails}
                                 />
-                                <TextField label="License Plate"
+                                <TextField
+                                    inputProps={{ style: { textTransform: 'uppercase' } }}
+                                    label="License Plate"
                                     name='licensePlate'
                                     value={vehicleDetails.licensePlate}
                                     error={!!error.vehicleDetails?.licensePlate}
                                     helperText={error.vehicleDetails?.licensePlate}
                                     onChange={handleVehicleDetails}
+                                    InputProps={{
+                                        style: { textTransform: "uppercase" },
+                                    }}
                                 />
                             </Box>
                         </ThemeProvider>
@@ -559,7 +567,13 @@ const CompleteProfile = () => {
                 </div>
             </div>
 
-            <div className='flex justify-center'><button onClick={handleSubmit} className='bg-accent py-2 px-8 rounded-lg flex items-center font-bold mt-15 mb-3 cursor-pointer'>Proceed&nbsp;<MdKeyboardArrowRight className='inline' /></button></div>
+            <div className='flex justify-center'>
+                <button disabled={isLoading} onClick={handleSubmit} className='bg-accent py-2 px-8 rounded-lg flex items-center font-bold mt-15 mb-3 cursor-pointer'>
+                    {isLoading ? <ButtonSpinner /> :
+                        <div>Proceed&nbsp;<MdKeyboardArrowRight className='inline' /></div>
+                    }
+                </button>
+            </div>
             {role === 'collector' && <p className='text-center opacity-50 text-xs mb-4'>Note: Registeration approval will take maximum of 2 days</p>}
         </>
     )

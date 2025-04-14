@@ -9,9 +9,7 @@ import toast from 'react-hot-toast'
 
 type Props = {
     onClose: () => void,
-    subscriptionId: string,
-    subscriptionName: string,
-    subscriptionPrice: string,
+    subscription: subscriptionType
 }
 
 
@@ -21,11 +19,14 @@ const SubscriptionRequestModal = (props: Props) => {
     console.log('user ', user)
 
     const [data, setData] = useState<SubscriptionPickupRequestType>({
-        subscriptionPlanId: props.subscriptionId,
-        subscriptionPlanName: props.subscriptionName,
-        price: props.subscriptionPrice,
+        subscriptionPlanId: props.subscription._id as string,
+        subscriptionPlanName: props.subscription.name,
+        totalPickups: props.subscription.totalPickups,
+        completedPickups: 0,
+        totalAmount: parseInt(props.subscription.price),
         name: "",
         mobile: "",
+        email: "",
         type: "subscription",
         address: {
             street: "",
@@ -46,6 +47,7 @@ const SubscriptionRequestModal = (props: Props) => {
                 ...prevData,
                 name: user.firstName + ', ' + user.lastName,
                 mobile: user.mobile,
+                email: user.email,
                 address: user.address,
             }));
         }

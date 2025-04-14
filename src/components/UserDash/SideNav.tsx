@@ -28,14 +28,14 @@ function SideNav() {
                 <span><MdOutlineSubscriptions className="inline" /></span>
                 <span>Subscription</span>
             </NavLink>
-            <NavLink to="/pickup-request/history" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
+            <NavLink to="/pickup-requests" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
                 <span><FaCodePullRequest className="inline" /></span>
                 <span>Request</span>
             </NavLink>
-            <div className="flex items-center px-4 py-2  gap-5">
+            <NavLink to="/feedback" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
                 <span><MdFeedback className="inline" /></span>
                 <span>Feedback</span>
-            </div>
+            </NavLink>
             <div className="flex items-center px-4 py-2  gap-5">
                 <span><MdOutlinePayments className="inline" /></span>
                 <span>Payment</span>

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackBtn from '../../components/common/BackBtn'
 
 import Address from '../../components/Address'
@@ -35,7 +35,7 @@ function CollectorDetails({ }: Props) {
             houseNo: '',
             district: '',
             city: '',
-            pincode: ''
+            pincode: 0
         },
         details: {
             _id: '',

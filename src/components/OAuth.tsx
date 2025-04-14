@@ -22,6 +22,8 @@ const OAuth = (props: props) => {
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
 
+
+    //handle google response
     const responseGoogle = async (authResult: any) => {
         try {
             if (authResult["code"]) {
@@ -44,7 +46,7 @@ const OAuth = (props: props) => {
                 //register
                 const result = await dispatch(googleRegister(authResult.code)).unwrap()
                 toast.success(result.message)
-                navigate('/otp-verification', { state: { email: result.email } })
+                navigate('/otp-verification', { state: { email: result.email, mode: 'registeration' } })
 
             } else {
                 console.log('response result ', authResult)
@@ -55,13 +57,14 @@ const OAuth = (props: props) => {
             toast.error(error.message)
         }
     }
-
     const handleGoogleAuth = useGoogleLogin({
         onSuccess: responseGoogle,
         onError: responseGoogle,
         flow: "auth-code"
     })
 
+
+    //handle facebook response
     const handleSuccessFacebook = async (response: any) => {
         try {
             const userId = response.authResponse.userID
@@ -82,17 +85,16 @@ const OAuth = (props: props) => {
 
             //register
             const result = await dispatch(fbRegister({ userId, accessToken })).unwrap()
-            navigate('/otp-verification', { state: { email: result.email } })
+            navigate('/otp-verification', { state: { email: result.email, mode: 'registeration' } })
             toast.success(result.message)
         } catch (error: any) {
-            console.log('error in facebook login', error)
+            console.log('error in facebook authentication', error)
             toast.error(error.message)
         }
         console.log('success response', response)
     }
-
     const handleErrorFacebook = (response: any) => {
-        console.log('error response', response)
+        console.error('error response for facebook authenticaion', response)
     }
 
 
@@ -107,7 +109,7 @@ const OAuth = (props: props) => {
                 <span className='text-xl'><MdKeyboardArrowRight className='inline' /></span>
             </div>
 
-            <FacebookProvider appId='1634568927450402'>
+            {/* <FacebookProvider appId='1634568927450402'> */}
                 <LoginButton scope="email" onSuccess={handleSuccessFacebook} onError={handleErrorFacebook}>
                     <div className='flex px-4 py-4  justify-between items-center'>
                         <div className='flex gap-5 items-center'>
@@ -118,7 +120,7 @@ const OAuth = (props: props) => {
                         <span className='text-xl'><MdKeyboardArrowRight className='inline' /></span>
                     </div>
                 </LoginButton>
-            </ FacebookProvider >
+            {/* </ FacebookProvider > */}
         </div>
     )
 }

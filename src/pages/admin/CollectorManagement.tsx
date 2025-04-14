@@ -1,6 +1,4 @@
 import { Outlet } from "react-router-dom"
-import ApprovalRequests from "../../components/Admin/ApprovalRequests"
-import ApprovedCollectors from "../../components/Admin/ApprovedCollectors"
 import AdminNav from "../../components/Admin/AdminNav"
 
 

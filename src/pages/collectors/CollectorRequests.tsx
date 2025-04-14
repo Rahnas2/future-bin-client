@@ -3,11 +3,12 @@ import CollectorNav from '../../components/collectors/CollectorNav'
 import { getSocket } from '../../services/socket'
 import toast from 'react-hot-toast'
 import { OnDemandPickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
-import { fetchNearbyRequestsApi, fetchRequestById } from '../../api/collectorServices'
+import { fetchNearbyRequestsApi } from '../../api/collectorServices'
 
 
 import OnDemandRequests from '../../components/collectors/OnDemandRequests'
 import SubscriptionRequests from '../../components/collectors/SubscriptionRequests'
+import { fetchPickupRequestById } from '@/api/pickupRequest'
 
 
 type Props = {}
@@ -26,12 +27,16 @@ const CollectorRequests = (props: Props) => {
 
   useEffect(() => {
     const fetchRequests = async () => {
+      try {
       const result = await fetchNearbyRequestsApi()
 
       setOnDemandRequests(result.requests.filter((req: OnDemandPickupRequestType) => req.type === 'on-demand' && !declinedIds.includes(req._id as string)))
       setSubscriptionRequests(result.requests.filter((req: SubscriptionPickupRequestType) => req.type === 'subscription' && !declinedIds.includes(req._id as string)))
+      } catch (error) {
+        console.log('error in collector request page ', error)
+      }
     }
-    fetchRequests()
+    fetchRequests()      
   }, [])
 
   useEffect(() => {
@@ -39,7 +44,7 @@ const CollectorRequests = (props: Props) => {
     socket.on('new-request', async (id) => {
       try {
 
-        const result = await fetchRequestById(id)
+        const result = await fetchPickupRequestById(id)
 
         const type = result.request.type
         if (type === 'on-demand') {
@@ -47,7 +52,6 @@ const CollectorRequests = (props: Props) => {
         } else {
           setSubscriptionRequests([result.request, ...subscriptionRequests])
         }
-        // setOnDemandRequests([result.request, ...requests])
 
         toast.success(`new pickp request ${id}`)
 

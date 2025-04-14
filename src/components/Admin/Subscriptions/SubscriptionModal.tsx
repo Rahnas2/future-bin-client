@@ -1,27 +1,34 @@
 import { IoIosAdd, IoMdClose } from "react-icons/io"
-import { Box, Button, TextField, ThemeProvider } from "@mui/material"
+import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, ThemeProvider } from "@mui/material"
 import Input from "../../../themes/input"
 import { useState } from "react"
-import { addSubscriptionApi } from "../../../api/adminServices"
+import { addSubscriptionApi, editSubscriptionApi } from "../../../api/adminServices"
 import toast from "react-hot-toast"
 import { subscriptionSchema, subscriptionSchemaType } from "../../../validations/addSubscription"
 import { ValidationError } from "yup"
 import { subscriptionType } from "../../../types/SubscriptionType"
+import { cancelReasons } from "@/utils/cancelResons"
+import { subscriptionFrequencies } from "@/utils/subscriptionFrequencies"
+import { error } from "console"
 
 
 
 
 type Props = {
     onClose: () => void
-    handleAddSubscription: (newSubscription: subscriptionType) => void
+    onAddSubscription: (newSubscription: subscriptionType) => void
+    onEditSubscription: (updatedSubscription: subscriptionType) => void
+    subscription: subscriptionType | null
 }
 
 const SubscriptionModal = (props: Props) => {
 
-    const [data, setData] = useState({
+    const [data, setData] = useState(props.subscription || {
         name: "",
         price: "",
         description: "",
+        frequency: "",
+        totalPickups: 0,
         features: [] as string[]
     })
 
@@ -29,17 +36,17 @@ const SubscriptionModal = (props: Props) => {
 
     const [newFeature, setNewFeature] = useState<string>("")
 
-    const handleDataChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDataChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
         const { name, value } = e.target
         setData({ ...data, [name]: value })
 
         try {
-            await subscriptionSchema.validateAt(name, {...data, [name]: value})
-            setErrors({...errors, [name]: null})
+            await subscriptionSchema.validateAt(name, { ...data, [name]: value })
+            setErrors({ ...errors, [name]: null })
         } catch (error) {
 
-            if(error instanceof ValidationError){
-            setErrors({ ...errors, [name]: error.message })
+            if (error instanceof ValidationError) {
+                setErrors({ ...errors, [name]: error.message })
             }
         }
     }
@@ -68,17 +75,47 @@ const SubscriptionModal = (props: Props) => {
     //handle submit
     const handleSubmit = async () => {
         try {
-            
+
             //validation
             await subscriptionSchema.validate(data, { abortEarly: false })
             setErrors({})
             if (!data.features.length) return toast('⚠️ please add atlease one features')
- 
-            const result = await addSubscriptionApi(data)
 
-            props.handleAddSubscription(result.subscription)
+
+            if (props.subscription) {
+                const updatedData: Partial<subscriptionType> = {
+                    _id: props.subscription._id
+                }
+                
+                //send only updated data 
+                if(props.subscription.name !== data.name){
+                    updatedData['name'] = data.name
+                }
+                if(props.subscription.price !== data.price){
+                    updatedData['price'] = data.price
+                }
+                if(props.subscription.description !== data.description){
+                    updatedData['description'] = data.description
+                }
+                if(props.subscription.frequency !== data.frequency){
+                    updatedData['frequency'] = data.frequency
+                }
+                if(props.subscription.totalPickups !== data.totalPickups){
+                    updatedData['totalPickups'] = data.totalPickups
+                }
+
+                updatedData['features'] = data.features.filter(val => val !== "")
+
+                const result = await editSubscriptionApi(updatedData)
+                props.onEditSubscription(result.subscription)
+                toast.success(result.message)
+            } else {
+                const result = await addSubscriptionApi(data)
+                props.onAddSubscription(result.subscription)  
+                toast.success(result.message)
+            }
             props.onClose()
-            toast.success(result.message)
+
         } catch (error: any) {
 
             //validation errors 
@@ -138,6 +175,33 @@ const SubscriptionModal = (props: Props) => {
                             fullWidth
                         />
 
+                        <Box sx={{ mt: 4, mb: 4, display: 'flex', gap: 8 }} >
+                            <FormControl className='w-3xs' error={!!errors.frequency}>
+                                <InputLabel id="frequency">Select Freequency</InputLabel>
+                                <Select
+                                    labelId="frequency"
+                                    name='frequency'
+                                    label="Select frequency"
+                                    value={data.frequency}
+                                    onChange={handleDataChange}
+                                >
+                                    {subscriptionFrequencies().map((frequency, index) => (
+                                        <MenuItem key={index} value={frequency}>{frequency}</MenuItem>
+                                    ))}
+                                </Select>
+                                {errors.frequency && <FormHelperText>{errors.frequency}</FormHelperText>}
+                            </FormControl>
+
+                            <TextField
+                                label="Total Pickups"
+                                name="totalPickups"
+                                value={data.totalPickups}
+                                onChange={handleDataChange}
+                                error={!!errors.totalPickups}
+                                helperText={errors.totalPickups}
+                            />
+                        </Box>
+
                         <div className="mt-8 mb-3">Features</div>
                         <div className="flex flex-wrap gap-2 mb-5">
                             {
@@ -175,7 +239,7 @@ const SubscriptionModal = (props: Props) => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 

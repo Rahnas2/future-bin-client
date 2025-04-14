@@ -196,7 +196,17 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.accessToken = action.payload.accessToken
                 state.role = action.payload.role
+                state.isLoading = false
             })
+
+            .addCase(login.pending, (state) => {
+                state.isLoading = true
+            })
+
+            .addCase(login.rejected, (state) => {
+                state.isLoading = false
+            })
+
 
             //google login
             .addCase(googleLogin.fulfilled, (state, action) => {
@@ -211,11 +221,19 @@ const authSlice = createSlice({
                 state.role = action.payload.role
             })
 
+            .addCase(completeProfile.pending, (state) => {
+                state.isLoading = true
+            })
+
             //completeProfile 
             .addCase(completeProfile.fulfilled, (state, action) => {
-                console.log('complete profile action ', action)
                 state.accessToken = action.payload.accessToken
                 state.role = action.payload.role
+                state.isLoading = false
+            })
+
+            .addCase(completeProfile.rejected, (state) => {
+                state.isLoading = false
             })
 
             //admin login

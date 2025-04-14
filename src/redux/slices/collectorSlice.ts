@@ -1,6 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { CollectorType } from "../../types/CollectorType";
 import { fetchCollectorProfileApi } from "../../api/collectorServices";
+import { stat } from "fs";
 
 export const fetchCollectorProfile = createAsyncThunk('/collector/fetchCollectorProfile', async(_, {rejectWithValue}) => {
     try {
@@ -22,7 +23,13 @@ const initialState: collectorState = {
 const collectorslice = createSlice({
     name: 'collector',
     initialState,
-    reducers: {},
+    reducers: {
+        changeWorkStatus: (state, action: PayloadAction<string>) => {
+            if(!state.collector || !state.collector.details) return 
+
+            state.collector.details.status = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(fetchCollectorProfile.fulfilled, (state, action) => {
@@ -31,5 +38,7 @@ const collectorslice = createSlice({
 
     }
 })
+
+export const { changeWorkStatus } = collectorslice.actions
 
 export default collectorslice

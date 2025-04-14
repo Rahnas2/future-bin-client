@@ -1,10 +1,8 @@
-import React from 'react'
-
-import { IoIosSearch } from 'react-icons/io'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch } from '../redux/store'
+import Pagination from '@/components/common/Pagination'
+import { UserIcon } from 'lucide-react'
+import { FaUserCircle } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import CollectorDetails from '../pages/admin/CollectorDetails'
 
 type Props = {
     role: string
@@ -32,13 +30,14 @@ const UsersData = (props: Props) => {
                 <tr key={user._id} className="border-b">
                     <td className="pl-6 pr-3">{index + 1}</td>
                     <td className="p-3">
-                        {user.image && (
+                        {user.image ? (
                             <img
                                 className="rounded-full h-12 w-12 object-cover"
                                 src={user.image}
                                 alt={`${user.firstName}'s profile`}
                             />
-                        )}
+                        ): 
+                        <FaUserCircle className='rounded-full h-12 w-12 object-cover'/>}
                     </td>
                     <td className="p-3">{user.firstName + ' ' + user.lastName}</td>
                     <td className="p-3">{user.mobile}</td>

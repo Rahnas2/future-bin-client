@@ -28,6 +28,7 @@ export const googleRegisterApi = async(code: string) => {
 
 export const fbRegisterApi = async(userId: string, token: string) => {
     const response = await axiosInstance.post('/register/basic-info/facebook', {userId, token})
+    console.log('response faceboook register ', response)
     return response.data
 }
 

@@ -14,6 +14,8 @@ const SubscriptionManagemnt = (props: Props) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [subscriptions, setSubscriptions] = useState<subscriptionType[]>([]);
+    const [editingSubscription, setEditingSubscription] = useState<subscriptionType | null>(null);
+
     const [loading, setLoading] = useState<boolean>(true);
 
 
@@ -33,17 +35,30 @@ const SubscriptionManagemnt = (props: Props) => {
     }, []);
 
 
-    const handleOpen = () =>{
-        setIsOpen(true)
-    }
+    const handleOpenAdd = () => {
+        setIsOpen(true);
+        setEditingSubscription(null);
+    };
+
+    const handleOpenEdit = (sub: subscriptionType) => {
+        setIsOpen(true);
+        setEditingSubscription(sub);
+    };
 
     const handleClose = () => {
         setIsOpen(false)
+        setEditingSubscription(null);
     }
 
     const handleAddSubscription = (newSubscription: subscriptionType) => {
         setSubscriptions((prevSubscriptions) => [newSubscription, ...prevSubscriptions]);
     };
+
+    const handleEditSubscription = (updatedSubscription: subscriptionType) => {
+        setSubscriptions((prev) =>
+            prev.map((sub) => (sub._id === updatedSubscription._id ? updatedSubscription : sub))
+        )
+    }
 
     const handleDeleteSubscription = (id: string) => {
         setSubscriptions((prevSubscriptions) => prevSubscriptions.filter(sub => sub._id !== id));
@@ -51,24 +66,24 @@ const SubscriptionManagemnt = (props: Props) => {
 
     return (
         <>
-        <div className='flex'>
-            <AdminNav />
-            <div className="bg-primary my-6 mr-2 rounded-t-xl px-4 py-4 flex-1 ">
+            <div className='flex'>
+                <AdminNav />
+                <div className="bg-primary my-6 mr-2 rounded-t-xl px-4 py-4 flex-1 ">
 
-                <AddSubscription onOpen={handleOpen}  />
+                    <AddSubscription onOpen={handleOpenAdd} />
 
-                <div className='text-xl mb-4 px-10'>Avaliable Subscriptions</div>
+                    <div className='text-xl mb-4 px-10'>Avaliable Subscriptions</div>
 
-                <AdminSubCard 
-                subscriptions={subscriptions}
-                loading={loading}
-                onDeleteSubscription={handleDeleteSubscription}
-                // onEditSubscription={handleEditSubscription}
-                /> 
+                    <AdminSubCard
+                        subscriptions={subscriptions}
+                        loading={loading}
+                        onDeleteSubscription={handleDeleteSubscription}
+                        onOpenEdit={handleOpenEdit}
+                    />
 
+                </div>
             </div>
-        </div>
-        {isOpen && <SubscriptionModal onClose={handleClose} handleAddSubscription={handleAddSubscription}/>}
+            {isOpen && <SubscriptionModal onClose={handleClose} onAddSubscription={handleAddSubscription} onEditSubscription={handleEditSubscription} subscription={editingSubscription} />}
         </>
     )
 }

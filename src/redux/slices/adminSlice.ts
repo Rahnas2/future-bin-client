@@ -3,18 +3,18 @@ import { fetchCollectorsApi, fetchUsersApi } from "../../api/adminServices";
 
 
 
-export const fetchUsers = createAsyncThunk('admin/fetchUsers', async (_, {rejectWithValue}) => {
+export const fetchUsers = createAsyncThunk('admin/fetchUsers', async ({page, limit}: {page: number, limit: number}, {rejectWithValue}) => {
     try {
-        const response = await fetchUsersApi()
+        const response = await fetchUsersApi(page, limit)
         return response
     } catch (error: any) {
         return rejectWithValue(error?.response)
     }
 })
 
-export const fetchCollectors = createAsyncThunk('admin/fetchCollectors', async(approvedStatus: string, {rejectWithValue}) => {
+export const fetchCollectors = createAsyncThunk('admin/fetchCollectors', async({approvedStatus, page, limit} :{approvedStatus: string, page: number, limit: number}, {rejectWithValue}) => {
     try {
-        const response = await fetchCollectorsApi(approvedStatus)
+        const response = await fetchCollectorsApi(approvedStatus, page, limit)
         return response
     } catch (error: any) {
         return rejectWithValue(error?.response)

@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { fetchUserProfile } from '../../redux/slices/userSlice';
 import SubscriptionPlans from '../../components/Marketing/SubscriptionPlans';
-import ClientTestimonials from '@/components/User/ClientTestimonialss';
+import ClientTestimonials from '@/components/Marketing/ClientTestimonials';
 
 
 const LandingPage = () => {

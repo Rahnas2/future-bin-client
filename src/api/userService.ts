@@ -2,6 +2,8 @@
 import axiosInstance from "./axiosInstance";
 import { pickupRequestType } from "../types/PickupRequest";
 import axios from "axios";
+import { requestCancellationType } from "@/types/requestCancellation";
+import { pickupRequestStatusType } from "@/types/pickupRequestStatus";
 
 export const fetchUserProfileApi = async() => {
     const response = await axiosInstance.get('/profile')
@@ -31,18 +33,33 @@ export const fetchCurrentSubscriptionApi = async (subscriptionId: string) => {
     return response.data
 }
 
+
+
+//pickup request
 export const pickupRequestApi = async (requestData: pickupRequestType) => {
-    const response = await axiosInstance.post('/pickup-request', {...requestData})
+    const response = await axiosInstance.post('/api/pickup-requests', {...requestData})
     return response.data
 }
 
-//fetch pickupRequest history for users and collectors
-export const fetchPickupRequestHistoryApi = async() => {
-    const response = await axiosInstance.get('/pickup-request/history')
-    console.log('response ', response)
+export const updatePickupRequestApi = async(_id: string, data: Partial<pickupRequestType>) => {
+    const response = await axiosInstance.put('/api/pickup-requests', {_id, ...data})
+    console.log('response update request ', response)
     return response.data
 }
 
+export const fetchPickupRequestHistoryApi = async(status: 'all' | pickupRequestStatusType, page: number, limit: number) => {
+    const response = await axiosInstance.get(`/api/pickup-requests/user/${status}`, { params: {page, limit} })
+    return response.data
+}
+
+export const cancelPickupRequestApi = async(id: string, data: Partial<requestCancellationType>) => {
+    const response = await axiosInstance.put('/api/pickup-requests/cancel', {id, data})
+    console.log('api response ', response)
+    return response.data
+}
+
+
+//notification 
 export const fetchAllNotificatoinOfUserApi = async() => {
     const response = await axiosInstance.get('/notications')
     console.log('response notifcaion api call ->> ', response)

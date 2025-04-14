@@ -8,7 +8,7 @@ import Input from '../../themes/input';
 import React, { useState } from "react";
 import { loginSchema, loginSchemaType } from "../../validations/validation";
 import { ValidationError } from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { login } from "../../redux/slices/authSlice";
 import toast from "react-hot-toast";
@@ -21,10 +21,14 @@ import PasswordField from "../../components/common/PasswordField";
 import { initiateSocket } from "../../services/socket";
 import { fetchUserProfile } from "@/redux/slices/userSlice";
 import { fetchCollectorProfile } from "@/redux/slices/collectorSlice";
+import { FacebookProvider } from "react-facebook";
+import { IRootState } from "@/redux/slices";
+import ButtonSpinner from "@/components/common/ButtonSpinner";
 
 const Login = () => {
 
   const dispatch = useDispatch<AppDispatch>()
+  const { isLoading } = useSelector((state: IRootState) => state.auth)
 
   const [data, setData] = useState({
     email: '',
@@ -109,10 +113,7 @@ const Login = () => {
         <h1 className='font-bold text-2xl mb-2'>Login to your account</h1>
         <p className='opacity-50 text-sm font-light'>Fill in the details to get started</p>
 
-        {/* social authentication */}
-        <GoogleOAuthProvider clientId="3144012594-6hqsjqjc8gf3880dkp3n7vqsicml2as1.apps.googleusercontent.com">
-          <OAuth mode="login" />
-        </GoogleOAuthProvider>
+            <OAuth mode="login" />
 
         <div className='flex gap-5 items-center justify-around opacity-50 mb-8 w-[80%]'>
           <hr className='w-48' />
@@ -147,7 +148,10 @@ const Login = () => {
 
         <div onClick={handleOpen} className="w-[80%] text-end text-sm mt-1 mb-2 text-accent cursor-pointer">Forgot password?</div>
 
-        <button onClick={handleSubmit} className='bg-accent w-[80%] mx-1 my-3 py-3 rounded-2xl flex justify-center items-center cursor-pointer'>Sign In&nbsp;&nbsp;<span className=''><MdKeyboardArrowRight className='inline font-bold' /></span></button>
+        <button disabled={isLoading} onClick={handleSubmit} className='bg-accent w-[80%] mx-1 my-3 py-3 rounded-2xl flex justify-center items-center cursor-pointer'>
+        {isLoading ? <ButtonSpinner />: 
+          <div>Sign In&nbsp;&nbsp;<span className=''><MdKeyboardArrowRight className='inline font-bold' /></span></div>}
+          </button>
         <div className='w-[80%] text-center'><span className='opacity-50'>Don’t have an account?</span>&nbsp;<Link to="/register" className='text-accent'>Sign up</Link></div>
 
         {/* forgot password modal */}

@@ -35,19 +35,6 @@ const OnDemandRequestModal = (props: Props) => {
     }, [dispatch])
 
 
-    //fetch user address
-    useEffect(() => {
-        if (user && user.address) {
-            setData(prevData => ({
-                ...prevData,
-                name: user.firstName + ', ' + user.lastName,
-                mobile: user.mobile,
-                address: user.address,
-            }));
-        }
-
-    }, [])
-
     const [checkedState, setCheckedState] = useState(
         new Array(wasteTypes?.length || 0).fill(false)
     );
@@ -57,8 +44,9 @@ const OnDemandRequestModal = (props: Props) => {
     const [data, setData] = useState<OnDemandPickupRequestType>({
         name: "",
         mobile: "",
+        email: "",
         type: "on-demand",
-        price: 0,
+        totalAmount: 0,
         address: {
             street: "",
             houseNo: "",
@@ -71,11 +59,23 @@ const OnDemandRequestModal = (props: Props) => {
             }
         },
         wasteTypes: [],
-        weight: 0
+        totalWeight: 0
     })
 
-    const [error, setError] = useState<string | null>(null)
+    //fetch user address
+    useEffect(() => {
+        if (user && user.address) {
+            setData(prevData => ({
+                ...prevData,
+                name: user.firstName + ', ' + user.lastName,
+                mobile: user.mobile,
+                email: user.email,
+                address: user.address,
+            }));
+        }
 
+    }, [])
+    const [error, setError] = useState<string | null>(null)
 
 
     const handleCheckBoxChange = (position: number) => {
@@ -96,14 +96,14 @@ const OnDemandRequestModal = (props: Props) => {
                 weight: 1
             }])
 
-            setData(prev => ({ ...prev, weight: prev.weight + 1, price: prev.price + waste.price }))
+            setData(prev => ({ ...prev, totalWeight: prev.totalWeight + 1, totalAmount: prev.totalAmount + waste.price }))
         } else {
             // Remove waste type
             setSelectedWasteTypes(prev =>
                 prev.filter((item) => item.name !== waste.name)
             )
 
-            setData(prev => ({ ...prev, weight: prev.weight - 1, price: prev.price - waste.price }))
+            setData(prev => ({ ...prev, totalWeight: prev.totalWeight - 1, totalAmount: prev.totalAmount - waste.price }))
 
         }
     }
@@ -118,22 +118,22 @@ const OnDemandRequestModal = (props: Props) => {
         );
 
         // Update total weight
-        const updatedWasteTypes = selectedWasteTypes.map(waste => 
-            waste.name === wasteName 
-                ? { ...waste, weight: newWeight } 
+        const updatedWasteTypes = selectedWasteTypes.map(waste =>
+            waste.name === wasteName
+                ? { ...waste, weight: newWeight }
                 : waste
         );
-    
-        const totalWeight = updatedWasteTypes.reduce((sum, waste) => 
-            sum + (waste.weight || 0)
-        , 0);
-    
-        const totalPrice = updatedWasteTypes.reduce((sum, waste) => 
-            sum + (waste.weight * waste.price)
-        , 0);
-    
 
-        setData(prev => ({ ...prev, weight: totalWeight, price: totalPrice }));
+        const totalWeight = updatedWasteTypes.reduce((sum, waste) =>
+            sum + (waste.weight || 0)
+            , 0);
+
+        const totalPrice = updatedWasteTypes.reduce((sum, waste) =>
+            sum + (waste.weight * waste.price)
+            , 0);
+
+
+        setData(prev => ({ ...prev, totalWeight: totalWeight, totalAmount: totalPrice }));
     }
 
     const handleSubmit = async () => {
@@ -155,6 +155,7 @@ const OnDemandRequestModal = (props: Props) => {
                 wasteTypes: selectedWasteTypes
             };
 
+            console.log('submission data ', submissionData)
             const reutlt = await pickupRequestApi(submissionData)
             props.onClose()
             toast.success(reutlt.message)
@@ -258,12 +259,12 @@ const OnDemandRequestModal = (props: Props) => {
                         ))}
                         <div className='border-t border-t-gray-500 mt-4 mb-3 pt-2 flex justify-between '>
                             <span>Total Weight</span>
-                            <span className=''>{data.weight} kg</span>
+                            <span className=''>{data.totalWeight} kg</span>
                         </div>
                         <div className='flex justify-between  text-lg'>
                             <span>Total Price</span>
                             <span className=''>
-                                ₹ {data.price}
+                                ₹ {data.totalAmount}
                             </span>
                         </div>
                     </div>

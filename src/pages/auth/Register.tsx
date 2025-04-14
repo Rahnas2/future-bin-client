@@ -19,6 +19,10 @@ import OAuth from '../../components/OAuth';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import toast from 'react-hot-toast';
 import PasswordField from '../../components/common/PasswordField';
+import { FacebookProvider } from 'react-facebook';
+import { IRootState } from '@/redux/slices';
+import { spawn } from 'child_process';
+import ButtonSpinner from '@/components/common/ButtonSpinner';
 
 
 const Register = () => {
@@ -26,6 +30,7 @@ const Register = () => {
     const navigate = useNavigate()
 
     const dispatch = useDispatch<AppDispatch>()
+    const { isLoading } = useSelector((state: IRootState) => state.auth)
 
     const [data, setData] = useState({
         firstName: '',
@@ -72,8 +77,8 @@ const Register = () => {
 
             await dispatch(basicInfo(userData)).unwrap()
 
-            navigate('/otp-verification', { state: { email: data.email } })
-        } catch (error:any) {
+            navigate('/otp-verification', { state: { email: data.email, mode: 'registeration' } })
+        } catch (error: any) {
 
             //validation errors 
             if (error instanceof ValidationError) {
@@ -99,9 +104,7 @@ const Register = () => {
                 <p className='opacity-50 text-sm font-light'>Fill in the details to get started</p>
 
                 {/* social authentication */}
-                <GoogleOAuthProvider clientId="3144012594-6hqsjqjc8gf3880dkp3n7vqsicml2as1.apps.googleusercontent.com" >
-                    <OAuth mode='register' />
-                </GoogleOAuthProvider>
+                        <OAuth mode='register' />
 
 
                 <div className='flex gap-5 items-center justify-around opacity-50 mb-8 w-[80%]'>
@@ -174,7 +177,10 @@ const Register = () => {
                             />
                         </Box>
                     </ThemeProvider>
-                    <button onClick={handleSubmit} className='bg-accent w-[80%] mx-1 my-3 py-3 rounded-2xl flex justify-center items-center cursor-pointer'>Continue&nbsp;&nbsp;<span className=''><MdKeyboardArrowRight className='inline font-bold' /></span></button>
+                    <button disabled={isLoading} onClick={handleSubmit} className='bg-accent w-[80%] mx-1 my-3 py-3 rounded-2xl flex justify-center items-center cursor-pointer '>
+                        {isLoading ? <ButtonSpinner />: 
+                        <div>Continue&nbsp;&nbsp;<span className=''><MdKeyboardArrowRight className='inline font-bold' /></span></div>}
+                        </button>
                     <div className='w-[80%] text-center mt-6'><span className='opacity-50'>Already have an account ?</span>&nbsp;<Link to="/login" className='text-accent font-bold cursor-pointer'>Sign In</Link></div>
                 </div>
             </div>

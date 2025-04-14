@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+
 
 import { useLottie } from "lottie-react";
 import SuccessAnimation from '../../../animations/payment-success-animation.json'
 import FaildAnimation from '../../../animations/payment-faild-animation.json'
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 type Props = {}

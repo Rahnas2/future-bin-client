@@ -1,27 +1,19 @@
 
 import { pickupRequestType } from '@/types/PickupRequest'
+import { pickupRequestStatusType } from '@/types/pickupRequestStatus'
 
 type Props = {
-    currentTab: 'all' | 'pending' | 'accepted' | 'cancelled' | 'completed',
-    setTab: (tab: 'all' | 'pending' | 'accepted' | 'cancelled' | 'completed') => void
-    allRequestHistory: pickupRequestType[]
-    filterredRequestHistory: pickupRequestType[]
-    setFilterredRequestHistory(reqeustes: pickupRequestType[]): void
+    currentTab: 'all' | pickupRequestStatusType,
+    setTab: (tab: 'all' | pickupRequestStatusType) => void
+    requestHistory: pickupRequestType[]
 }
 
 const UserRequestHistoryTabs = (props: Props) => {
 
-    const handleTab = (tab: 'all' | 'pending' | 'accepted' | 'cancelled' | 'completed') => {
+    const handleTab = (tab: 'all' | pickupRequestStatusType) => {
         props.setTab(tab)
-
-        if (tab === 'all') {
-            props.setFilterredRequestHistory(props.allRequestHistory.map(req => req))
-        } else {
-            const changedRequestHistory = props.allRequestHistory.filter(req => req.status === tab)
-            props.setFilterredRequestHistory(changedRequestHistory)
-        }
-
     }
+    
     return (
         <div className='flex gap-5 w-fit  bg-primary rounded-2xl [&>*]:rounded-2xl [&>*]:px-6 [&>*]:py-3 [&>*]:cursor-pointer'>
             <span onClick={() => handleTab('all')} className={`${props.currentTab === 'all' && 'bg-accent'} `}>All</span>

@@ -2,26 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { pickupRequestType } from '../../../types/PickupRequest'
 import { fetchPickupRequestHistoryApi } from '../../../api/userService'
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import UserRequestHistoryTabs from './UserRequestHistoryTabs'
 import UserRequestHistoryTable from './UserRequestHistoryTable'
+import { pickupRequestStatusType } from '@/types/pickupRequestStatus'
 
 type Props = {}
 
 const UserPickupRequestComp = (props: Props) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [tab, setTab] = useState<'all' | 'pending' | 'accepted' | 'cancelled' | 'completed'>('all')
+    const [tab, setTab] = useState<'all' | pickupRequestStatusType>('all')
 
-    const [allRequests, setAllRequests] = useState<pickupRequestType[] | []>([])
-    const [filterredRequests, setFilterredRequest] = useState<pickupRequestType[] | []>([])
+    const [requests, setRequests] = useState<pickupRequestType[] | []>([])
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
 
     useEffect(() => {
         const fetchRequestHistory = async () => {
             try {
-                const result = await fetchPickupRequestHistoryApi()
-                setAllRequests(result.requestHistory)
-                setFilterredRequest(result.requestHistory)
+                const result = await fetchPickupRequestHistoryApi(tab, currentPage, 10)
+                setRequests(result.requests)
+                // setFilterredRequest(result.requests)
                 setIsLoading(false)
             } catch (error) {
                 setIsLoading(false)
@@ -29,36 +31,37 @@ const UserPickupRequestComp = (props: Props) => {
             }
         }
         fetchRequestHistory()
-    }, [])
+    }, [tab])
 
-    
 
-    const handleTabChange = (tab: 'all' | 'pending' | 'accepted' | 'cancelled' | 'completed') => {
+
+    const handleTabChange = (tab: 'all' | pickupRequestStatusType) => {
         setTab(tab)
-    }
-
-    const handleFilterredReqeustHistoryChange = (requests: pickupRequestType[]) => {
-        setFilterredRequest(requests)
     }
 
     return (
         <div>
             <div className='text-xl font-bold mb-5'>Requests</div>
-
-            <UserRequestHistoryTabs 
-            currentTab={tab}
-            setTab={handleTabChange}
-            allRequestHistory={allRequests}
-            filterredRequestHistory={filterredRequests}
-            setFilterredRequestHistory={handleFilterredReqeustHistoryChange}
+            <UserRequestHistoryTabs
+                currentTab={tab}
+                setTab={handleTabChange}
+                requestHistory={requests}
             />
 
-            <UserRequestHistoryTable
-                loading={isLoading}
-                reqeustHistory={filterredRequests}
-            />
+            {
+                isLoading ? <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent2"></div>
+                </div> : requests.length === 0 ? <div className="flex justify-center items-center h-64 text-gray-500">
+                    <p>No requests found</p>
+                </div> :
+                    <>
+                        <UserRequestHistoryTable
+                            loading={isLoading}
+                            reqeustHistory={requests}
+                        />
+                    </>
 
-
+            }
         </div>
     )
 }

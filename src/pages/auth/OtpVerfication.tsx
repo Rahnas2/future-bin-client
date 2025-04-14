@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../../redux/store';
 import { sendOtp, verifyOtp } from '../../redux/slices/authSlice';
 import toast from 'react-hot-toast';
+import ButtonSpinner from '@/components/common/ButtonSpinner';
 
 
 
@@ -12,7 +13,6 @@ import toast from 'react-hot-toast';
 const OtpVerfication = () => {
 
     const location = useLocation()
-
     const navigate = useNavigate()
 
     const { email, mode } = location.state
@@ -25,6 +25,9 @@ const OtpVerfication = () => {
 
     const [isResent, setIsResent] = useState(false)
     const [timer, setTimer] = useState(20);
+
+    //to show loader and disable button after submit verify
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         let interval: any;
@@ -89,16 +92,29 @@ const OtpVerfication = () => {
     //verify otp 
     const handleVerfiy = async () => {
         try {
+            setIsLoading(true)
+
             await dispatch(verifyOtp({ email: email, otp: otp.join('') })).unwrap()
 
-            if(mode === 'forgot-password'){
-                navigate('/reset-password', {state: {email: email} })
+            if (mode === 'forgot-password') {
+                navigate('/reset-password', { state: { email: email } })
                 return
             }
-            navigate('/select-role', { state: { email: email } })
+
+            if (mode === 'registeration') {
+                navigate('/select-role', { state: { email: email } })
+                return
+            }
+
+            if (mode === 'completed-request') {
+                navigate('/collector/dashboard')
+                return
+            }
         } catch (error: any) {
             error.message && toast.error(error.message)
             console.log('error ', error)
+        } finally {
+            setIsLoading(false)
         }
     }
     return (
@@ -123,13 +139,17 @@ const OtpVerfication = () => {
                     ))}
                 </div>
                 <div>
-                    <button onClick={handleVerfiy} className='bg-accent py-2 px-8 rounded-lg cursor-pointer'>Verify</button>
+                    <button onClick={handleVerfiy} className='bg-accent py-2 px-8 rounded-lg cursor-pointer'>
+                        {isLoading ? <ButtonSpinner /> :
+                            <div>Verify</div>
+                        }
+                    </button>
                 </div>
             </div>
             <div className='lg:w-1/2 xl:w-3/5 text-center'>
                 <span className='opacity-50'>Didn't receive the OTP?</span>&nbsp;
                 <span aria-disabled={!isResent} onClick={isResent ? handleResentOtp : undefined} className={`${isResent ? "opacity-100 cursor-pointer" : "text-accent2"}`}>{isResent ? "  Resend OTP" : `  ${timer}`}</span>
-                
+
             </div>
         </>
     )

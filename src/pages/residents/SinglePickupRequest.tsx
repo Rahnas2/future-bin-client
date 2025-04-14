@@ -1,0 +1,30 @@
+import BackBtn from '@/components/common/BackBtn'
+import SinglePickupRequestComp from '@/components/common/PickupRequest.ts/SinglePickupRequestComp'
+import React from 'react'
+import toast from 'react-hot-toast'
+import { useNavigate, useParams } from 'react-router-dom'
+
+type Props = {}
+
+const SinglePickupRequest = (props: Props) => {
+
+    const { id } = useParams() 
+    const navigate = useNavigate()
+
+    if(!id) {
+        toast.error('id not found')
+        navigate(-1)  
+        return 
+    }
+    
+    return (
+        <div className="rounded-xl p-3">
+            <BackBtn />
+            <div className='p-5'>
+            <SinglePickupRequestComp requestId={ id }/>
+            </div>
+        </div>
+    )
+}
+
+export default SinglePickupRequest

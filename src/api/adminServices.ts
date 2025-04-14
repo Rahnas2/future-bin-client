@@ -5,13 +5,13 @@ import { subscriptionType } from "../types/SubscriptionType";
 import axiosInstance from "./axiosInstance";
 
 
-export const fetchUsersApi = async () => {
-    const response = await axiosInstance.get('admin/fetch-users')
+export const fetchUsersApi = async (page: number, limit: number) => {
+    const response = await axiosInstance.get(`admin/fetch-users?page=${page}&limit=${limit}`)
     return response.data
 }
    
-export const fetchCollectorsApi = async (status: string) => {
-    const response = await axiosInstance.get(`admin/collectors?approvedStatus=${status}`)
+export const fetchCollectorsApi = async (status: string, page: number, limit: number) => {
+    const response = await axiosInstance.get(`admin/collectors?approvedStatus=${status}&page=${page}&limit=${limit}`)
     return response.data
 }
 
@@ -20,7 +20,7 @@ export const addSubscriptionApi = async (data: subscriptionType) => {
     return response.data
 }
 
-export const editSubscriptionApi = async (data: editSubscriptionDto) => {
+export const editSubscriptionApi = async (data: Partial<subscriptionType>) => {
     const response = await axiosInstance.put('admin/subscription', {...data})
     return response.data
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { PaymentIntent, StripeError } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
-import { deleteNotificationApi, updatePaymentStatusApi } from '@/api/userService';
+import { updatePickupRequestApi } from '@/api/userService';
 import { handlePaymentError } from '@/utils/handlePaymentError';
 
 
@@ -62,6 +62,8 @@ const PaymentForm = (props: Props) => {
         }
     };
 
+
+    //handle success full payment
     const handleSuccessfulPayment = async (paymentIntent: PaymentIntent) => {
         console.log('success payment intent ', paymentIntent)
         try {
@@ -70,7 +72,7 @@ const PaymentForm = (props: Props) => {
                 await props.removeNotification(props.notificationId)
             }
 
-            await updatePaymentStatusApi(props.requestId as string, paymentIntent.status);
+            await updatePickupRequestApi(props.requestId as string, {paymentStatus: paymentIntent.status, paidAmount: paymentIntent.amount / 100})
 
             window.location.href = `${window.location.origin}/payment-status?success=true&payment_intent=${paymentIntent.id}`;
         } catch (error) {

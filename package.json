@@ -31,6 +31,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.482.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-facebook": "^9.0.12",

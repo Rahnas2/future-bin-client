@@ -1,10 +1,12 @@
 import { onDemandWasteType } from "./onDemandWasteType"
+import { requestCancellationType } from "./requestCancellation"
 
 export interface BasePickupRequestType  {
     _id?: string,
     userId?: string,
     name: string,
     mobile: string,
+    email: string,
     type: 'on-demand' | 'subscription',
     status?: string,
     address: {
@@ -20,21 +22,37 @@ export interface BasePickupRequestType  {
     }
     collectorId?: string,
     collectorName?: string,
+    cancellation?: requestCancellationType
     paymentStatus?: string,
-    price: number,
-    createdAt?: string
+    totalAmount: number,
+    paidAmount?: number,
+    paymentIntentId?: string,
+    createdAt?: string,
+    updatedAt?: string,
+    assignedAt?: string,
+    completedAt?: string
 }
 
 export interface OnDemandPickupRequestType extends BasePickupRequestType {
     type: 'on-demand',
     wasteTypes: onDemandWasteType[],
-    weight: number
+    totalWeight: number
 }
 
 export interface SubscriptionPickupRequestType extends BasePickupRequestType {
     type: 'subscription',
     subscriptionPlanId: string,
-    subscriptionPlanName: string
+    subscriptionPlanName: string,
+    totalPickups: number,
+    completedPickups: number
+}
+
+export interface OnDemandPickupRequestState {
+    onDemandPickupRequest: OnDemandPickupRequestType
+}
+
+export interface SubscriptionPickupRequestState {
+    subscriptionPickupRequest: OnDemandPickupRequestType
 }
 
 export type pickupRequestType = OnDemandPickupRequestType | SubscriptionPickupRequestType

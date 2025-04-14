@@ -3,5 +3,5 @@ export interface AddressType {
     houseNo: string,
     district: string,
     city: string,
-    pincode: number | string
+    pincode: number 
 }

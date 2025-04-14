@@ -17,7 +17,7 @@ type Props = {
     subscriptions: subscriptionType[];
     loading: boolean;
     onDeleteSubscription: (id: string) => void;
-    // onEditSubscription: (updatedSubscription: subscriptionType) => void;
+    onOpenEdit: (updatedSubscription: subscriptionType) => void;
 }
 
 interface editStatus {
@@ -34,21 +34,21 @@ const AdminSubCard = (props: Props) => {
     const [errors, setErrors] = useState<Partial<subscriptionType>>({})
 
     //toggle edit status
-    const toggleEdit = async (id: string) => {
-        setEditStatus(prev => {
-            const newStatus = { [id]: !prev[id] }
+    // const toggleEdit = async (id: string) => {
+    //     setEditStatus(prev => {
+    //         const newStatus = { [id]: !prev[id] }
 
-            if (newStatus[id]) {
-                const data = props.subscriptions.find(d => d._id === id)
-                if (data) {
-                    setEditData(data)
-                }
-            } else {
-                setEditData(undefined)
-            }
-            return newStatus
-        })
-    }
+    //         if (newStatus[id]) {
+    //             const data = props.subscriptions.find(d => d._id === id)
+    //             if (data) {
+    //                 setEditData(data)
+    //             }
+    //         } else {
+    //             setEditData(undefined)
+    //         }
+    //         return newStatus
+    //     })
+    // }
 
     //handle delete 
     const handleDelete = async (id: string) => {
@@ -111,66 +111,66 @@ const AdminSubCard = (props: Props) => {
     }
 
     //submit edited data
-    const handleSubmit = async (id: string) => {
-        try {
+    // const handleSubmit = async (id: string) => {
+    //     try {
 
-            //not edited anytihing
-            if (!editData) return toast.error('no change')
-            const subscription = props.subscriptions.find(s => s._id === id)
-            if (!subscription) return toast.error('someting went wrong')
-            if (editData == subscription) return toast.error('no change')
-
-
-            //validation 
-            await subscriptionSchema.validate(editData, { abortEarly: false })
-            setErrors({})
+    //         //not edited anytihing
+    //         if (!editData) return toast.error('no change')
+    //         const subscription = props.subscriptions.find(s => s._id === id)
+    //         if (!subscription) return toast.error('someting went wrong')
+    //         if (editData == subscription) return toast.error('no change')
 
 
-            //handle basic data's eg(name, price, description)
-            let updatedData: Partial<typeof subscription> = {};
-            Object.entries(editData || {}).forEach(([key, value]) => {
-                if (key !== 'features' && value !== subscription[key as keyof typeof subscription]) {
-                    updatedData[key as keyof typeof subscription] = value;
-                }
-            })
+    //         //validation 
+    //         await subscriptionSchema.validate(editData, { abortEarly: false })
+    //         setErrors({})
 
-            const data: editSubscriptionDto = {
-                id: subscription._id as string
-            }
-            if (Object.keys(updatedData).length > 0) {
-                data['updatedData'] = updatedData
-            }
-            data['features'] = editData.features.filter(val => val !== "")
 
-            //if features is empty
-            if (!data.features.length) return toast.error('plase add atlease one feature')
+    //         //handle basic data's eg(name, price, description)
+    //         let updatedData: Partial<typeof subscription> = {};
+    //         Object.entries(editData || {}).forEach(([key, value]) => {
+    //             if (key !== 'features' && value !== subscription[key as keyof typeof subscription]) {
+    //                 updatedData[key as keyof typeof subscription] = value;
+    //             }
+    //         })
 
-            const result = await editSubscriptionApi(data)
-            toast.success(result.message)
+    //         const data: editSubscriptionDto = {
+    //             id: subscription._id as string
+    //         }
+    //         if (Object.keys(updatedData).length > 0) {
+    //             data['updatedData'] = updatedData
+    //         }
+    //         data['features'] = editData.features.filter(val => val !== "")
 
-            console.log('edited data', editData)
-        } catch (error: any) {
+    //         //if features is empty
+    //         if (!data.features.length) return toast.error('plase add atlease one feature')
 
-            //validation errors
-            if (error instanceof ValidationError) {
-                const ValidationErrors: { [key: string]: string } = {
-                    _id: id
-                }
-                error.inner.forEach(err => {
-                    if (err.path) {
-                        ValidationErrors[err.path] = err.message
-                    }
-                })
-                setErrors(ValidationErrors)
-                return
-            }
-            toast.error(error?.response?.data?.message || 'somthing went wrong')
-            console.log('error edit subscription ', error)
-        }
-    }
+    //         const result = await editSubscriptionApi(data)
+    //         toast.success(result.message)
+
+    //         console.log('edited data', editData)
+    //     } catch (error: any) {
+
+    //         //validation errors
+    //         if (error instanceof ValidationError) {
+    //             const ValidationErrors: { [key: string]: string } = {
+    //                 _id: id
+    //             }
+    //             error.inner.forEach(err => {
+    //                 if (err.path) {
+    //                     ValidationErrors[err.path] = err.message
+    //                 }
+    //             })
+    //             setErrors(ValidationErrors)
+    //             return
+    //         }
+    //         toast.error(error?.response?.data?.message || 'somthing went wrong')
+    //         console.log('error edit subscription ', error)
+    //     }
+    // }
 
     if (props.loading) {
-        return <div>loading...</div>
+        return <div className='animate-spin'></div>
     }
 
     return (
@@ -183,7 +183,7 @@ const AdminSubCard = (props: Props) => {
 
                         {/* actions */}
                         <div className='flex justify-end items-center gap-5 px-3 pt-3 text-xl'>
-                            <span onClick={() => toggleEdit(currentData._id as string)} className='text-accent3 cursor-pointer'><FaRegEdit className='inline ' /></span>
+                            <span onClick={() => props.onOpenEdit(data)} className='text-accent3 cursor-pointer'><FaRegEdit className='inline ' /></span>
                             <span onClick={() => handleDelete(currentData._id as string)} className='text-accent3 cursor-pointer'><MdDeleteForever className='inline' /></span>
                         </div>
 
@@ -236,9 +236,9 @@ const AdminSubCard = (props: Props) => {
                         </div>
 
                         {/* submit */}
-                        {isEditing && <div className='flex justify-center pt-4'>
+                        {/* {isEditing && <div className='flex justify-center pt-4'>
                             <span onClick={() => handleSubmit(data._id as string)} className='bg-primary rounded-lg px-6 py-1 cursor-pointer'>Submit</span>
-                        </div>}
+                        </div>} */}
 
                     </div>
                 )

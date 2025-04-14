@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { UserDetailModalProps } from "../types/UserDetailModalProps";
-import axiosInstance from "../api/axiosInstance";
+import { UserDetailModalProps } from "@/types/UserDetailModalProps";
+import axiosInstance from "@/api/axiosInstance";
 
 import { IoMdClose } from "react-icons/io";
-import Address from "./Address";
+import Address from "@/components/Address";
 import toast from "react-hot-toast";
 
 const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
