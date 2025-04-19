@@ -7,17 +7,17 @@ type Props = {
   review: reviewType
 }
 
-const FeedbackCardForUser = (props: Props) => {
+const  FeedbackCardForUser = (props: Props) => {
   return (
-    <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+    <div className="rounded-lg p-4 shadow-sm border border-gray-500 hover:shadow-md transition-shadow duration-200">
       <div className="flex justify-between items-start mb-3">
         <div className="flex items-center">
           <div className="bg-gray-100 rounded-full p-2 mr-3">
             <UserIcon size={20} className="text-gray-600" />
           </div>
           <div>
-            <h3 className="font-medium text-gray-800">{'Collector'}</h3>
-            <p className="text-sm text-gray-500">{}</p>
+            <h3 className="font-medium ">{props.review.collectorId}</h3>
+            <p className="text-sm "></p>
           </div>
         </div>
         <Rating
@@ -29,7 +29,7 @@ const FeedbackCardForUser = (props: Props) => {
         />
 
       </div>
-      <p className="text-gray-700">{props.review.comment}</p>
+      <p className="opacity-50">{props.review.comment}</p>
     </div>
   );
 }

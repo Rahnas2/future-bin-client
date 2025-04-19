@@ -1,7 +1,5 @@
 
-import axios from "axios";
 import axiosInstance from "./axiosInstance";
-import { string } from "yup";
 
 export const sendOtpService = async (email: string) =>{
     const response = await axiosInstance.post('/resent-otp', {email})

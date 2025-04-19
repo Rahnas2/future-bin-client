@@ -1,2 +1,2 @@
 
-export type pickupRequestStatusType = 'pending' | 'accepted' | 'cancelled' | 'completed'
+export type pickupRequestStatusType = 'pending' | 'accepted' | 'confirmed' | 'cancelled' | 'completed'

@@ -6,6 +6,8 @@ import { useSelector } from "react-redux"
 import ActiveSubscriptionCard from "./ActiveSubscriptionCard"
 import { subscriptionType } from "@/types/SubscriptionType"
 import ActiveSubscriptionFeatures from "./ActiveSubscriptionFeatures"
+import { fetchPickupRequestsByTypeAndStatus } from "@/api/pickupRequest"
+import { SubscriptionPickupRequestType } from "@/types/PickupRequest"
 
 
 type Props = {}
@@ -13,15 +15,15 @@ type Props = {}
 const UserSubscriptionComp = (props: Props) => {
 
     const { user } = useSelector((state: IRootState) => state.user)
-    const [subscription, setSubscription] = useState<subscriptionType>()
+    const [pickupRequest, SetPickupickupRequest] = useState<SubscriptionPickupRequestType >()
 
     useEffect(() => {
         const fetchRequestHistory = async () => {
             try {
                 if (user && user.subscriptionPlanId) {
-                    const result = await fetchCurrentSubscriptionApi(user.subscriptionPlanId)
-                    console.log('current subscrition ', result.subscription)
-                    setSubscription(result.subscription)
+                    const result = await fetchPickupRequestsByTypeAndStatus('subscription', 'confirmed')
+                    console.log('current subscrition ', result.pickupRequests)
+                    SetPickupickupRequest(result.pickupRequests[0])
                 }
 
             } catch (error) {
@@ -34,9 +36,9 @@ const UserSubscriptionComp = (props: Props) => {
     return (
         <div>
 
-            {subscription &&
-                <div className="flex gap-10"> <ActiveSubscriptionCard subscription={subscription} />
-                    <ActiveSubscriptionFeatures features={subscription.features} />
+            {pickupRequest &&
+                <div className="flex gap-10"> <ActiveSubscriptionCard subscription={pickupRequest.subscription} price={pickupRequest.totalAmount} />
+                    {/* <ActiveSubscriptionFeatures features={pickupRequest.subscription.features} /> */}
                 </div>
             }
         </div>

@@ -29,7 +29,7 @@ const ManageWasteTypes = (props: Props) => {
 
     return (
         <div>
-            <div className='font-medium mb-4'>Selected Waste Types and their weight</div>
+            <div className='mb-5'>Manage Waste Collection</div>
             <div className='space-y-4'>
                 {pickupRequest.wasteTypes.map((waste, index) => (
                     <div key={index} className='flex items-center justify-between'>

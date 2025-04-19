@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { logOut } from '../../redux/slices/authSlice';
+import { Podcast } from 'lucide-react';
 type Props = {}
 
 const CollectorNav = (props: Props) => {
@@ -52,10 +53,10 @@ const CollectorNav = (props: Props) => {
                         <span>Requests</span>
                     </NavLink>
 
-                    <div className='opacity-50'>
-                        <span><ImBin2 className='text-2xl' /></span>
-                        <span>My Collection</span>
-                    </div>
+                    <NavLink to="/collector/subscriptions" className='opacity-50'>
+                        <span><Podcast className='text-2xl' /></span>
+                        <span>Subscriptions</span>
+                    </NavLink>
                     <div className='opacity-50'>
                         <span><FaMoneyBillTrendUp className='text-2xl' /></span>
                         <span>My Earnings</span>

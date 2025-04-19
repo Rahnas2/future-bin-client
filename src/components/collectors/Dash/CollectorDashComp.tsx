@@ -5,12 +5,9 @@ import { BasePickupRequestType, pickupRequestType } from "@/types/PickupRequest"
 import { useSelector } from "react-redux";
 import { IRootState } from "@/redux/slices";
 import WorkSummary from "./WorkSummary";
-
-import { MdLocationOn } from "react-icons/md";
 import AreaChart from "./AreaChart";
 import CollectorRequestHistoryTable from "./CollectorRequestHistoryTable";
 import EmptyCollections from "./EmptyCollections";
-import { number, string } from "yup";
 import { CityCollectionDataType } from "@/types/CityCollectionDataType";
 import WorkStatus from "./WorkStatus";
 
@@ -61,7 +58,7 @@ const CollectorDashComp = (props: Props) => {
             //fetch all paginated data for reach state
             const [allResult, pendingResult, completedResult, cancelledResult] = await Promise.all([
                 fetchPickupRequestHistoryApi('all', allPagination.currentPage, 2),
-                fetchPickupRequestHistoryApi('accepted', pendingPagination.currentPage, 2),
+                fetchPickupRequestHistoryApi('confirmed', pendingPagination.currentPage, 2),
                 fetchPickupRequestHistoryApi('completed', completedPagination.currentPage, 2),
                 fetchPickupRequestHistoryApi('cancelled', cancelledPagination.currentPage, 2),
             ]);
@@ -105,7 +102,7 @@ const CollectorDashComp = (props: Props) => {
                 if (cityDataMap.has(city)) {
                     const cityStatus = cityDataMap.get(city)!;
                     cityStatus.total++;
-                    if (req.status === 'accepted') cityStatus.pending++;
+                    if (req.status === 'confirmed') cityStatus.pending++;
                     else if (req.status === 'completed') cityStatus.completed++;
                     else if (req.status === 'cancelled') cityStatus.cancelled++;
                     cityDataMap.set(city, cityStatus);
@@ -113,7 +110,7 @@ const CollectorDashComp = (props: Props) => {
                     cityDataMap.set(city, {
                         city: city,
                         total: 1,
-                        pending: req.status === 'accepted' ? 1 : 0,
+                        pending: req.status === 'confirmed' ? 1 : 0,
                         completed: req.status === 'completed' ? 1 : 0,
                         cancelled: req.status === 'cancelled' ? 1 : 0,
                     });
@@ -144,7 +141,7 @@ const CollectorDashComp = (props: Props) => {
     return (
         <div className="bg-primary my-10 mr-4 rounded-t-2xl px-4 py-4 flex-1 ">
 
-            <WorkStatus status={collector?.details?.status ? collector.details.status as 'active' | 'inactive' : 'inactive'} />
+            <WorkStatus status={collector?.details?.status ? collector.details.status as 'active' | 'in-active' : 'in-active'} />
 
             <div className="mb-5">
                 <label htmlFor="">Today</label>

@@ -14,23 +14,37 @@ const ApprovalRequests = (props: Props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchTerm, setSerachTerm] = useState("")
+    const [debouncedTerm, setDebouncedTerm] = useState("");
 
     const dispatch = useDispatch<AppDispatch>()
 
     useEffect(() => {
         const fetchCollectorsApprovalRequests = async () => {
-          const response = await dispatch(fetchCollectors({approvedStatus: 'pending', page: currentPage, limit: 10})).unwrap()
-          setTotalPages(response.totalPages);
+            const response = await dispatch(fetchCollectors({ approvedStatus: 'pending', page: currentPage, limit: 10, search: searchTerm })).unwrap()
+            setTotalPages(response.totalPages);
         };
         fetchCollectorsApprovalRequests();
-      }, [currentPage, dispatch]);
+    }, [currentPage, dispatch, debouncedTerm]);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+          setDebouncedTerm(searchTerm)
+          setCurrentPage(1)
+        } , 500); 
+        return () => clearTimeout(handler);
+      }, [searchTerm]);
+
+      const handleSearch = (val: string) => {
+        setSerachTerm(val)
+      }
 
     return (
         <div className="bg-seconday py-6 rounded-xl">
 
             <div className="font-bold mb-8 px-6">All Collectos</div>
 
-            <AdminSearch />
+            <AdminSearch onSearch={handleSearch}/>
 
             <table className='w-full'>
                 <TableHead status={true} />

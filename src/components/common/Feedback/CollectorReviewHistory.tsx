@@ -13,7 +13,7 @@ const CollectorReviewHistory = (props: Props) => {
     const { role } = useSelector((state: IRootState) => state.auth)
     return (
         <div className="space-y-4">
-            {role === 'user' ? (
+            {role === 'resident' ? (
                 props.reviews.map((review, index) => (
                     <FeedbackCardForUser key={index} review={review} />
                 ))

@@ -22,6 +22,7 @@ type Props = {}
 
 function CollectorProfile({ }: Props) {
     const [isLoading, setIsloading] = useState(true)
+    const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -37,10 +38,9 @@ function CollectorProfile({ }: Props) {
             // console.log('user ', user)
         }
         fetchUser()
-    }, [])
+    }, [dispatch])
 
-    const dispatch = useDispatch<AppDispatch>()
-
+    
     const [isEdit, setIsEdit] = useState(false)
 
     const [data, setData] = useState({

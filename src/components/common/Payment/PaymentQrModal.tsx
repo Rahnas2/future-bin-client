@@ -5,6 +5,7 @@ import { QRCodeSVG } from 'qrcode.react';
 type Props = {
     paymentUrl: string,
     amount: number
+    onClose: () => void
 }
 
 const PaymentQrModal = (props: Props) => {
@@ -24,7 +25,7 @@ const PaymentQrModal = (props: Props) => {
                     </p>
                 </div>
                 <button
-                    // onClick={() => setPaymentUrl(null)}
+                    onClick={props.onClose}
                     className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-lg"
                 >
                     Close

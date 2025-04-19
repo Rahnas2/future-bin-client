@@ -11,6 +11,7 @@ import toast from 'react-hot-toast'
 import { AppDispatch } from '@/redux/store'
 import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
 import { onDemandWasteType } from '@/types/onDemandWasteType'
+import ComponentSpinner from '../common/ComponentSpinner'
 
 type Props = {
     onClose: () => void
@@ -76,6 +77,13 @@ const OnDemandRequestModal = (props: Props) => {
 
     }, [])
     const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (wasteTypes && wasteTypes.length > 0) {
+            setCheckedState(new Array(wasteTypes.length).fill(false));
+        }
+    }, [wasteTypes]);
+
 
 
     const handleCheckBoxChange = (position: number) => {
@@ -164,120 +172,122 @@ const OnDemandRequestModal = (props: Props) => {
         }
     }
 
-    if (!initialized) return <div>loading...</div>
-
     return (
         <div className='fixed inset-0 bg-opacity-50 flex justify-center items-center'>
             <div className="bg-primary border border-gray-500 px-8 py-6 rounded-xl w-[900px] max-w-[100%]">
-                <div className="flex justify-between items-center mb-10">
-                    <h2 className="text-xl font-semibold">On-Demand Pickup Request</h2>
-                    <div
-                        onClick={props.onClose}
-                        className="text-accent2 cursor-pointer"
-                    >
-                        <IoMdClose className="text-2xl" />
-                    </div>
-                </div>
-
-                <div className='grid md:grid-cols-2 gap-6'>
-                    {/* Address Section */}
-                    <div className='mb-5'>
-                        <div className='font-medium mb-5'>Address</div>
-                        <div className='w-xs border border-gray-500 rounded-lg px-4 py-2 shadow-2xl'>
-                            <div className='font-bold mb-3 capitalize opacity-50'>{user?.firstName + ' ' + user?.lastName}</div>
-                            <div className='mb-3'>{user?.address.houseNo + ', ' + user?.address.street + ', ' + user?.address.district + ', ' + user?.address.city + ', ' + user?.address.pincode}</div>
-                            <div className=''>{user?.mobile}</div>
-                        </div>
-
-                        <div className='flex items-center text-accent2 font-bold mt-4 '>
-                            <IoMdAdd className='inline' />&nbsp;
-                            <span>Add new Address</span>
-                        </div>
-                    </div>
-
-                    {/* Waste Types Section */}
-                    <div>
-                        <div className='font-medium mb-4'>Select Waste Types</div>
-                        <div className='space-y-4'>
-                            {wasteTypes?.map((waste, index) => (
-                                <div key={index} className='flex items-center justify-between'>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={checkedState[index]}
-                                                onChange={() => handleCheckBoxChange(index)}
-                                                sx={{
-                                                    color: "hsl(0, 0%, 50%)",
-                                                    "&.Mui-checked": { color: "#009E4F" },
-                                                }}
-                                            />
-                                        }
-                                        label={
-                                            <div className='flex items-center'>
-                                                <span>{waste.name}</span>
-                                                <span className='text-gray-500 ml-2 text-sm'>
-                                                    (₹{waste.price}/kg)
-                                                </span>
-                                            </div>
-                                        }
-                                    />
-                                    {checkedState[index] && (
-                                        <ThemeProvider theme={Input}>
-                                            <TextField
-                                                type="number"
-                                                label="Weight (kg)"
-                                                variant="outlined"
-                                                size="small"
-                                                value={selectedWasteTypes.find(w => w.name === waste.name)?.weight || ''}
-                                                onChange={(e) => {
-                                                    const newWeight = Number(e.target.value);
-                                                    handleWeightChange(waste.name, newWeight);
-                                                }}
-                                                inputProps={{ min: 1, step: 1 }}
-                                                sx={{ width: '100px' }}
-                                            />
-                                        </ThemeProvider>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Total Pricing Section */}
-                {selectedWasteTypes.length > 0 && (
-                    <div className='mt-6 p-4 rounded-lg'>
-                        <h3 className='font-medium mb-3 '>Pricing Breakdown</h3>
-                        {selectedWasteTypes.map((waste, index) => (
-                            <div key={index} className='flex justify-between mb-2'>
-                                <span>{waste.name}</span>
-                                <span className='opacity-50'>
-                                    {waste.weight} kg &nbsp; x &nbsp; ₹ {waste.price}/kg &nbsp; = &nbsp;
-                                    ₹ {(waste.weight * waste.price).toFixed(2)}
-                                </span>
+                {!initialized ? <ComponentSpinner /> :
+                    <>
+                        <div className="flex justify-between items-center mb-10">
+                            <h2 className="text-xl font-semibold">On-Demand Pickup Request</h2>
+                            <div
+                                onClick={props.onClose}
+                                className="text-accent2 cursor-pointer"
+                            >
+                                <IoMdClose className="text-2xl" />
                             </div>
-                        ))}
-                        <div className='border-t border-t-gray-500 mt-4 mb-3 pt-2 flex justify-between '>
-                            <span>Total Weight</span>
-                            <span className=''>{data.totalWeight} kg</span>
                         </div>
-                        <div className='flex justify-between  text-lg'>
-                            <span>Total Price</span>
-                            <span className=''>
-                                ₹ {data.totalAmount}
-                            </span>
-                        </div>
-                    </div>
-                )}
 
-                <div className='flex justify-end mt-6'>
-                    <button
-                        onClick={handleSubmit}
-                        className='bg-accent px-6 py-2 rounded-lg text-white hover:bg-opacity-90 transition-colors'
-                    >
-                        Request Pickup
-                    </button>
-                </div>
+                        <div className='grid md:grid-cols-2 gap-6'>
+                            {/* Address Section */}
+                            <div className='mb-5'>
+                                <div className='font-medium mb-5'>Address</div>
+                                <div className='w-xs border border-gray-500 rounded-lg px-4 py-2 shadow-2xl'>
+                                    <div className='font-bold mb-3 capitalize opacity-50'>{user?.firstName + ' ' + user?.lastName}</div>
+                                    <div className='mb-3'>{user?.address.houseNo + ', ' + user?.address.street + ', ' + user?.address.district + ', ' + user?.address.city + ', ' + user?.address.pincode}</div>
+                                    <div className=''>{user?.mobile}</div>
+                                </div>
+
+                                <div className='flex items-center text-accent2 font-bold mt-4 '>
+                                    <IoMdAdd className='inline' />&nbsp;
+                                    <span>Add new Address</span>
+                                </div>
+                            </div>
+
+                            {/* Waste Types Section */}
+                            <div>
+                                <div className='font-medium mb-4'>Select Waste Types</div>
+                                <div className='space-y-4'>
+                                    {wasteTypes?.map((waste, index) => (
+                                        <div key={index} className='flex items-center justify-between'>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={checkedState[index]}
+                                                        onChange={() => handleCheckBoxChange(index)}
+                                                        sx={{
+                                                            color: "hsl(0, 0%, 50%)",
+                                                            "&.Mui-checked": { color: "#009E4F" },
+                                                        }}
+                                                    />
+                                                }
+                                                label={
+                                                    <div className='flex items-center'>
+                                                        <span>{waste.name}</span>
+                                                        <span className='text-gray-500 ml-2 text-sm'>
+                                                            (₹{waste.price}/kg)
+                                                        </span>
+                                                    </div>
+                                                }
+                                            />
+                                            {checkedState[index] && (
+                                                <ThemeProvider theme={Input}>
+                                                    <TextField
+                                                        type="number"
+                                                        label="Weight (kg)"
+                                                        variant="outlined"
+                                                        size="small"
+                                                        value={selectedWasteTypes.find(w => w.name === waste.name)?.weight || ''}
+                                                        onChange={(e) => {
+                                                            const newWeight = Number(e.target.value);
+                                                            handleWeightChange(waste.name, newWeight);
+                                                        }}
+                                                        inputProps={{ min: 1, step: 1 }}
+                                                        sx={{ width: '100px' }}
+                                                    />
+                                                </ThemeProvider>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Total Pricing Section */}
+                        {selectedWasteTypes.length > 0 && (
+                            <div className='mt-6 p-4 rounded-lg'>
+                                <h3 className='font-medium mb-3 '>Pricing Breakdown</h3>
+                                {selectedWasteTypes.map((waste, index) => (
+                                    <div key={index} className='flex justify-between mb-2'>
+                                        <span>{waste.name}</span>
+                                        <span className='opacity-50'>
+                                            {waste.weight} kg &nbsp; x &nbsp; ₹ {waste.price}/kg &nbsp; = &nbsp;
+                                            ₹ {(waste.weight * waste.price).toFixed(2)}
+                                        </span>
+                                    </div>
+                                ))}
+                                <div className='border-t border-t-gray-500 mt-4 mb-3 pt-2 flex justify-between '>
+                                    <span>Total Weight</span>
+                                    <span className=''>{data.totalWeight} kg</span>
+                                </div>
+                                <div className='flex justify-between  text-lg'>
+                                    <span>Total Price</span>
+                                    <span className=''>
+                                        ₹ {data.totalAmount}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className='flex justify-end mt-6'>
+                            <button
+                                onClick={handleSubmit}
+                                className='bg-accent px-6 py-2 rounded-lg text-white hover:bg-opacity-90 transition-colors'
+                            >
+                                Request Pickup
+                            </button>
+                        </div>
+                    </>
+                }
             </div>
         </div>
     )

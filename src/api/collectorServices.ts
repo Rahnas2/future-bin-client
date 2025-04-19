@@ -1,9 +1,16 @@
 
+import { CollectorType } from "@/types/CollectorType";
 import axiosInstance from "./axiosInstance";
+import { CollectorDocType } from "@/types/CollectorDocType";
 
 export const fetchCollectorProfileApi = async () => {
-    const response = await axiosInstance.get('/collector/profile')
+    const response = await axiosInstance.get('/api/collector/profile')
     console.log('response', response)
+    return response.data
+}
+
+export const updateCollectorDataApi = async (_id:string,  data: Partial<CollectorDocType>) => {
+    const response = await axiosInstance.patch('/api/collector', {_id, ...data})
     return response.data
 }
 
@@ -26,8 +33,8 @@ export const fetchMessagesBetweenTwoUserApi = async (userId: string) => {
 }
 
 //payment 
-export const createPaymentSessionApi = async(amount: number, userId: string) => {
-    const response = await axiosInstance.post('/collector/create-payment-session', {amount, userId})
+export const createPaymentSessionApi = async(amount: number, userId: string, pickupRequestId: string) => {
+    const response = await axiosInstance.post('/api/collector/create-payment-session', {amount, userId, pickupRequestId})
     console.log('respose create payment session ', response)
     return response.data
 }

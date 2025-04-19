@@ -1,20 +1,20 @@
 import { createPaymentSessionApi } from '@/api/collectorServices'
-import { refundApi } from '@/api/paymentService'
-import { updatePickupRequestApi } from '@/api/userService'
+import { completePickupRequestApi } from '@/api/pickupRequest'
 import PaymentQrModal from '@/components/common/Payment/PaymentQrModal'
 import { useOnDemandComplete } from '@/context/OnDemandCompleteContex'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { getSocket } from '@/services/socket';
 import { useNavigate } from 'react-router-dom'
-import PickupReqeustCard from '../../PickupReqeustCard'
 
 type Props = {}
 
 const ReqActionCompletion = (props: Props) => {
 
+    const socket = getSocket();
     const navigate = useNavigate()
 
-    const { pickupRequest } = useOnDemandComplete()
+    const { pickupRequest, setPickupRequest } = useOnDemandComplete()
     const [showPaymentQr, setShowPaymentQr] = useState(false)
 
     const [paymentSessionResponse, setPaymentSessionResponse] = useState({
@@ -22,30 +22,51 @@ const ReqActionCompletion = (props: Props) => {
         amount: 0
     });
 
+    useEffect(() => {
+        if (!socket || !pickupRequest) return
+
+        socket.emit('register', pickupRequest.userId) // register user to socket
+
+        socket.on('payment_status', (data) => {
+            if (data.pickupRequestId === pickupRequest._id) {
+                if (data.status === 'success') {
+                    toast.success('payment success')
+                    setPickupRequest(prev => ({...prev, paidAmount: pickupRequest.totalAmount }) )
+                    setShowPaymentQr(false)
+                } else {
+                    toast.error('failed! please try again')
+                    setShowPaymentQr(false)
+                }
+            }
+        })
+
+        return () => {
+            socket.off('payment_status')
+        }
+    }, [socket, pickupRequest])
+
     //handle complete balance amount for user 
     const handleCompletePayment = async () => {
         try {
             const balanceAmount = pickupRequest.totalAmount - (pickupRequest.paidAmount as number)
-            const response = await createPaymentSessionApi(balanceAmount, pickupRequest.userId as string)
+            const response = await createPaymentSessionApi(balanceAmount, pickupRequest.userId as string, pickupRequest._id as string)
 
             setPaymentSessionResponse(response.session)
             setShowPaymentQr(true)
         } catch (error) {
             console.error('error hanling complete payment ', error)
         }
+    }
 
+    const handleClose = async () => {
+        setShowPaymentQr(false)
     }
 
     //handle complete request 
     const handleCompleteRequest = async () => {
         try {
-            await updatePickupRequestApi(pickupRequest._id as string, { status: 'completed', paidAmount: pickupRequest.totalAmount, completedAt: new Date().toISOString() })
 
-            const balance = pickupRequest.paidAmount as number - pickupRequest.totalAmount
-            if(balance > 0){
-                await refundApi(pickupRequest.paymentIntentId as string, balance)
-            }
-
+            await completePickupRequestApi(pickupRequest._id!)
             toast.success('success')
             navigate(-1)
 
@@ -56,7 +77,7 @@ const ReqActionCompletion = (props: Props) => {
     }
 
     return (
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center justify-center">
             <button
                 disabled={pickupRequest.totalAmount <= (pickupRequest.paidAmount as number)}
                 onClick={handleCompletePayment}
@@ -79,7 +100,7 @@ const ReqActionCompletion = (props: Props) => {
                 Done
             </button>
 
-            {showPaymentQr && <PaymentQrModal paymentUrl={paymentSessionResponse.url} amount={paymentSessionResponse.amount} />}
+            {showPaymentQr && <PaymentQrModal paymentUrl={paymentSessionResponse.url} amount={paymentSessionResponse.amount} onClose={handleClose} />}
         </div>
     )
 

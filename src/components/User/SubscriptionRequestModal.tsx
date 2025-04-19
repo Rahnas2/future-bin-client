@@ -19,10 +19,14 @@ const SubscriptionRequestModal = (props: Props) => {
     console.log('user ', user)
 
     const [data, setData] = useState<SubscriptionPickupRequestType>({
-        subscriptionPlanId: props.subscription._id as string,
-        subscriptionPlanName: props.subscription.name,
-        totalPickups: props.subscription.totalPickups,
-        completedPickups: 0,
+        subscription: {
+            planId: props.subscription._id as string,
+            name: props.subscription.name,
+            frequency: props.subscription.frequency,
+            features: props.subscription.features,
+            totalPickups: props.subscription.totalPickups,
+            completedPickups: 0
+        },
         totalAmount: parseInt(props.subscription.price),
         name: "",
         mobile: "",

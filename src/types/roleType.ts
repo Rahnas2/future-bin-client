@@ -1,0 +1,1 @@
+export type roleType = 'resident' | 'collector' | 'admin'

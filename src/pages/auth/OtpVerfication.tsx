@@ -6,6 +6,7 @@ import { AppDispatch } from '../../redux/store';
 import { sendOtp, verifyOtp } from '../../redux/slices/authSlice';
 import toast from 'react-hot-toast';
 import ButtonSpinner from '@/components/common/ButtonSpinner';
+import { scheduledPickupCompletedApi } from '@/api/scheduledPickups';
 
 
 
@@ -15,7 +16,7 @@ const OtpVerfication = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { email, mode } = location.state
+    const { email, mode, id } = location.state
 
     const [otp, setOtp] = useState(Array(6).fill(""))
 
@@ -110,6 +111,14 @@ const OtpVerfication = () => {
                 navigate('/collector/dashboard')
                 return
             }
+
+            if(mode === 'scheduled-pickup-completed'){
+                await scheduledPickupCompletedApi(id)
+                navigate(-1)
+                return 
+            }
+
+
         } catch (error: any) {
             error.message && toast.error(error.message)
             console.log('error ', error)

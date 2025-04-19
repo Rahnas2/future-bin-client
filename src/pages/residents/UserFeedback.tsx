@@ -34,7 +34,7 @@ const UserFeedback = (props: Props) => {
             <div className="flex-1 py-15 px-8 bg-seconday rounded-lg shadow-sm">
                 {isLoadingCollectorsReviews ? (
                     <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
                     </div>
                 ) : (
                     <div className="space-y-8">

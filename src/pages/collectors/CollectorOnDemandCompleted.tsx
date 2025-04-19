@@ -4,10 +4,12 @@ import ReqActionCompletion from '@/components/collectors/RequestAction/Complete/
 import ReqActionManageWasteTypes from '@/components/collectors/RequestAction/Complete/ReqActionManageWasteTypes'
 import ReqActionSummary from '@/components/collectors/RequestAction/Complete/ReqActionSummary'
 import RequestActionPersonalInfo from '@/components/collectors/RequestAction/Complete/RequestActionPersonalInfo'
+import BackBtn from '@/components/common/BackBtn'
 import Loader from '@/components/common/Loader'
 import { OnDemandCompleteProvider } from '@/context/OnDemandCompleteContex'
 import { onDemandWasteType } from '@/types/onDemandWasteType'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
+import { Scale } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useLocation } from 'react-router-dom'
@@ -36,22 +38,38 @@ const CollectorOnDemandCompleted = (props: Props) => {
         getpickupRequest()
     }, [])
 
-    if(loading) return <Loader />
+    if (loading) return <Loader />
 
     return (
         <OnDemandCompleteProvider initialPickupRequest={requestData as OnDemandPickupRequestType} >
-            <div className='flex px-4 py-4'>
-                {/* user personal informations */}
-                <RequestActionPersonalInfo />
 
-                {/* manage waste types */}
-                <ReqActionManageWasteTypes />
+            <div className='px-4 py-4'><BackBtn /></div>
 
-                {/* billing information  */}
-                <ReqActionSummary />
+            <div className='flex flex-col columns-2 md:flex-row  px-8 py-4 gap-10 lg:gap-0 justify-between'>
 
-                {/* request complition */}
-                <ReqActionCompletion />
+                <div className='flex-1'>
+                    {/* user personal informations */}
+                    <RequestActionPersonalInfo />
+                </div>
+
+                <div className='flex-1 px-6'>
+                    <div className='flex mb-6 text-xl'>
+                        <Scale className='mr-3 text-accent2' />
+                        <h1>Waste Collection Details</h1>
+                    </div>
+
+                    {/* manage waste types */}
+                    <ReqActionManageWasteTypes />
+                </div>
+
+                <div className='flex-1'>
+                    {/* billing information  */}
+                    <ReqActionSummary />
+
+                    {/* request complition */}
+                    <ReqActionCompletion />
+
+                </div>
 
             </div>
         </ OnDemandCompleteProvider>

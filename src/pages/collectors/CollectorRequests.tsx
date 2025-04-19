@@ -28,15 +28,17 @@ const CollectorRequests = (props: Props) => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-      const result = await fetchNearbyRequestsApi()
+        const result = await fetchNearbyRequestsApi()
 
-      setOnDemandRequests(result.requests.filter((req: OnDemandPickupRequestType) => req.type === 'on-demand' && !declinedIds.includes(req._id as string)))
-      setSubscriptionRequests(result.requests.filter((req: SubscriptionPickupRequestType) => req.type === 'subscription' && !declinedIds.includes(req._id as string)))
+        if(!result.requests.length) return 
+
+        setOnDemandRequests(result.requests.filter((req: OnDemandPickupRequestType) => req.type === 'on-demand' && !declinedIds.includes(req._id as string)))
+        setSubscriptionRequests(result.requests.filter((req: SubscriptionPickupRequestType) => req.type === 'subscription' && !declinedIds.includes(req._id as string)))
       } catch (error) {
         console.log('error in collector request page ', error)
       }
     }
-    fetchRequests()      
+    fetchRequests()
   }, [])
 
   useEffect(() => {
@@ -60,8 +62,8 @@ const CollectorRequests = (props: Props) => {
       }
 
     })
-    return () => {socket.off('new-request');} 
-    
+    return () => { socket.off('new-request'); }
+
   }, [socket])
 
   return (

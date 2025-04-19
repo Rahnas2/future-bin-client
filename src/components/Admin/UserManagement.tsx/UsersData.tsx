@@ -1,5 +1,4 @@
-import Pagination from '@/components/common/Pagination'
-import { UserIcon } from 'lucide-react'
+
 import { FaUserCircle } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'

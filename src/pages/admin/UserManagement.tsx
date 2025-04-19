@@ -10,6 +10,8 @@ import { UserType } from "../../types/UserType"
 import { IoIosSearch } from "react-icons/io";
 import UsersData from "@/components/Admin/UserManagement.tsx/UsersData"
 import Pagination from "@/components/common/Pagination"
+import AdminSearch from "@/components/Admin/AdminSearch"
+import { fetchSingleUserApi } from "@/api/adminServices"
 
 
 const UserManagement = () => {
@@ -20,25 +22,41 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  const [searchTerm, setSerachTerm] = useState("")
+  const [debouncedTerm, setDebouncedTerm] = useState("");
+
+
   const dispatch = useDispatch<AppDispatch>()
-  const admin = useSelector((state: any) => state.admin)
 
   useEffect(() => {
     const fetchUsersList = async () => {
-        const result = await dispatch(fetchUsers({page:currentPage, limit:1})).unwrap()
-        setTotalPages(result.totalPages)
+      const result = await dispatch(fetchUsers({ page: currentPage, limit: 10, search: debouncedTerm })).unwrap()
+      setTotalPages(result.totalPages)
     }
     fetchUsersList()
-  }, [dispatch, currentPage])
+  }, [dispatch, currentPage, debouncedTerm])
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedTerm(searchTerm)
+      setCurrentPage(1)
+    } , 500); 
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
 
   const getUserDetail = async (userId: string) => {
     try {
-      const response = await axiosInstance.get(`/admin/user/view-detail?userId=${userId}`)
-      setSelectedUser(response.data.user);
+      const result = await fetchSingleUserApi(userId)
+      setSelectedUser(result.user);
       setIsModalOpen(true);
     } catch (error) {
-      console.log('error ', error)
+      console.log('error fetching single user  ', error)
     }
+  }
+
+
+  const handleSearch = (val: string) => {
+    setSerachTerm(val)
   }
 
   const closeModal = () => {
@@ -55,10 +73,7 @@ const UserManagement = () => {
 
           <div className="font-bold mb-8 px-6">All User</div>
 
-          <div className="w-md flex justify-between items-center justify-self-center border opacity-50 rounded-lg mb-10">
-            <input className="rounded-lg px-4 py-2 text-xl" placeholder="search..." type="search" />
-            <button className="bg-primary text-white border-l rounded-r-lg px-4 py-2 text-2xl"><IoIosSearch className="inline" /></button>
-          </div>
+          <AdminSearch onSearch={handleSearch} />
 
           <div>
             <table className="w-full table">
@@ -78,7 +93,7 @@ const UserManagement = () => {
             </table>
           </div>
 
-          <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}/></div>
+          <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>
         </div>
       </div>
       {isModalOpen && (

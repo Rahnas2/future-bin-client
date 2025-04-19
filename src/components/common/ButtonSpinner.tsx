@@ -1,6 +1,8 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+  text?: string
+}
 
 const ButtonSpinner = (props: Props) => {
   return (

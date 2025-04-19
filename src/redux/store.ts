@@ -6,23 +6,11 @@ import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from './slices'
 
 
-// const rootReducer = {
-//     auth: authReducer
-// }
-
-// const persistConfig = {
-//     key: 'root',
-//     storage,
-//     whiteList: ['auth']
-// }
-
-// const persistedReducer =  persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore( {
     reducer: rootReducer,
 })
 
-// export const persister = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 

@@ -50,14 +50,6 @@ function AdminNav() {
                     <span><FaUserFriends className='text-2xl' /></span>
                     <span>User Management</span>
                 </NavLink>
-                <div className=''>
-                    <span><BsBank className='text-2xl' /></span>
-                    <span>Payment Management</span>
-                </div>
-                <div className=''>
-                    <span><FaLocationDot className='text-2xl' /></span>
-                    <span>Service Locations</span>
-                </div>
                 <NavLink to="/admin/subscriptions" className={({ isActive }) => isActive ? "bg-accent3 text-seconday" : "[&>*]:opacity-50"}>
                     <span><MdSubscriptions className='text-2xl' /></span>
                     <span>Subscription Plans</span>

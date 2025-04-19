@@ -1,18 +1,35 @@
+import { updateCollectorDataApi } from '@/api/collectorServices'
+import { IRootState } from '@/redux/slices'
 import { changeWorkStatus } from '@/redux/slices/collectorSlice'
 import { AppDispatch } from '@/redux/store'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 type Props = {
-    status: 'active' | 'inactive'
+    status: 'active' | 'in-active'
 }
 
 const WorkStatus = (props: Props) => {
 
     const dispatch = useDispatch<AppDispatch>()
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { value } = e.target
-        dispatch(changeWorkStatus(value))
+    const { collector } = useSelector((state: IRootState) => state.collector)
+    const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        try {
+            if(!collector) return 
+
+            const { value } = e.target
+            dispatch(changeWorkStatus(value))
+
+            console.log('value ', value)
+            const result = await updateCollectorDataApi(collector.details?._id!, {status: value})
+            console.log('updated collector work status result ', result)
+
+        } catch (error) {
+            console.log('error changing work status ', error)
+        }
+
+
+
     }
     return (
         <div className="text-end">
@@ -27,3 +44,5 @@ const WorkStatus = (props: Props) => {
 }
 
 export default WorkStatus
+
+

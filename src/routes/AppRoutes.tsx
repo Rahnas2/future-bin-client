@@ -53,6 +53,8 @@ import CollectorCacelRequest from '@/pages/collectors/CollectorCacelRequest'
 import CollectorOnDemandCompleted from '@/pages/collectors/CollectorOnDemandCompleted'
 import UserFeedback from '@/pages/residents/UserFeedback'
 import SinglePickupRequest from '@/pages/residents/SinglePickupRequest'
+import CollectorSubscriptions from '@/pages/collectors/CollectorSubscriptions'
+import UserPayments from '@/pages/residents/UserPayments'
 
 
 
@@ -89,6 +91,7 @@ const AppRoutes = () => {
       '/subscription',
       '/feedback',
       '/pickup-request/history',
+      '/transactions',
       '/chat'
     ];
 
@@ -236,6 +239,16 @@ const AppRoutes = () => {
       }
       />
 
+      <Route path='/transactions' element={
+        <UserRoute>
+          <>
+            <UserNav />
+            <UserPayments />
+          </>
+        </UserRoute>
+      } />
+
+
       <Route path='/payment-status' element={
         <UserRoute>
           <PaymentStatus />
@@ -278,6 +291,12 @@ const AppRoutes = () => {
       <Route path='/collector/request/on-demand/complete' element={
         <CollectorRoute>
           <CollectorOnDemandCompleted />
+        </CollectorRoute>
+      } />
+
+      <Route path='/collector/subscriptions' element={
+        <CollectorRoute>
+          <CollectorSubscriptions />
         </CollectorRoute>
       } />
 

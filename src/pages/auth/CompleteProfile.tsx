@@ -68,9 +68,6 @@ const CompleteProfile = () => {
     type ExcludeUndefined<T> = T extends undefined ? never : T;
 
 
-
-
-
     const getLocation = () => {
         if (!navigator.geolocation) {
             toast.error('Geolocation is not supported by your browser');
@@ -357,7 +354,7 @@ const CompleteProfile = () => {
                             onChange={handleMobile}
                         />
                         <br /> <br />
-                        <FormControl className='w-xs'>
+                        {/* <FormControl className='w-xs'>
                             <InputLabel id="demo-simple-select-label">Select District</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -371,7 +368,7 @@ const CompleteProfile = () => {
                                     <MenuItem key={index} value={district}>{district}</MenuItem>
                                 ))}
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                     </ThemeProvider>
 
                     {/* id card section */}

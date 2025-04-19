@@ -1,10 +1,23 @@
 
+import React, { useState } from "react"
 import { IoIosSearch } from "react-icons/io"
 
-function AdminSearch() {
+type Props = {
+    onSearch: (val: string) => void
+}
+const AdminSearch: React.FC<Props> = ({ onSearch }) => {
+
+    const [value, setValue] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+        onSearch(e.target.value);
+    };
+
+
     return (
         <div className="w-md flex justify-between items-center justify-self-center border opacity-50 rounded-lg mb-10">
-            <input className="rounded-lg px-4 py-2 text-xl" placeholder="search..." type="search" />
+            <input onChange={handleChange} className="outline-none px-4 py-2 text-xl w-full " placeholder="search..." type="search" />
             <button className="bg-primary text-white border-l rounded-r-lg px-4 py-2 text-2xl"><IoIosSearch className="inline" /></button>
         </div>
     )

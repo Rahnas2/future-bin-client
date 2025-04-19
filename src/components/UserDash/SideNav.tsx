@@ -36,10 +36,10 @@ function SideNav() {
                 <span><MdFeedback className="inline" /></span>
                 <span>Feedback</span>
             </NavLink>
-            <div className="flex items-center px-4 py-2  gap-5">
+            <NavLink to="/transactions" className="flex items-center px-4 py-2  gap-5">
                 <span><MdOutlinePayments className="inline" /></span>
-                <span>Payment</span>
-            </div>
+                <span>Transactions</span>
+            </NavLink>
             <div onClick={handleLogOut} className="flex items-center px-4 py-2  gap-5">
                 <span><MdLogout className="inline" /></span>
                 <span>Logout</span>

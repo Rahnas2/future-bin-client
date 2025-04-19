@@ -16,9 +16,9 @@ const RequestActionPersonalInfo = (props: Props) => {
 
 
     return (
-        <div className='flex flex-col gap-5'>
-            <div className='font-medium'>Abount User</div>
-            <div>
+        <div className='flex flex-col gap-8'>
+            <div className='font-medium text-lg'>Abount User</div>
+            <div className='flex gap-4 '>
             <ThemeProvider theme={Input}>
                 <TextField
                 name="name"
