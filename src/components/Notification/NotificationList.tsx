@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { getSocket } from '@/services/socket';
 import PaymentForm from '@/components/common/Payment/PaymentForm';
-import { IoMdClose } from 'react-icons/io';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { deleteNotificationApi, fetchAllNotificatoinOfReceiverApi } from '@/api/notificationService';
@@ -20,7 +19,7 @@ const loader = 'auto';
 
 type Props = {}
 
-const UserNotificationComp = (props: Props) => {
+const NotificationList = (props: Props) => {
 
     const socket = getSocket();
     const [notifications, setNotifications] = useState<notificationType[]>([]);
@@ -123,4 +122,4 @@ const UserNotificationComp = (props: Props) => {
     )
 }
 
-export default UserNotificationComp
+export default NotificationList

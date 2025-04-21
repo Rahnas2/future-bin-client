@@ -59,19 +59,6 @@ export const cancelPickupRequestApi = async(id: string, data: Partial<requestCan
 }
 
 
-//notification 
-export const fetchAllNotificatoinOfUserApi = async() => {
-    const response = await axiosInstance.get('/notications')
-    console.log('response notifcaion api call ->> ', response)
-    return response.data
-}
-
-
-export const deleteNotificationApi = async(id: string) => {
-    const response = await axiosInstance.delete(`/notications?id=${id}`)
-    console.log('response ', response)
-    return response.data
-}
 
 
 

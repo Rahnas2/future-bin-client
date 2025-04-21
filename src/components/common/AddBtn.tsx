@@ -19,8 +19,8 @@ const AddBtn = (props: Props) => {
     }
 
     return (
-        <div onClick={handleModalOpen} className='flex justify-end items-center cursor-pointer'>
-            <div className='border opacity-50  px-6 py-1 rounded-lg'>
+        <div onClick={handleModalOpen} className='flex cursor-pointer mb-10 '>
+            <div className='border opacity-50 px-8 py-1 rounded-md'>
                 <span className='text-2xl'><IoIosAdd className='inline m-0' /></span>
                 <span className='ml-1'>Add</span>
             </div>

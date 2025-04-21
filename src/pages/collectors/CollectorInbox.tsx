@@ -2,6 +2,8 @@ import { fetchChatListApi } from "@/api/userService"
 import BackBtn from "@/components/common/BackBtn"
 import ChatUserList from "@/components/common/Chat/ChatUserList"
 import ChatWindow from "@/components/common/Chat/ChatWindow"
+import EmptyChatList from "@/components/common/Chat/EmptyChatList"
+import ComponentSpinner from "@/components/common/ComponentSpinner"
 import Loader from "@/components/common/Loader"
 import { getSocket } from "@/services/socket"
 import { chatListType } from "@/types/ChatListType"
@@ -21,14 +23,14 @@ const CollectorInbox = (props: Props) => {
   useEffect(() => {
     const fetchChatList = async () => {
       try {
+        setIsLoading(true)
         const response = await fetchChatListApi()
         console.log('hello....', response)
         setChatList(response.chatList)
         setSelectedChat(response.chatList[0])
-
-        setIsLoading(false)
       } catch (error) {
         console.log('error fetching chat list collector side ', error)
+      } finally {
         setIsLoading(false)
       }
     }
@@ -59,12 +61,13 @@ const CollectorInbox = (props: Props) => {
     setSelectedChat(data)
   }
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <ComponentSpinner />
 
   return (
     <div className='px-6 py-4'>
       <BackBtn />
-      {chatList.length && <div className='flex justify-center gap-5'>
+      {chatList.length === 0 ? <EmptyChatList /> :
+       <div className='flex justify-center gap-5'>
         <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
         <ChatWindow selectedChat={selectedChat as chatListType} role="collector" />
       </div>

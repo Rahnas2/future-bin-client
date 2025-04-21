@@ -56,6 +56,7 @@ import SinglePickupRequest from '@/pages/residents/SinglePickupRequest'
 import CollectorSubscriptions from '@/pages/collectors/CollectorSubscriptions'
 import UserPayments from '@/pages/residents/UserPayments'
 import SideBarLayout from '@/components/Layout/SideBarLayout'
+import CollectorNotifications from '@/pages/collectors/CollectorNotifications'
 
 
 
@@ -305,6 +306,12 @@ const AppRoutes = () => {
         <Route path='collector/inbox' element={
           <CollectorRoute>
             <CollectorInbox />
+          </CollectorRoute>
+        } />
+
+        <Route path='collector/notifications' element={
+          <CollectorRoute>
+            <CollectorNotifications />
           </CollectorRoute>
         } />
 

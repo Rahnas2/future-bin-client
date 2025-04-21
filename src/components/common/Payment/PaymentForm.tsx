@@ -7,7 +7,7 @@ import { handlePaymentError } from '@/utils/handlePaymentError';
 
 
 type Props = {
-    clientSecret: string
+    // clientSecret: string
     notificationId?: string,
     removeNotification?: (id: string) => void,
     requestId?: string
@@ -67,13 +67,6 @@ const PaymentForm = (props: Props) => {
     const handleSuccessfulPayment = async (paymentIntent: PaymentIntent) => {
         console.log('success payment intent ', paymentIntent)
         try {
-            if (props.notificationId && props.removeNotification) {
-                console.log('reming notificaiton ')
-                await props.removeNotification(props.notificationId)
-            }
-
-            await updatePickupRequestApi(props.requestId as string, {paymentStatus: paymentIntent.status, paidAmount: paymentIntent.amount / 100})
-
             window.location.href = `${window.location.origin}/payment-status?success=true&payment_intent=${paymentIntent.id}`;
         } catch (error) {
             console.error('Post-payment processing error:', error);

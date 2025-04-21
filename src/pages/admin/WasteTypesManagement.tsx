@@ -1,5 +1,6 @@
 import { fetchAllWasteTypesApi } from '@/api/adminServices'
 import AdminNav from '@/components/Admin/AdminNav'
+import AdminSearch from '@/components/Admin/AdminSearch'
 import AddWasteTypeModal from '@/components/Admin/WasteTypes/AddWasteTypeModal'
 import WasteTypesTable from '@/components/Admin/WasteTypes/WasteTypesTable'
 import AddBtn from '@/components/common/AddBtn'
@@ -12,11 +13,14 @@ import { useDispatch } from 'react-redux'
 type Props = {}
 
 const WasteTypesManagement = (props: Props) => {
-  
+
   const dispatch = useDispatch<AppDispatch>()
 
   const [wasteTypes, setWasteTypes] = useState<wasteType[]>([])
-  const [ selectedData, setSelectedData ] = useState<wasteType>()
+  const [selectedData, setSelectedData] = useState<wasteType>()
+
+  const [searchTerm, setSerachTerm] = useState("")
+  const [debouncedTerm, setDebouncedTerm] = useState("");
 
   const [mode, setMode] = useState<'add' | 'edit'>('add')
   const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +28,7 @@ const WasteTypesManagement = (props: Props) => {
   useEffect(() => {
     const fetchAllWasteTypes = async () => {
       try {
-        const response =  await dispatch(fetchWasteTypes()).unwrap()
+        const response = await dispatch(fetchWasteTypes()).unwrap()
         setWasteTypes(response.wasteTypes)
       } catch (error) {
         console.error('error fetching waste types ', error)
@@ -33,12 +37,29 @@ const WasteTypesManagement = (props: Props) => {
     fetchAllWasteTypes()
   }, [])
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedTerm(searchTerm)
+      // setCurrentPage(1)
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchTerm])
+
+
+  // Handle Search 
+  const handleSearch = (val: string) => {
+    setSerachTerm(val)
+  }
+
+  // Handle Modal
   const handleOpen = () => {
     setIsOpen(true)
   }
   const handleClose = () => {
     setIsOpen(false)
   }
+
+
 
   const handleAddWasteType = (data: wasteType) => {
     setWasteTypes(prev => [data, ...prev])
@@ -58,12 +79,17 @@ const WasteTypesManagement = (props: Props) => {
   return (
     <>
       <div className='flex'>
-      
-        <div className="bg-primary my-6 mr-2 rounded-t-xl px-4 py-4 flex-1 ">
+        <div className="py-4 flex-1 bg-primary my-10 mr-10 rounded-t-2xl px-4 ">
 
-          <AddBtn onOpen={handleOpen} setMode={setMode} setSelectedData={setSelectedData}   />
+          <div className="bg-seconday py-6 rounded-xl">
 
-          <WasteTypesTable wasteTypes={wasteTypes} onOpen={handleOpen} setMode={setMode} setSelectedData={setSelectedData} handleDeleteWasteType={handleDeleteWasteType}  />
+            <div className="font-bold mb-8 px-6">All User</div>
+
+            <div className='flex items-center justify-evenly'> <AdminSearch onSearch={handleSearch} /> <AddBtn onOpen={handleOpen} setMode={setMode} setSelectedData={setSelectedData} /></div>
+
+            <WasteTypesTable wasteTypes={wasteTypes} onOpen={handleOpen} setMode={setMode} setSelectedData={setSelectedData} handleDeleteWasteType={handleDeleteWasteType} />
+
+          </div>
 
         </div>
       </div>
