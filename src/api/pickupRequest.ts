@@ -15,3 +15,8 @@ export const completePickupRequestApi = async(id: string) => {
     const response = await axiosInstance.put('/api/pickup-requests/complete', {id})
     return response.data
 }
+
+export const fetchAreaDataForCollectorApi = async() => {
+    const response = await axiosInstance.get('/api/pickup-requests/collector/area-data')
+    return response.data
+}

@@ -10,7 +10,7 @@ export interface CollectorDocType {
         licensePlate: string;
         image: string
     }
-    approvalStatus: string;
+    approvalStatus: 'pending' | 'approved' | 'rejected';
     status: string;
     stripeAccountId: string
     isStripeEnabled: boolean

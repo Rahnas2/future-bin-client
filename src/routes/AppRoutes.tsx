@@ -55,6 +55,7 @@ import UserFeedback from '@/pages/residents/UserFeedback'
 import SinglePickupRequest from '@/pages/residents/SinglePickupRequest'
 import CollectorSubscriptions from '@/pages/collectors/CollectorSubscriptions'
 import UserPayments from '@/pages/residents/UserPayments'
+import SideBarLayout from '@/components/Layout/SideBarLayout'
 
 
 
@@ -261,117 +262,118 @@ const AppRoutes = () => {
         </UserRoute>
       } />
 
-      {/* colllector routes */}
-      <Route path='/collector/profile' element={
-        <CollectorRoute>
-          <CollectorProfile />
-        </CollectorRoute>
-      } />
+      <Route path="/*" element={<SideBarLayout />}>
+        {/* colllector routes */}
+        <Route path='collector/profile' element={
+          <CollectorRoute>
+            <CollectorProfile />
+          </CollectorRoute>
+        } />
 
-      <Route path='/collector/dashboard' element={
-        <CollectorRoute>
-          <CollectorDash />
-        </CollectorRoute>
-      } />
-
-
-      <Route path='/collector/requests' element={
-        <CollectorRoute>
-          <CollectorRequests />
-        </ CollectorRoute >
-      }
-      />
-
-      <Route path='/collector/request/cancel' element={
-        <CollectorRoute>
-          <CollectorCacelRequest />
-        </CollectorRoute>
-      } />
-
-      <Route path='/collector/request/on-demand/complete' element={
-        <CollectorRoute>
-          <CollectorOnDemandCompleted />
-        </CollectorRoute>
-      } />
-
-      <Route path='/collector/subscriptions' element={
-        <CollectorRoute>
-          <CollectorSubscriptions />
-        </CollectorRoute>
-      } />
-
-      <Route path='/collector/inbox' element={
-        <CollectorRoute>
-          <CollectorInbox />
-        </CollectorRoute>
-      } />
-
-      {/* admin routes */}
-      <Route
-        path="/admin/login"
-        element={
-          <PublicRoute>
-            <SignIn />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/admin/dashboard"
-        element={
-          <AdminRoute>
-            <AdmDash />
-          </AdminRoute>
-        }
-      />
-
-      <Route
-        path="/admin/collectors"
-        element={
-          <AdminRoute>
-            <CollectorManagement />
-          </AdminRoute>
-        }
-      >
-        <Route path="approved" element={<ApprovedCollectors />} />
-        <Route path="requests" element={<ApprovalRequests />} />
-      </Route>
-
-
-      <Route
-        path="/admin/users"
-        element={
-          <AdminRoute>
-            <UserManagement />
-          </AdminRoute>
-        }
-      />
-      <Route
-        path='/admin/subscriptions'
-        element={
-          <AdminRoute>
-            <SubscriptionManagemnt />
-          </AdminRoute>
-        }></Route>
-
-
-      <Route
-        path="/admin/collectors/:name"
-        element={
-          <AdminRoute>
-            <CollectorDetails />
-          </AdminRoute>
-        }
-      />
-
-      <Route
-        path="/admin/waste-types"
-        element={
-          <AdminRoute>
-            <WasteTypesManagement />
-          </AdminRoute>
+        <Route path='collector/dashboard' element={
+          <CollectorRoute>
+            <CollectorDash />
+          </CollectorRoute>
         } />
 
 
+        <Route path='collector/requests' element={
+          <CollectorRoute>
+            <CollectorRequests />
+          </ CollectorRoute >
+        }
+        />
+
+        <Route path='collector/request/cancel' element={
+          <CollectorRoute>
+            <CollectorCacelRequest />
+          </CollectorRoute>
+        } />
+
+        <Route path='collector/request/on-demand/complete' element={
+          <CollectorRoute>
+            <CollectorOnDemandCompleted />
+          </CollectorRoute>
+        } />
+
+        <Route path='collector/subscriptions' element={
+          <CollectorRoute>
+            <CollectorSubscriptions />
+          </CollectorRoute>
+        } />
+
+        <Route path='collector/inbox' element={
+          <CollectorRoute>
+            <CollectorInbox />
+          </CollectorRoute>
+        } />
+
+        {/* admin routes */}
+        <Route
+          path="admin/login"
+          element={
+            <PublicRoute>
+              <SignIn />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdmDash />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="admin/collectors"
+          element={
+            <AdminRoute>
+              <CollectorManagement />
+            </AdminRoute>
+          }
+        >
+          <Route path="approved" element={<ApprovedCollectors />} />
+          <Route path="requests" element={<ApprovalRequests />} />
+        </Route>
+
+
+        <Route
+          path="admin/users"
+          element={
+            <AdminRoute>
+              <UserManagement />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path='admin/subscriptions'
+          element={
+            <AdminRoute>
+              <SubscriptionManagemnt />
+            </AdminRoute>
+          }></Route>
+
+
+        <Route
+          path="admin/collectors/:name"
+          element={
+            <AdminRoute>
+              <CollectorDetails />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="admin/waste-types"
+          element={
+            <AdminRoute>
+              <WasteTypesManagement />
+            </AdminRoute>
+          } />
+
+      </Route>
       <Route path='/map' element={<Map />} />
 
       <Route path="*" element={<NotFound />} />

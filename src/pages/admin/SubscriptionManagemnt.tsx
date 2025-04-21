@@ -67,7 +67,7 @@ const SubscriptionManagemnt = (props: Props) => {
     return (
         <>
             <div className='flex'>
-                <AdminNav />
+
                 <div className="bg-primary my-6 mr-2 rounded-t-xl px-4 py-4 flex-1 ">
 
                     <AddSubscription onOpen={handleOpenAdd} />

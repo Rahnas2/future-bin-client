@@ -9,6 +9,7 @@ import { fetchNearbyRequestsApi } from '../../api/collectorServices'
 import OnDemandRequests from '../../components/collectors/OnDemandRequests'
 import SubscriptionRequests from '../../components/collectors/SubscriptionRequests'
 import { fetchPickupRequestById } from '@/api/pickupRequest'
+import SideBar from '@/components/Sidebar/SideBar'
 
 
 type Props = {}
@@ -67,8 +68,8 @@ const CollectorRequests = (props: Props) => {
   }, [socket])
 
   return (
-    <div className='flex'>
-      <CollectorNav />
+    <div className='flex min-h-screen'>
+      {/* <SideBar role='collector' /> */}
       <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
 
         {/* collector requests nav */}

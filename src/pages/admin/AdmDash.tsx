@@ -21,7 +21,7 @@ function AdmDash() {
   }
   return (
     <div className="flex">
-      <AdminNav />
+      {/* <AdminNav /> */}
       <div className=" flex p-8 justify-between">
 
         <div>Dahsboard</div>

@@ -76,7 +76,6 @@ const OnDemandRequestModal = (props: Props) => {
         }
 
     }, [])
-    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         if (wasteTypes && wasteTypes.length > 0) {
@@ -144,6 +143,7 @@ const OnDemandRequestModal = (props: Props) => {
         setData(prev => ({ ...prev, totalWeight: totalWeight, totalAmount: totalPrice }));
     }
 
+    //Handle Submit
     const handleSubmit = async () => {
         try {
 
@@ -167,14 +167,15 @@ const OnDemandRequestModal = (props: Props) => {
             const reutlt = await pickupRequestApi(submissionData)
             props.onClose()
             toast.success(reutlt.message)
-        } catch (error) {
-            console.log('error ', error)
+        } catch (error: any) {  
+            console.error('error request on-demnand pickup ', error)
+            toast.error(error.response.data.message || 'something went wrong')
         }
     }
 
     return (
         <div className='fixed inset-0 bg-opacity-50 flex justify-center items-center'>
-            <div className="bg-primary border border-gray-500 px-8 py-6 rounded-xl w-[900px] max-w-[100%]">
+            <div className="bg-primary border border-gray-500 px-8 py-6 rounded-xl w-[900px] max-w-[100%] max-h-[98vh] flex flex-col">
                 {!initialized ? <ComponentSpinner /> :
                     <>
                         <div className="flex justify-between items-center mb-10">
@@ -187,7 +188,7 @@ const OnDemandRequestModal = (props: Props) => {
                             </div>
                         </div>
 
-                        <div className='grid md:grid-cols-2 gap-6'>
+                        <div className='grid md:grid-cols-2 gap-6 flex--1 overflow-y-auto'>
                             {/* Address Section */}
                             <div className='mb-5'>
                                 <div className='font-medium mb-5'>Address</div>

@@ -1,13 +1,14 @@
 import CollectorNav from '@/components/collectors/CollectorNav'
 import CollectorActiveSubscriptions from '@/components/collectors/Subscription/CollectorActiveSubscriptions'
+import SideBar from '@/components/Sidebar/SideBar'
 import React from 'react'
 
 type Props = {}
 
 const CollectorSubscriptions = (props: Props) => {
   return (
-    <div className='flex'>
-      <CollectorNav />
+    <div className='flex min-h-screen'>
+      {/* <SideBar role='collector' /> */}
 
       <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
         <div className="border-b border-gray-700 p-6 mb-5">

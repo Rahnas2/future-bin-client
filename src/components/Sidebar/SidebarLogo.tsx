@@ -1,10 +1,13 @@
-import React from 'react'
+
+import brand from '../../assets/logo (1).png'
 
 type Props = {}
 
-const SidebarLogo = (props: Props) => {
+const SidebarLogo = () => {
   return (
-    <div>SidebarLogo</div>
+    <div>
+      <img className='w-40' src={brand} alt="" />
+    </div>
   )
 }
 

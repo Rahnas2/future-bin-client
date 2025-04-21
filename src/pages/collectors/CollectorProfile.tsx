@@ -17,6 +17,8 @@ import VehicleDetails from '../../components/collectors/VehicleDetails'
 import toast from 'react-hot-toast'
 import { editProfileApi } from '../../api/userService'
 import ChangePasswordModal from '../../components/common/ChangePasswordModal'
+import SideBar from '@/components/Sidebar/SideBar'
+import RegisterationStatus from '@/components/collectors/RegisterationStatus'
 
 type Props = {}
 
@@ -162,8 +164,11 @@ function CollectorProfile({ }: Props) {
 
     return (
         <div className='flex'>
-            <CollectorNav />
             <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
+
+                { collector?.details?.approvalStatus !== 'approved' || !collector.details.isStripeEnabled  ? 
+                <RegisterationStatus status={collector?.details?.approvalStatus!} stripeAccountId={collector?.details?.stripeAccountId!}/> : <></>}
+
                 <ProfileCard isEdit={isEdit} image={collector?.image} firstName={data.firstName} lastName={data.lastName} email={data.email} mobile={data.mobile} selectedImage={selectedImage} setSelectedImage={handleSelectedImage} imgValError={errors.profileImage} />
 
                 {/* personal infromation */}

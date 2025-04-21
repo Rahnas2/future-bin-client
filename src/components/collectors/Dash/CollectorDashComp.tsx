@@ -10,12 +10,17 @@ import CollectorRequestHistoryTable from "./CollectorRequestHistoryTable";
 import EmptyCollections from "./EmptyCollections";
 import { CityCollectionDataType } from "@/types/CityCollectionDataType";
 import WorkStatus from "./WorkStatus";
+import { fetchAreaDataForCollectorApi } from "@/api/pickupRequest";
+import ComponentSpinner from "@/components/common/ComponentSpinner";
 
 type Props = {}
 
 const CollectorDashComp = (props: Props) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    const [loadingAreaData, setloadingAreaData] = useState(false)
+
 
     // work summary
     const [workSummary, setWorkSummary] = useState({
@@ -93,31 +98,8 @@ const CollectorDashComp = (props: Props) => {
                 pendingWorks: pendingResult.total,
                 completedWorks: completedResult.total,
                 cancelledWorks: cancelledResult.total,
-            });
+            })
 
-            // Process area chart data (based on all collections)
-            let cityDataMap = new Map<string, CityCollectionDataType>();
-            allResult.requests.forEach((req: pickupRequestType) => {
-                const city = req.address.city;
-                if (cityDataMap.has(city)) {
-                    const cityStatus = cityDataMap.get(city)!;
-                    cityStatus.total++;
-                    if (req.status === 'confirmed') cityStatus.pending++;
-                    else if (req.status === 'completed') cityStatus.completed++;
-                    else if (req.status === 'cancelled') cityStatus.cancelled++;
-                    cityDataMap.set(city, cityStatus);
-                } else {
-                    cityDataMap.set(city, {
-                        city: city,
-                        total: 1,
-                        pending: req.status === 'confirmed' ? 1 : 0,
-                        completed: req.status === 'completed' ? 1 : 0,
-                        cancelled: req.status === 'cancelled' ? 1 : 0,
-                    });
-                }
-            });
-
-            setAreaChartData(Array.from(cityDataMap.values()));
         } catch (error) {
             console.error('error fetching request history', error)
         } finally {
@@ -134,7 +116,20 @@ const CollectorDashComp = (props: Props) => {
         fetchRequestHistory()
     }, [fetchRequestHistory])
 
-
+    useEffect(() => {
+        const fetchAreaData = async () => {
+            try {
+                setloadingAreaData(true)
+                const result = await fetchAreaDataForCollectorApi()
+                setAreaChartData(result.data)
+            } catch (error) {
+                console.log('error fetching area data ', error)
+            } finally {
+                setloadingAreaData(false)
+            }
+        }
+        fetchAreaData()
+    }, [])
     if (isLoading) {
         return <div>loading..</div>
     }
@@ -169,7 +164,7 @@ const CollectorDashComp = (props: Props) => {
                                 setPagination={setAllPagination}
                             />
                             <div className="">
-                                <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.total }))} total={workSummary.totalCollection} />
+                            {loadingAreaData ? <ComponentSpinner/> :<AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.total }))} total={workSummary.totalCollection} />}
                             </div>
                         </div> :
                         <EmptyCollections type="all" />
@@ -191,7 +186,7 @@ const CollectorDashComp = (props: Props) => {
                                     pagination={pendingPagination}
                                     setPagination={setPendingPagination}
                                 />
-                                <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.pending }))} total={workSummary.pendingWorks} />
+                               {loadingAreaData ? <ComponentSpinner/> : <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.pending }))} total={workSummary.pendingWorks} />} 
                             </div> :
                             <EmptyCollections type="pending" />
                         }
@@ -212,7 +207,7 @@ const CollectorDashComp = (props: Props) => {
                                     />
                                 </div>
                                 <div>
-                                    <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.completed }))} total={workSummary.completedWorks} />
+                                {loadingAreaData ? <ComponentSpinner/> :<AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.completed }))} total={workSummary.completedWorks} />}
                                 </div>
                             </div> :
                             <EmptyCollections type="completed" />
@@ -234,7 +229,7 @@ const CollectorDashComp = (props: Props) => {
                                     />
                                 </div>
                                 <div>
-                                    <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.cancelled }))} total={workSummary.cancelledWorks} />
+                                {loadingAreaData ? <ComponentSpinner/> :<AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.cancelled }))} total={workSummary.cancelledWorks} />}
                                 </div>
                             </div> :
                             <EmptyCollections type="cancelled" />
