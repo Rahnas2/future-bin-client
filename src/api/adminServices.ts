@@ -55,3 +55,14 @@ export const deleteWasteTypeApi = async (id: string) => {
     const response = await axiosInstance.delete(`/admin/waste-types?_id=${id}`)
     return response.data
 }
+
+//Dashboard
+export const fetchPickupRequestSummaryApi = async () => {
+    const response = await axiosInstance.get('/admin/dashboard/summary')
+    return response.data
+}
+
+export const fetchPickupRequestAnalyticsApi = async (from: string, to: string) => {
+    const response = await axiosInstance.get(`/admin/dashboard/analytics?from=${from}&to=${to}`)
+    return response.data
+}
