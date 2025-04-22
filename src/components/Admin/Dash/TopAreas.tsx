@@ -19,44 +19,21 @@ import {
 } from "@/components/ui/chart"
 import { topCitiesType } from "@/types/topCitiesType"
 import React from "react"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "#0c4151" },
-  { browser: "safari", visitors: 200, fill: "var(--color-accent3)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-accent)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-seconday)" },
-  { browser: "other", visitors: 90, fill: "var(--color-text)" },
-]
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig
 
 type Props = {
     data: topCitiesType []
 }
 const TopAreas:React.FC<Props> = ({data}) => {
+  console.log('data ', data)
+
+const chartConfig = {
+  count: {
+    label: "count",
+  }
+} satisfies ChartConfig
+
+
   return (
     <Card className="bg-primary text-text border-gray-500 shadow-2xs flex w-sm">
       <CardHeader>
@@ -74,21 +51,19 @@ const TopAreas:React.FC<Props> = ({data}) => {
             }}
           >
             <YAxis
-              dataKey="browser"
+              dataKey="city"
               type="category"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) =>
-                chartConfig[value as keyof typeof chartConfig]?.label
-              }
+              tickFormatter={(value) => value.slice(0, 5)}
             />
-            <XAxis dataKey="visitors" type="number" hide />
+            <XAxis dataKey="count" type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="visitors" layout="vertical" radius={5} />
+            <Bar dataKey="count" layout="vertical" barSize={35} fill="var(--accent)" radius={5} />
           </BarChart>
         </ChartContainer>
       </CardContent>

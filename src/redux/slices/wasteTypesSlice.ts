@@ -3,9 +3,9 @@ import { wasteType } from "@/types/wasteTyp";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Fetch waste types (used in both admin and user sides)
-export const fetchWasteTypes = createAsyncThunk("wasteTypes/fetch", async (_, { rejectWithValue }) => {
+export const fetchWasteTypes = createAsyncThunk("wasteTypes/fetch", async ({page, limit, search}: {page: number, limit: number, search: string}, { rejectWithValue }) => {
     try {
-        const response = await fetchAllWasteTypesApi()
+        const response = await fetchAllWasteTypesApi(page, limit, search)
         console.log('response in slice ', response)
         return response
     } catch (error: any) {

@@ -35,22 +35,22 @@ const WasteTypesTable = (props: Props) => {
         }
     }
     return (
-        <table className="w-full border-collapse">
+        <table className="w-full ">
             <thead>
                 <tr className="">
-                    <th className="p-2 border  text-left">ID</th>
-                    <th className="p-2 border text-left">Name</th>
-                    <th className="p-2 border text-left">Price</th>
-                    <th className="p-2 border text-center">Actions</th>
+                    <th className="p-2 border-b  text-left">ID</th>
+                    <th className="p-2 border-b text-left">Name</th>
+                    <th className="p-2 border-b text-left">Price</th>
+                    <th className="p-2 border-b text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {props.wasteTypes.map((wasteType) => (
                     <tr key={wasteType._id} className="">
-                        <td className="p-2 border">{wasteType._id}</td>
-                        <td className="p-2 border">{wasteType.name}</td>
-                        <td className="p-2 border">₹ {wasteType.price}</td>
-                        <td className="p-2 border text-center">
+                        <td className="p-2 border-b">{wasteType._id}</td>
+                        <td className="p-2 border-b">{wasteType.name}</td>
+                        <td className="p-2 border-b">₹ {wasteType.price}</td>
+                        <td className="p-2 border-b text-center">
                             <div className="flex justify-center items-center m-1 gap-5 space-x-2">
                                 <button onClick={() => handleEdit(wasteType) } className='bg-blue-500 rounded-sm py-2 px-3 shadow-2xl cursor-pointer'><PiPencilBold className='inline'/></button>
                                 <button onClick={() => handleDelete(wasteType._id)} className='bg-red-500 rounded-sm py-2 px-3 shadow-2xl cursor-pointer'><FaTrashCan className='inline'/></button>

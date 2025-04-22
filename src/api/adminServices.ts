@@ -34,8 +34,8 @@ export const deleteSubscriptionApi = async (id: string) => {
     return response.data
 }
 
-export const fetchAllWasteTypesApi = async () => {
-    const response = await axiosInstance.get('/admin/waste-types')
+export const fetchAllWasteTypesApi = async (page: number, limit: number, search: string) => {
+    const response = await axiosInstance.get(`/admin/waste-types?page=${page}&limit=${limit}&search=${search}`)
     return response.data
 }
 

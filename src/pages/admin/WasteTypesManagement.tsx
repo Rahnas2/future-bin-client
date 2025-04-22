@@ -4,6 +4,7 @@ import AdminSearch from '@/components/Admin/AdminSearch'
 import AddWasteTypeModal from '@/components/Admin/WasteTypes/AddWasteTypeModal'
 import WasteTypesTable from '@/components/Admin/WasteTypes/WasteTypesTable'
 import AddBtn from '@/components/common/AddBtn'
+import Pagination from '@/components/common/Pagination'
 import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
 import { AppDispatch } from '@/redux/store'
 import { wasteType } from '@/types/wasteTyp'
@@ -19,6 +20,9 @@ const WasteTypesManagement = (props: Props) => {
   const [wasteTypes, setWasteTypes] = useState<wasteType[]>([])
   const [selectedData, setSelectedData] = useState<wasteType>()
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const [searchTerm, setSerachTerm] = useState("")
   const [debouncedTerm, setDebouncedTerm] = useState("");
 
@@ -28,19 +32,20 @@ const WasteTypesManagement = (props: Props) => {
   useEffect(() => {
     const fetchAllWasteTypes = async () => {
       try {
-        const response = await dispatch(fetchWasteTypes()).unwrap()
+        const response = await dispatch(fetchWasteTypes({ page: currentPage, limit: 10, search: debouncedTerm })).unwrap()
         setWasteTypes(response.wasteTypes)
+        setTotalPages(response.totalPages)
       } catch (error) {
         console.error('error fetching waste types ', error)
       }
     }
     fetchAllWasteTypes()
-  }, [])
+  }, [dispatch, currentPage, debouncedTerm])
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedTerm(searchTerm)
-      // setCurrentPage(1)
+      setCurrentPage(1)
     }, 500);
     return () => clearTimeout(handler);
   }, [searchTerm])
@@ -78,17 +83,18 @@ const WasteTypesManagement = (props: Props) => {
 
   return (
     <>
-      <div className='flex'>
+      <div className='flex min-h-lvh'>
         <div className="py-4 flex-1 bg-primary my-10 mr-10 rounded-t-2xl px-4 ">
 
           <div className="bg-seconday py-6 rounded-xl">
 
-            <div className="font-bold mb-8 px-6">All User</div>
+            <div className="font-medium mb-8 px-6">All Waste Types</div>
 
             <div className='flex items-center justify-evenly'> <AdminSearch onSearch={handleSearch} /> <AddBtn onOpen={handleOpen} setMode={setMode} setSelectedData={setSelectedData} /></div>
 
             <WasteTypesTable wasteTypes={wasteTypes} onOpen={handleOpen} setMode={setMode} setSelectedData={setSelectedData} handleDeleteWasteType={handleDeleteWasteType} />
 
+            <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>
           </div>
 
         </div>
