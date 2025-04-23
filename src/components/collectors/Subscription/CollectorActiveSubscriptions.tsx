@@ -28,6 +28,10 @@ const CollectorActiveSubscriptions = (props: Props) => {
         setOpenScheuledPickups(false)
     }
 
+    //navigate to map page
+    const navigateMap = (coordinates: [number, number]) => {
+        navigate('/map', { state: { destination: coordinates.reverse() } })
+    }
 
     useEffect(() => {
         const fetchActiveSubscriptionRequests = async () => {
@@ -67,7 +71,7 @@ const CollectorActiveSubscriptions = (props: Props) => {
 
                         <div> <Mail className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.email}</span></div>
 
-                        <div><MapPin className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.address.street + ',' + req.address.city}</span></div>
+                        <button onClick={() => navigateMap(req.address.location.coordinates)} className='cursor-pointer w-fit'><MapPin className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.address.street + ',' + req.address.city}</span></button>
                     </div>
 
                     <div className="border opacity-10 my-5"></div>

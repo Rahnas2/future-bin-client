@@ -1,7 +1,7 @@
 import React, { useRef, useState, KeyboardEvent, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 
-import { useLocation, useNavigate } from 'react-router-dom'
+import { replace, useLocation, useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../../redux/store';
 import { sendOtp, verifyOtp } from '../../redux/slices/authSlice';
 import toast from 'react-hot-toast';
@@ -110,6 +110,11 @@ const OtpVerfication = () => {
             if (mode === 'completed-request') {
                 navigate('/collector/dashboard')
                 return
+            }
+
+            if(mode === 'on-demand-completed') {
+                navigate('/collector/request/on-demand/complete', { state: { requestId: id }, replace: true} )
+                return 
             }
 
             if(mode === 'scheduled-pickup-completed'){

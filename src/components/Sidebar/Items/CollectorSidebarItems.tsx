@@ -58,11 +58,10 @@ const CollectorSidebarItems: React.FC<Props> = ({ isExpanded }) => {
             />
 
             <SidebarItem
-                to="/collector/subscriptions"
+                to="/collector/pickups"
                 icon={<Layers size={20} />}
-                label="Subscriptions"
+                label="Pickups"
                 isExpanded={isExpanded}
-                disabled={true}
             />
 
             <SidebarItem
@@ -70,7 +69,6 @@ const CollectorSidebarItems: React.FC<Props> = ({ isExpanded }) => {
                 icon={<TrendingUp size={20} />}
                 label="My Earnings"
                 isExpanded={isExpanded}
-                disabled={true}
             />
 
             <SidebarItem

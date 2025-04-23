@@ -57,6 +57,8 @@ import CollectorSubscriptions from '@/pages/collectors/CollectorSubscriptions'
 import UserPayments from '@/pages/residents/UserPayments'
 import SideBarLayout from '@/components/Layout/SideBarLayout'
 import CollectorNotifications from '@/pages/collectors/CollectorNotifications'
+import CollectorPickups from '@/pages/collectors/CollectorPickups'
+import MyEarnings from '@/pages/collectors/MyEarnings'
 
 
 
@@ -297,9 +299,21 @@ const AppRoutes = () => {
           </CollectorRoute>
         } />
 
-        <Route path='collector/subscriptions' element={
+        {/* <Route path='collector/subscriptions' element={
           <CollectorRoute>
             <CollectorSubscriptions />
+          </CollectorRoute>
+        } /> */}
+
+        <Route path="collector/pickups" element={
+          <CollectorRoute>
+            <CollectorPickups />
+          </CollectorRoute>
+        } />
+
+        <Route path='collector/earnings' element={
+          <CollectorRoute>
+            <MyEarnings />
           </CollectorRoute>
         } />
 

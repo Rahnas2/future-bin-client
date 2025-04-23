@@ -36,7 +36,7 @@ const Transactions: React.FC<Props> = ({ role }) => {
 
     if (isLoading) return <ComponentSpinner />
 
-    if (!transactions.length) return <div className='flex items-center justify-center opacity-50'>Not Transaction Found</div>
+    if (!transactions.length) return <div className='flex w-full items-center justify-center opacity-50'>Not Transactions Found</div>
 
     return (
         <>

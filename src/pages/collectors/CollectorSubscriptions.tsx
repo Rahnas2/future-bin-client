@@ -1,7 +1,6 @@
-import CollectorNav from '@/components/collectors/CollectorNav'
+
 import CollectorActiveSubscriptions from '@/components/collectors/Subscription/CollectorActiveSubscriptions'
-import SideBar from '@/components/Sidebar/SideBar'
-import React from 'react'
+
 
 type Props = {}
 

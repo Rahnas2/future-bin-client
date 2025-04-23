@@ -12,20 +12,26 @@ import { OnDemandPickupRequestType } from '@/types/PickupRequest'
 import { Scale } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 type Props = {}
 
 const CollectorOnDemandCompleted = (props: Props) => {
 
     const location = useLocation()
-
+    const navigate = useNavigate()
     const { requestId } = location.state
+
     const [requestData, setRequestData] = useState<OnDemandPickupRequestType | null>(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const getpickupRequest = async () => {
+            console.log('hello')
+            if (!requestId) {
+                console.log('hyyy')
+                navigate('collector/pickups', { replace: true });
+              }
             try {
                 const response = await fetchPickupRequestById(requestId)
                 setRequestData(response.request)
@@ -36,7 +42,7 @@ const CollectorOnDemandCompleted = (props: Props) => {
             }
         }
         getpickupRequest()
-    }, [])
+    }, [location , navigate])
 
     if (loading) return <Loader />
 
