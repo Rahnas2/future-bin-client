@@ -114,12 +114,14 @@ import {
 } from "@/components/ui/chart"
 import { districtPerformanceType } from "@/types/districtPerformaceType"
 import React from "react"
+import { getDateRangeLabel } from "@/utils/getDateRangeLabel"
 
 type Props = {
     data: districtPerformanceType[]
+    timeRange: string
 }
 
-const DistrictPerformance: React.FC<Props> = ({ data }) => {
+const DistrictPerformance: React.FC<Props> = ({ data, timeRange }) => {
     // Create chart config based on your data structure
     const chartConfig = {
         districtRequestCount: {
@@ -136,7 +138,7 @@ const DistrictPerformance: React.FC<Props> = ({ data }) => {
         <Card className="bg-primary text-text border-gray-500 shadow-2xs w-2xl">
             <CardHeader>
                 <CardTitle>District Performance</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardDescription>{getDateRangeLabel(timeRange)}</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
@@ -193,7 +195,7 @@ const DistrictPerformance: React.FC<Props> = ({ data }) => {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
                 <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
+                    S{`Showing total visitors for the last ${timeRange === '6m' ? '6 months': timeRange === '30d'?  '30 days': timeRange === '7d' ? '7 days': '' }`}
                 </div>
             </CardFooter>
         </Card>

@@ -2,9 +2,11 @@ import { sendOtpService } from '@/api/authService'
 import { fetchPickupRequestsByTypeAndStatus } from '@/api/pickupRequest'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { IoChatbox } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
+import ChatModal from '../ChatModal'
 
 type Props = {}
 
@@ -15,6 +17,9 @@ const OnDemandPickups = (props: Props) => {
     const [OnDemandPickups, setOnDemandPickups] = useState<OnDemandPickupRequestType[] | null>(null)
     // const [selectedPickupRequest, setSelectedPickupRequest] = useState({id: '', email: ''})
     const [isLoading, setIsLoading] = useState(false)
+
+
+    const [activeChatId, setActiveChatId] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchActiveSubscriptionRequests = async () => {
@@ -48,6 +53,16 @@ const OnDemandPickups = (props: Props) => {
         navigate('/map', { state: { destination: coordinates.reverse() } })
     }
 
+    //Handle Modal
+    const handleChatOpen = (id: string) => {
+        setActiveChatId(id)
+    }
+
+    // close any open chat modal
+    const handleChatClose = () => {
+        setActiveChatId(null)
+    }
+
     if (isLoading) return <ComponentSpinner />
 
     if (!OnDemandPickups || !OnDemandPickups.length) {
@@ -71,9 +86,29 @@ const OnDemandPickups = (props: Props) => {
                         <div> <Mail className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.email}</span></div>
 
                         <button onClick={() => navigateMap(req.address.location.coordinates)} className='cursor-pointer w-fit'><MapPin className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.address.street + ',' + req.address.city}</span></button>
+
                     </div>
 
-                    <div className="border opacity-10 my-5"></div>
+                    <div className='relative text-end'>
+                        <button onClick={() => handleChatOpen(req._id as string)} className='cursor-pointer'>
+                            <MessageCircle className='inline text-4xl text-blue-400 ' />
+                        </button>
+
+                        {activeChatId === req._id && (
+                            <>
+                                <div
+                                    className="fixed inset-0 bg-opacity-30 flex justify-center items-center"
+                                    onClick={handleChatClose}
+                                ></div>
+                                <div className="absolute bottom-3 right-10 z-50 bg-white text-secondary rounded-sm">
+                                    <ChatModal participant={req.userId as string} participantName={req.name} />
+                                </div>
+                            </>
+                        )}
+
+                    </div>
+
+                    <div className="border opacity-10 mt-3 mb-5"></div>
 
                     <div className="text-sm flex flex-col gap-5">
 

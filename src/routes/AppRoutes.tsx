@@ -59,6 +59,9 @@ import SideBarLayout from '@/components/Layout/SideBarLayout'
 import CollectorNotifications from '@/pages/collectors/CollectorNotifications'
 import CollectorPickups from '@/pages/collectors/CollectorPickups'
 import MyEarnings from '@/pages/collectors/MyEarnings'
+import PaymentAdmin from '@/pages/admin/PaymentAdmin'
+import CollectorFeedback from '@/pages/collectors/CollectorFeedback'
+import FeedbackAdmin from '@/pages/admin/FeedbackAdmin'
 
 
 
@@ -323,6 +326,12 @@ const AppRoutes = () => {
           </CollectorRoute>
         } />
 
+        <Route path='collector/feedbacks' element={
+          <CollectorRoute>
+            <CollectorFeedback />
+          </CollectorRoute>
+        } />
+
         <Route path='collector/notifications' element={
           <CollectorRoute>
             <CollectorNotifications />
@@ -394,7 +403,21 @@ const AppRoutes = () => {
             </AdminRoute>
           } />
 
+        <Route path='admin/payments' element={
+          <AdminRoute>
+            <PaymentAdmin />
+          </AdminRoute>
+        } />
+
+        <Route path='admin/feedbacks' element={
+          <AdminRoute>
+            <FeedbackAdmin />
+          </AdminRoute>
+        } />
+
+
       </Route>
+
       <Route path='/map' element={<Map />} />
 
       <Route path="*" element={<NotFound />} />

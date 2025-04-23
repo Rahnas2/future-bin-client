@@ -1,6 +1,6 @@
 import React from 'react'
 import SidebarItem from '../SidebarItem'
-import { BarChart, Layers, LayoutDashboard, MessageSquare, Truck, Users } from 'lucide-react'
+import { Banknote, BarChart, Layers, LayoutDashboard, MessageSquare, Truck, Users } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/utils/cn'
 
@@ -8,7 +8,7 @@ type Props = {
     isExpanded: boolean
 }
 
-const AdminSidebaritems: React.FC<Props> = ({isExpanded}) => {
+const AdminSidebaritems: React.FC<Props> = ({ isExpanded }) => {
     return (
         <>
             <SidebarItem
@@ -66,7 +66,15 @@ const AdminSidebaritems: React.FC<Props> = ({isExpanded}) => {
             />
 
             <SidebarItem
-                to="/admin/feedback"
+                to="/admin/payments"
+                icon={<Banknote size={20} />}
+                label="Payments"
+                isExpanded={isExpanded}
+                disabled={true}
+            />
+
+            <SidebarItem
+                to="/admin/feedbacks"
                 icon={<MessageSquare size={20} />}
                 label="Feedback"
                 isExpanded={isExpanded}

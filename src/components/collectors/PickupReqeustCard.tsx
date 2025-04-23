@@ -127,7 +127,7 @@ const PickupReqeustCard = (props: Props) => {
                             </> :
                             <>
                                 <span className='opacity-50'>Subcription:&nbsp;&nbsp;</span>
-                                <span>{props.request.subscriptionPlanName}</span>
+                                <span>{props.request.subscription.name}</span>
                             </>
                         }
                     </div>
@@ -174,7 +174,7 @@ const PickupReqeustCard = (props: Props) => {
                                         onClick={hanldeChatClose}
                                     ></div>
                                     <div className="absolute bottom-15 right-0  z-50 bg-white text-seconday rounded-sm">
-                                        <ChatModal participant={props.request.userId as string} />
+                                        <ChatModal participant={props.request.userId as string} participantName={props.request.name} />
                                     </div>
                                 </>
 

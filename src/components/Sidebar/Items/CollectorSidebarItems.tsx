@@ -79,6 +79,13 @@ const CollectorSidebarItems: React.FC<Props> = ({ isExpanded }) => {
             />
 
             <SidebarItem
+                to="/collector/feedbacks"
+                icon={<Bell size={20} />}
+                label="Feedbacks"
+                isExpanded={isExpanded}
+            />
+
+            <SidebarItem
                 to="/collector/notifications"
                 icon={<Bell size={20} />}
                 label="Notifications"

@@ -1,27 +1,30 @@
 import { fetchPickupRequestsByTypeAndStatus } from "@/api/pickupRequest"
 import ComponentSpinner from "@/components/common/ComponentSpinner"
 import { SubscriptionPickupRequestType } from "@/types/PickupRequest"
-import { Mail, MapPin, Phone } from "lucide-react"
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
 import { useEffect, useState } from "react"
 import ScheduledPickupModal from "./ScheduledPickupModal"
 import { pickupRequestApi } from "@/api/userService"
 import { useNavigate } from "react-router-dom"
+import ChatModal from "../ChatModal"
 
 type Props = {}
 
 const CollectorActiveSubscriptions = (props: Props) => {
 
     const navigate = useNavigate()
-    
+
     const [ActiveSubscriptions, setActiveSubscriptions] = useState<SubscriptionPickupRequestType[] | null>(null)
-    const [selectedPickupRequest, setSelectedPickupRequest] = useState({id: '', email: ''})
+    const [selectedPickupRequest, setSelectedPickupRequest] = useState({ id: '', email: '' })
     const [isLoading, setIsLoading] = useState(false)
 
     const [openScheduledPickups, setOpenScheuledPickups] = useState(false)
 
+    const [activeChatId, setActiveChatId] = useState<string | null>(null)
+
     const handleOpenScheduledPickups = (pickupRequestId: string, email: string) => {
         setOpenScheuledPickups(true)
-        setSelectedPickupRequest({id: pickupRequestId, email: email})
+        setSelectedPickupRequest({ id: pickupRequestId, email: email })
     }
 
     const handleCloseScheduledPickups = () => {
@@ -49,6 +52,16 @@ const CollectorActiveSubscriptions = (props: Props) => {
         fetchActiveSubscriptionRequests()
     }, [])
 
+    //Handle Modal
+    const handleChatOpen = (id: string) => {
+        setActiveChatId(id)
+    }
+
+    // close any open chat modal
+    const handleChatClose = () => {
+        setActiveChatId(null)
+    }
+
     if (isLoading) return <ComponentSpinner />
 
     if (!ActiveSubscriptions || !ActiveSubscriptions.length) {
@@ -73,6 +86,24 @@ const CollectorActiveSubscriptions = (props: Props) => {
 
                         <button onClick={() => navigateMap(req.address.location.coordinates)} className='cursor-pointer w-fit'><MapPin className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.address.street + ',' + req.address.city}</span></button>
                     </div>
+
+                    {/* <div className='relative text-end'>
+                        <button onClick={() => handleChatOpen(req._id as string)} className='cursor-pointer'>
+                            <MessageCircle className='inline text-4xl text-blue-400 ' />
+                        </button>
+
+                        {activeChatId === req._id && (
+                                                    <>
+                                                        <div
+                                                            className="fixed inset-0 bg-opacity-30 flex justify-center items-center"
+                                                            onClick={handleChatClose}
+                                                        ></div>
+                                                        <div className="absolute bottom-3 right-10 z-50 bg-white text-secondary rounded-sm">
+                                                            <ChatModal participant={req.userId as string} participantName={req.name} />
+                                                        </div>
+                                                    </>
+                                                )}
+                    </div> */}
 
                     <div className="border opacity-10 my-5"></div>
 

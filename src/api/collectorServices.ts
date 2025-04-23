@@ -39,10 +39,18 @@ export const createPaymentSessionApi = async(amount: number, userId: string, pic
     return response.data
 }
 
-
+export const fetchCollectorEarningsSummaryApi = async() => {
+    const response = await axiosInstance.get('/api/collector/my-earnings')
+    return response.data
+}
 //Stripe Onboarding Url 
 export const getStripeOnboardingUrlApi = async(stripeAccountId: string) => {
     const response = await axiosInstance.get(`/api/collector/onboarding-link/${stripeAccountId}`)
     console.log('fetch stripe on-boarding url ', response)
+    return response.data
+}
+
+export const withdrawBalanceCollectorApi = async(amount: number) => {
+    const response = await axiosInstance.post('/api/collector/money/withdraw', {amount})
     return response.data
 }

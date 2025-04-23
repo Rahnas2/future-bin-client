@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import ComponentSpinner from '../ComponentSpinner'
 import Address from '@/components/Address'
 import SingleWasteTypeAndWeight from '../WasteTypes/SingleWasteTypeAndWeight'
-import { CalendarDays, Clock9 } from 'lucide-react'
+import { CalendarDays, Clock9, MessageCircle } from 'lucide-react'
 import PickupRequestProgressBar from './PickupRequestProgressBar'
 import { useSelector } from 'react-redux'
 import { IRootState } from '@/redux/slices'
@@ -14,6 +14,7 @@ import FeedBackAddEditModal from '@/components/User/Feedback/FeedBackAddEditModa
 import { fetchUserReviewWithCollectorIdApi } from '@/api/reviewService'
 import CancelPickupRequestModal from './CancelPickupRequestModal'
 import ActiveSubscriptionCard from '@/components/User/Subscription/ActiveSubscriptionCard'
+import ChatModal from '@/components/collectors/ChatModal'
 
 type Props = {
     requestId: string
@@ -31,6 +32,8 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
     const [cancelModal, setCancelModal] = useState(false)
 
+    const [chatModal, setChatModal] = useState(false)
+
     const handleAddEditModalOpen = () => {
         setAddEditModal(true)
     }
@@ -47,6 +50,15 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
         setCancelModal(false)
     }
 
+    //Handle Chat Modal 
+    const handleChatOpen = () => {
+        setChatModal(true)
+    }
+
+    // close any open chat modal
+    const handleChatClose = () => {
+        setChatModal(false)
+    }
 
     useEffect(() => {
         const fetchPickupRequest = async () => {
@@ -107,9 +119,9 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                                 <div className='mb-3'>
                                     <SingleWasteTypeAndWeight key={waste.name} waste={waste} />
                                 </div>
-                            )) : 
-                            <></>
-                            // <ActiveSubscriptionCard subscription={} />
+                            )) :
+                                <></>
+                                // <ActiveSubscriptionCard subscription={} />
                             }
                         </div>
 
@@ -179,11 +191,11 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                         </div>
                     </div>
 
-                    {pickupRequest?.status === 'cancelled' && 
-                    <div className='bg-red-500 rounded-sm p-2'>
-                        <div>{role === pickupRequest.cancellation?.cancelledBy ? 'You' : pickupRequest.cancellation?.cancelledBy} the request because {pickupRequest.cancellation?.reason}</div>
-                        <span>Description: {pickupRequest.cancellation?.description ? pickupRequest.cancellation?.description : '-' }</span>
-                    </div>
+                    {pickupRequest?.status === 'cancelled' &&
+                        <div className='bg-red-500 rounded-sm p-2'>
+                            <div>{role === pickupRequest.cancellation?.cancelledBy ? 'You' : pickupRequest.cancellation?.cancelledBy} the request because {pickupRequest.cancellation?.reason}</div>
+                            <span>Description: {pickupRequest.cancellation?.description ? pickupRequest.cancellation?.description : '-'}</span>
+                        </div>
                     }
 
                     <div className='text-end [&>*]:px-4 [&>*]:py-2 [&>*]:rounded-md [&>*]:cursor-pointer mt-10'>
@@ -192,6 +204,26 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                         )}
 
                         {pickupRequest?.status !== 'completed' && pickupRequest?.status !== 'cancelled' ? <button onClick={handleCancelModalOpen} className='bg-red-500 hover:bg-red-400'>Cancel Request</button> : <></>}
+
+                        {pickupRequest?.status === 'accepted' || pickupRequest?.status === 'confirmed' ?
+                            <div className='relative inline ml-10'>
+                                <button onClick={handleChatOpen} className='cursor-pointer '>
+                                    <MessageCircle className='inline text-4xl text-blue-400 ' />
+                                </button>
+                                {chatModal && (
+                                    <>
+                                        <div
+                                            className="fixed inset-0 bg-opacity-30 flex justify-center items-center"
+                                            onClick={handleChatClose}
+                                        ></div>
+                                        <div className="absolute bottom-3 right-10 z-50 bg-white text-secondary rounded-sm">
+                                            <ChatModal participant={pickupRequest.collectorId as string} participantName={pickupRequest.collectorName as string} />
+                                        </div>
+                                    </>
+                                )}
+
+                            </div> : <></>
+                            }
 
                     </div>
                 </div >

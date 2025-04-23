@@ -19,12 +19,14 @@ import {
 } from "@/components/ui/chart"
 import { topCitiesType } from "@/types/topCitiesType"
 import React from "react"
+import { getDateRangeLabel } from "@/utils/getDateRangeLabel"
 
 
 type Props = {
-    data: topCitiesType []
+    data: topCitiesType [],
+    timeRange: string
 }
-const TopAreas:React.FC<Props> = ({data}) => {
+const TopAreas:React.FC<Props> = ({data, timeRange}) => {
   console.log('data ', data)
 
 const chartConfig = {
@@ -38,7 +40,7 @@ const chartConfig = {
     <Card className="bg-primary text-text border-gray-500 shadow-2xs flex w-sm">
       <CardHeader>
         <CardTitle>Top Areas</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>{getDateRangeLabel(timeRange)}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -68,11 +70,8 @@ const chartConfig = {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          {`Showing total visitors for the last ${timeRange === '6m' ? '6 months': timeRange === '30d'?  '30 days': timeRange === '7d' ? '7 days': '' }`}
         </div>
       </CardFooter>
     </Card>

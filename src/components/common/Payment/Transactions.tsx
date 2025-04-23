@@ -20,10 +20,8 @@ const Transactions: React.FC<Props> = ({ role }) => {
         const fetchTransactions = async () => {
             try {
                 setIsLoading(true)
-                if (role === 'resident') {
-                    const result = await fetchTransactiosForUserApi()
-                    setTransactions(result.transactions)
-                }
+                const result = await fetchTransactiosForUserApi()
+                setTransactions(result.transactions)
             } catch (error) {
                 console.error('error fetching transactins ', error)
             } finally {

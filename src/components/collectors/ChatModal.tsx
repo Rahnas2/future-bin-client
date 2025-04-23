@@ -10,6 +10,7 @@ import { fetchMessagesBetweenTwoUserApi } from '@/api/collectorServices'
 
 type Props = {
     participant: string
+    participantName: string
 }
 
 const ChatModal = (props: Props) => {
@@ -18,7 +19,9 @@ const ChatModal = (props: Props) => {
 
     const [messages, setMessages] = useState<messageType[]>([])
     const [message, setMessage] = useState('')
+    const { role } = useSelector((state: IRootState) => state.auth)
     const { collector } = useSelector((state: IRootState) => state.collector)
+    const { user } = useSelector((state: IRootState) => state.user)
 
     const messagesContainerRef = useRef<HTMLDivElement | null>(null);
     useLayoutEffect(() => {
@@ -63,8 +66,11 @@ const ChatModal = (props: Props) => {
     const sendMessage = () => {
         if (!message.trim()) return;
 
+        const senderId = role === 'collector' ? collector?._id : user?._id
+        console.log('sender id ', senderId)
+        if(!senderId) return 
 
-        setMessages((prev) => [...prev, { senderId: collector?._id as string, message, createdAt: new Date().toISOString() }])
+        setMessages((prev) => [...prev, { senderId, message, isImage: false, createdAt: new Date().toISOString() }])
 
         const newMessage = { receiverId: props.participant, message };
         socket.emit("send message", newMessage);
@@ -72,10 +78,10 @@ const ChatModal = (props: Props) => {
     };
 
     return (
-        <div className='flex flex-col max-h-60 py-3 '>
+        <div className='flex flex-col max-h-60 py-3 text-seconday'>
             <div className='flex justify-center'>
-                <img src="" alt="" />
-                <span className=''>Bilal John</span>
+                {/* <img src="" alt="" /> */}
+                <span className=''>{props.participantName}</span>
             </div>
             <div className='flex-1 my-2 overflow-y-auto' ref={messagesContainerRef}>
                 {messages?.length ? messages.map((message, index) => (

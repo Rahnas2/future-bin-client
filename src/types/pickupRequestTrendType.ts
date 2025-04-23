@@ -1,4 +1,5 @@
 export interface pickupRequestTrendType {
     date: string,
-    count: number
+    onDemand: number,
+    subscription: number
 }

@@ -32,6 +32,10 @@ const AdminDashComp = (props: Props) => {
 
     const [timeRange, setTimeRange] = useState("6m")
 
+    const [fromDate, setFromDate] = useState<Date>(new Date())
+    const [toDate, setToDate] = useState<Date>(new Date())
+
+
 
     useEffect(() => {
         const fetchSummary = async () => {
@@ -50,15 +54,22 @@ const AdminDashComp = (props: Props) => {
 
             const now = new Date()
 
-            let from = new Date(now) 
+            let from = new Date(now)
 
             if (timeRange === '30d') {
                 from.setDate(now.getDate() - 30)
             } else if (timeRange === '7d') {
                 from.setDate(now.getDate() - 7)
             } else {
-                from.setDate(now.getMonth() - 6) 
+                from.setMonth(now.getMonth() - 6)
             }
+
+            from.setHours(0, 0, 0, 0);
+            now.setHours(0, 0, 0, 0); 
+
+
+            setFromDate(from)
+            setToDate(now)
 
             try {
                 const result = await fetchPickupRequestAnalyticsApi(from.toISOString(), now.toISOString())
@@ -93,15 +104,15 @@ const AdminDashComp = (props: Props) => {
             </div>
 
             {/* request */}
-            <RequestChart timeRange={timeRange} setTimeRange={setTimeRange} data={analytics?.trends!}  />
+            <RequestChart timeRange={timeRange} setTimeRange={setTimeRange} data={analytics?.trends!} fromDate={fromDate} toDate={toDate} />
 
             <div className='flex justify-between'>
 
                 {/* district Performace */}
-                <DistrictPerformance data={analytics?.districtPerformance!} />
+                <DistrictPerformance data={analytics?.districtPerformance!} timeRange={timeRange} />
 
                 {/* Top Areas */}
-                <TopAreas data={analytics?.topCities!} />
+                <TopAreas data={analytics?.topCities!} timeRange={timeRange} />
             </div>
 
         </div>
