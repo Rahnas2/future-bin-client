@@ -30,7 +30,7 @@ const MyEarningsComponent = (props: Props) => {
 
     const handleBalanceChnage = (newBalance: number) => {
         setSummary(prev => {
-            if (!prev) return prev; 
+            if (!prev) return prev;
             return { ...prev, walletBalance: newBalance };
         });
     }
@@ -42,18 +42,22 @@ const MyEarningsComponent = (props: Props) => {
 
             {/* Earnings summary */}
             <div className='flex gap-5 justify-between mb-20'>
-                <MyEarningsSummary Icon={HandCoins} text1='Total Earnings' text2={'₹ ' + summary?.totalEarnings || '0'} />
-                <MyEarningsSummary Icon={Truck} text1='On-demand Earnings' text2={'₹ ' + summary?.onDemandEarnings || '0'} />
-                <MyEarningsSummary Icon={Podcast} text1='Subscription Earnings' text2={'₹ ' + summary?.subscriptionEarnings || '0'} />
+                <MyEarningsSummary Icon={HandCoins} text1='Total Earnings' text2={'$ ' + summary?.totalEarnings || '0'} />
+                <MyEarningsSummary Icon={Truck} text1='On-demand Earnings' text2={'$ ' + summary?.onDemandEarnings || '0'} />
+                <MyEarningsSummary Icon={Podcast} text1='Subscription Earnings' text2={'$ ' + summary?.subscriptionEarnings || '0'} />
                 <MyEarningsSummary Icon={ArrowDownLeft} text1='Last Payment Received' text2={summary?.totalEarnings ? new Date(summary.totalEarnings).toDateString() : '--'} />
             </div>
 
-            <div className='flex gap-5'>
+            <div className='flex justify-around'>
                 {/* wallet  */}
                 <Wallet balance={summary?.walletBalance || 0} onBalanceChange={handleBalanceChnage} />
 
                 {/* transactions hitory */}
-                <Transactions role='collector' />
+                <div>
+                    <h2 className='font-medium text-lg mb-3 -mt-2'>Transactions</h2>
+                    <Transactions role='collector' />
+                </div>
+
             </div>
 
         </div>

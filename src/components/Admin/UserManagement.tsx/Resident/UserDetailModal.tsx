@@ -5,6 +5,7 @@ import axiosInstance from "@/api/axiosInstance";
 import { IoMdClose } from "react-icons/io";
 import Address from "@/components/Address";
 import toast from "react-hot-toast";
+import { FaUserCircle } from "react-icons/fa";
 
 const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
   if (!user) return null;
@@ -33,7 +34,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, onClose }) => {
           <div className="flex gap-12 items-center justify-center mb-10">
 
             <div className="">
-              {user.image && <img className="w-42 h-42 rounded-full" src={user.image} alt="" />}
+              {user.image ? <img className="w-42 h-42 rounded-full" src={user.image} alt="" />: <FaUserCircle className="w-42 h-42"/>}
             </div>
 
             <div>

@@ -17,10 +17,12 @@ import toast from 'react-hot-toast';
 import { ValidationError } from 'yup';
 import { IRootState } from '@/redux/slices';
 import ButtonSpinner from '@/components/common/ButtonSpinner';
+import { initiateSocket } from '@/services/socket';
+import { fetchUserProfile } from '@/redux/slices/userSlice';
+import { fetchCollectorProfile } from '@/redux/slices/collectorSlice';
 
 
 const CompleteProfile = () => {
-    const availableDistrict = ['kannur', 'malappuram', 'calicut']
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -297,13 +299,25 @@ const CompleteProfile = () => {
             setError({})
 
             const result = await dispatch(completeProfile(formData)).unwrap()
-            console.log('result ', result)
 
-            if (role === 'resident') {
-                navigate('/')
+            initiateSocket()
+
+            //Fetch User Or Collector Date  
+            if (result.role === 'resident') {
+                await dispatch(fetchUserProfile())
+            } else if (result.role === 'collector') {
+                await dispatch(fetchCollectorProfile())
+                toast.success(result.message)
                 return
             }
-            return navigate('/collector/dashboard')
+
+            console.log('result ', result)
+
+            // if (role === 'resident') {
+            //     navigate('/')
+            //     return
+            // }
+            // return navigate('/collector/dashboard')
         } catch (error: any) {
 
             //validation error

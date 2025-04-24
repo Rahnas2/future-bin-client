@@ -109,7 +109,7 @@ const PickupReqeustCard = (props: Props) => {
                     <div className='opacity-50'>{getRelativeTime(props.request.createdAt as string)}</div>
 
                     <div className='text-end'>
-                        <span className='text-accent2 mr-2'>₹ 30</span>
+                        <span className='text-accent2 mr-2'>$ {props.request.totalAmount * 0.5}</span>
                         <span className='opacity-50'>per pickup</span>
                     </div>
 

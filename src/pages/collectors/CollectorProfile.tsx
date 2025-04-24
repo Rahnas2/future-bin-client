@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import CollectorNav from '../../components/collectors/CollectorNav'
 import ProfileCard from '../../components/ProfileCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../redux/slices'
@@ -17,7 +16,6 @@ import VehicleDetails from '../../components/collectors/VehicleDetails'
 import toast from 'react-hot-toast'
 import { editProfileApi } from '../../api/userService'
 import ChangePasswordModal from '../../components/common/ChangePasswordModal'
-import SideBar from '@/components/Sidebar/SideBar'
 import RegisterationStatus from '@/components/collectors/RegisterationStatus'
 
 type Props = {}
@@ -164,7 +162,7 @@ function CollectorProfile({ }: Props) {
 
     return (
         <div className='flex'>
-            <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
+            <div className="bg-primary my-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
 
                 { collector?.details?.approvalStatus !== 'approved' || !collector.details.isStripeEnabled  ? 
                 <RegisterationStatus status={collector?.details?.approvalStatus!} stripeAccountId={collector?.details?.stripeAccountId!}/> : <></>}

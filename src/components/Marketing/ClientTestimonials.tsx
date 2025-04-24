@@ -29,7 +29,7 @@ const ClientTestimonials = (props: Props) => {
     const fetchAppReviews = async () => {
       try {
         setIsLoadingReviews(true)
-        const result = await getAllAppReviewApi()
+        const result = await getAllAppReviewApi('', 3)
         setReviews(result.reviews)
       } catch (error) {
         console.error('error fetching app reviews', error)

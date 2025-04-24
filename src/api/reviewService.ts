@@ -25,8 +25,8 @@ export const getAllReviewsApi = async() => {
 }
 
 //Fetch All App Reviews
-export const getAllAppReviewApi = async() => {
-    const response = await axiosInstance.get('/api/reviews/app')
+export const getAllAppReviewApi = async(lastId: string, limit: number) => {
+    const response = await axiosInstance.get(`/api/reviews/app?lastId=${lastId}&limit=${limit}`)
     console.log('api response for all app reviews ', response)
     return response.data
 }
@@ -44,16 +44,16 @@ export const fetchUserReviewWithCollectorIdApi = async (collectorId: string) => 
     return response.data
 }
 
-//Fetch User Review About Collector
-export const getUserReviewsAboutCollectorsApi = async() => {
-    const response = await axiosInstance.get('/api/reviews/my-reviews/collectors')
+//Fetch User Review About Collectors
+export const getUserReviewsAboutCollectorsApi = async(lastId: string, limit: number) => {
+    const response = await axiosInstance.get(`/api/reviews/my-reviews/collectors?lastId=${lastId}&limit=${limit}`)
     console.log('api response for get user reviews about collectors ', response)
     return response.data
 }
 
 //Fetch Single Collector Reviews
-export const getCollectorReviewsApi = async(collectorId: string) => {
-    const response = await axiosInstance.get(`/api/reviews/collector/${collectorId}`)
+export const getCollectorReviewsApi = async(collectorId: string, lastId: string, limit: number) => {
+    const response = await axiosInstance.get(`/api/reviews/collector/${collectorId}?lastId=${lastId}&limit=${limit}`)
     console.log('api response for get user reviews ', response)
     return response.data
 }

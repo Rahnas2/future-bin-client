@@ -38,7 +38,7 @@ const SidebarItem: React.FC<Props> = ({
                     onClick={handleToggle}
                     className={cn(
                         'flex items-center p-2 my-1 rounded-lg transition-all duration-200 group relative',
-                        isExpanded ? 'mx-2' : 'mx-auto justify-center',
+                        isExpanded ? 'ml-2 mr-1' : 'mx-auto justify-center',
                         'cursor-pointer',
                         isOpen ? 'bg-primary' : '',
                         'opacity-50 hover:text-accent3 hover:opacity-100'
@@ -70,7 +70,7 @@ const SidebarItem: React.FC<Props> = ({
                     className={({ isActive }: { isActive?: boolean }) =>
                         cn(
                             'transition-all duration-200 group relative',
-                            isExpanded ? 'mx-2' : 'mx-auto justify-center',
+                            isExpanded ? 'ml-2 mr-1' : 'mx-auto justify-center',
                             isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100',
                             disabled ? 'bg-transparent text-white opacity-50' : ''
                         )

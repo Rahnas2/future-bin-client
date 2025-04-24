@@ -13,15 +13,12 @@ import { AppDispatch } from "../../redux/store";
 import { login } from "../../redux/slices/authSlice";
 import toast from "react-hot-toast";
 
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Link } from "react-router-dom";
 import ForgotPasswordModal from "../../components/common/ForgotPasswordModal";
-import { IconButton, InputAdornment } from "@mui/material";
 import PasswordField from "../../components/common/PasswordField";
 import { initiateSocket } from "../../services/socket";
 import { fetchUserProfile } from "@/redux/slices/userSlice";
 import { fetchCollectorProfile } from "@/redux/slices/collectorSlice";
-import { FacebookProvider } from "react-facebook";
 import { IRootState } from "@/redux/slices";
 import ButtonSpinner from "@/components/common/ButtonSpinner";
 
@@ -74,7 +71,9 @@ const Login = () => {
       setError({})
 
       const res = await dispatch(login(data)).unwrap()
+
       initiateSocket()
+      
       if (res.role === 'resident') {
         await dispatch(fetchUserProfile())
       } else if (res.role === 'collector') {

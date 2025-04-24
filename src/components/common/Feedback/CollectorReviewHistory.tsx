@@ -1,12 +1,13 @@
 import FeedbackCardForCollector from '@/components/collectors/Feedback/FeedbackCardForCollector'
 import FeedbackCardForUser from '@/components/User/Feedback/FeedbackCardForUser'
 import { IRootState } from '@/redux/slices'
+import { ClientTestimonialsType } from '@/types/ClientTestimonialsType'
 import { reviewType } from '@/types/reviewType'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
 type Props = {
-    reviews: reviewType[]
+    reviews: ClientTestimonialsType[]
 }
 
 const CollectorReviewHistory = (props: Props) => {

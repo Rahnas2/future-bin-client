@@ -23,13 +23,18 @@ const OnDemandRequestModal = (props: Props) => {
     const { wasteTypes, initialized } = useSelector((state: IRootState) => state.wasteTypes)
     const dispatch = useDispatch<AppDispatch>()
 
+    const [fetchingWasteTypes, setFetchingWasteTypes] = useState(false)
+
     //fetch waste types
     useEffect(() => {
         const findWasteTypes = async () => {
             try {
-                const result = await dispatch(fetchWasteTypes())
+                setFetchingWasteTypes(true)
+                const result = await dispatch(fetchWasteTypes({ page: 1, limit: 10, search: '' })).unwrap()
             } catch (error) {
                 console.log('erro fetching waste types..', error)
+            } finally {
+                setFetchingWasteTypes(false)
             }
         }
         findWasteTypes()
@@ -225,7 +230,7 @@ const OnDemandRequestModal = (props: Props) => {
                                                     <div className='flex items-center'>
                                                         <span>{waste.name}</span>
                                                         <span className='text-gray-500 ml-2 text-sm'>
-                                                            (₹{waste.price}/kg)
+                                                            (${waste.price}/kg)
                                                         </span>
                                                     </div>
                                                 }
@@ -261,8 +266,8 @@ const OnDemandRequestModal = (props: Props) => {
                                     <div key={index} className='flex justify-between mb-2'>
                                         <span>{waste.name}</span>
                                         <span className='opacity-50'>
-                                            {waste.weight} kg &nbsp; x &nbsp; ₹ {waste.price}/kg &nbsp; = &nbsp;
-                                            ₹ {(waste.weight * waste.price).toFixed(2)}
+                                            {waste.weight} kg &nbsp; x &nbsp; $ {waste.price}/kg &nbsp; = &nbsp;
+                                            $ {(waste.weight * waste.price).toFixed(2)}
                                         </span>
                                     </div>
                                 ))}
@@ -273,7 +278,7 @@ const OnDemandRequestModal = (props: Props) => {
                                 <div className='flex justify-between  text-lg'>
                                     <span>Total Price</span>
                                     <span className=''>
-                                        ₹ {data.totalAmount}
+                                    $ {data.totalAmount}
                                     </span>
                                 </div>
                             </div>

@@ -11,6 +11,7 @@ import Input from '../../themes/input'
 import toast from 'react-hot-toast'
 
 import { IoMdCheckmarkCircleOutline, IoMdCloseCircleOutline } from "react-icons/io";
+import { FaUserCircle } from 'react-icons/fa'
 
 type Props = {}
 
@@ -115,7 +116,7 @@ function CollectorDetails({ }: Props) {
                 {/* top */}
                 <div className="flex gap-12 items-center justify-center mt-10 mb-10">
                     <div className="">
-                        <img className='w-42 h-42 rounded-full' src={data.image} alt="" />
+                    {!data.image ? <FaUserCircle className='w-42 h-42' />: <img className='w-42 h-42 rounded-full' src={data.image} alt="" />}
                     </div>
 
                     <div>

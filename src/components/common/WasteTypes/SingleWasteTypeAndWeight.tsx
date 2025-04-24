@@ -24,7 +24,7 @@ const SingleWasteTypeAndWeight = (props: Props) => {
                     <div className='flex items-center'>
                         <span>{props.waste.name}</span>
                         <span className='text-gray-500 ml-2 text-sm'>
-                            (₹{props.waste.price}/kg)
+                            (${props.waste.price}/kg)
                         </span>
                     </div>
                 }

@@ -29,10 +29,31 @@ const NotificationList = (props: Props) => {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    
+
+
+    //fetch All Notifications
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                setIsLoading(true)
+                const result = await fetchAllNotificatoinOfReceiverApi()
+                console.log('all notification for user ', result)
+                setNotifications(result.notifications)
+            } catch (error) {
+                console.error('error fetching notifications ', error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        fetchNotifications()
+    }, [])
+
     useEffect(() => {
 
-        const handleNotification = (data: notificationType) => {
-            setNotifications((prev) => [data, ...prev,]);
+        const handleNotification = (data: any) => {
+            console.log('data ', data)
+            setNotifications((prev) => [data.notification, ...prev]);
         }
 
         // Listen for payment requests
@@ -53,24 +74,6 @@ const NotificationList = (props: Props) => {
             socket.off('registeration_rejected');
         };
     }, []);
-
-
-    //fetch All Notifications
-    useEffect(() => {
-        const fetchNotifications = async () => {
-            try {
-                setIsLoading(true)
-                const result = await fetchAllNotificatoinOfReceiverApi()
-                console.log('all notification for user ', result)
-                setNotifications(result.notifications)
-            } catch (error) {
-                console.error('error fetching notifications ', error)
-            } finally {
-                setIsLoading(false)
-            }
-        }
-        fetchNotifications()
-    }, [])
 
     //remove notification 
     const handleRemoveNotification = async (id: string) => {

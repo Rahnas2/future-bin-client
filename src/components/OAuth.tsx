@@ -31,7 +31,11 @@ const OAuth = (props: props) => {
                 //login
                 if (props.mode === 'login') {
                     const result = await dispatch(googleLogin(authResult.code)).unwrap()
+
+                    //Initialize Socket 
                     initiateSocket()
+
+                    //Fetch User Or Collector Date  
                     if (result.role === 'resident') {
                         await dispatch(fetchUserProfile())
                     } else if (result.role === 'collector') {

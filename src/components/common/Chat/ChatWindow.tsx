@@ -14,6 +14,7 @@ import { EmojiClickData } from 'emoji-picker-react';
 import { CiImageOn } from "react-icons/ci";
 import { uploadImage } from '@/utils/uploadImage';
 import ChatMediaPreview from './ChatMediaPreview';
+import { FaUserCircle } from 'react-icons/fa';
 
 const EmojiPicker = React.lazy(() => import('emoji-picker-react'))
 
@@ -154,7 +155,7 @@ const ChatWindow = (props: Props) => {
   return (
     <div className='flex flex-col bg-seconday flex-1 rounded-lg h-[650px]'>
       <div className='flex gap-5 justify-center border-b border-b-gray-500 items-center py-2'>
-        <img className='w-15 h-15 rounded-full' src={props.selectedChat.image} alt="" />
+       {!props.selectedChat.image ? <FaUserCircle className='w-15 h-15' />: <img className='w-15 h-15 rounded-full' src={props.selectedChat.image} alt="" />}
         <span>{props.selectedChat.firstName + ' ' + props.selectedChat.lastName}</span>
       </div>
 

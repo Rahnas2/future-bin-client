@@ -48,12 +48,12 @@ const CollectorRequests = (props: Props) => {
       try {
 
         const result = await fetchPickupRequestById(id)
-
+        console.log('result request here ', result.request)
         const type = result.request.type
         if (type === 'on-demand') {
-          setOnDemandRequests([result.request, ...onDemandRequests])
+          setOnDemandRequests(prev => [result.request, ...prev])
         } else {
-          setSubscriptionRequests([result.request, ...subscriptionRequests])
+          setSubscriptionRequests(prev => [result.request, ...prev])
         }
 
         toast.success(`new pickp request ${id}`)
@@ -70,7 +70,7 @@ const CollectorRequests = (props: Props) => {
   return (
     <div className='flex min-h-screen'>
       {/* <SideBar role='collector' /> */}
-      <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
+      <div className="bg-primary my-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
 
         {/* collector requests nav */}
         <div className='flex gap-10 justify-center mt-6'>

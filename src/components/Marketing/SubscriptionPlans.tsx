@@ -82,7 +82,7 @@ return (
                             <div className={`${index === 1 ? 'text-primary' : ''} font-bold text-2xl mb-6 uppercase`}>{data.name}</div>
 
                             <div className='text-xl '>
-                                <span className='font-bold text-2xl mr-3'>₹ {data.price}</span>
+                                <span className='font-bold text-2xl mr-3'>$ {data.price}</span>
                                 {/* <span className=' p-0 m-0 w-8 font-bold text-2xl '>{data.price}</span> */}
                                 <span className={` ${index === 1 ? 'text-primary' : 'opacity-50'} `}>Per Month</span>
                             </div>

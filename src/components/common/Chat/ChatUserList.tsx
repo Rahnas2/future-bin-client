@@ -1,6 +1,7 @@
 
 import { chatListType } from '@/types/ChatListType'
 import { CiImageOn } from "react-icons/ci";
+import { FaUserCircle } from 'react-icons/fa';
 
 type Props = {
   chatList: chatListType[]
@@ -19,7 +20,7 @@ const ChatUserList = (props: Props) => {
         {props.chatList.map(chat => (
           <div key={chat._id} onClick={() => props.handleSelectedChat(chat)} className='flex w-full gap-3 px-6 py-2  rounded-2xl cursor-pointer'>
 
-            <img className='w-13 h-13 rounded-full' src={chat.image} alt="" />
+            {!chat.image ? <FaUserCircle className='w-13 h-13' />: <img className='w-13 h-13 rounded-full' src={chat.image} alt="" />}
 
             <div className='flex-1'>
               <div>{chat.firstName + ' ' + chat.lastName}</div>

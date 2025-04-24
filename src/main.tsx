@@ -11,7 +11,7 @@ import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   
-  <StrictMode>
+  <>
     {/* <Router> */}
       <Provider store={store}>
         <App />
@@ -19,5 +19,5 @@ createRoot(document.getElementById('root')!).render(
       <Toaster /> */}
       </Provider>
     {/* </Router> */}
-  </StrictMode>,
+  </>,
 )

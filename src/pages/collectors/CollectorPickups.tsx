@@ -12,7 +12,7 @@ const CollectorPickups = (props: Props) => {
         <div className='flex min-h-screen'>
             {/* <SideBar role='collector' /> */}
 
-            <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
+            <div className="bg-primary my-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
 
                 {/* pickups nav  */}
                 <div className='flex gap-10 justify-center my-6'>
