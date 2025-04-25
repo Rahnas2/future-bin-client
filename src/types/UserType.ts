@@ -19,7 +19,6 @@ export interface UserType {
             };
         }
         isBlock?: boolean
-        subscriptionPlanId: string | null,
     // createdAt: Date,
     // updatedAt: Date
 }

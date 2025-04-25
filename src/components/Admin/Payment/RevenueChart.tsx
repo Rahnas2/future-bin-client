@@ -51,6 +51,7 @@ const RevenueChart: React.FC = () => {
   const [filter, setFilter] = useState<"yearly" | "monthly" | "custom">("yearly");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -89,23 +90,7 @@ const RevenueChart: React.FC = () => {
           to.setHours(23, 59, 59, 999);
         }
 
-        console.log(`Fetching transactions from ${from.toISOString()} to ${to.toISOString()}`);
-        const response = await fetch(
-          `/api/transactions?from=${from.toISOString()}&to=${to.toISOString()}`
-        );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log("API response:", data);
-
-        if (!data.transactions || !Array.isArray(data.transactions)) {
-          throw new Error("Invalid data format: transactions array not found");
-        }
-
-        setTransactions(data.transactions);
       } catch (error) {
         console.error("Error fetching transactions:", error);
         setError("Failed to load transactions. Please try again.");

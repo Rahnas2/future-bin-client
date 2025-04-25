@@ -49,7 +49,7 @@ const SubscriptionRequestModal = (props: Props) => {
         if (user && user.address) {
             setData(prevData => ({
                 ...prevData,
-                name: user.firstName + ', ' + user.lastName,
+                name: user.firstName + ' ' + user.lastName,
                 mobile: user.mobile,
                 email: user.email,
                 address: user.address,
@@ -64,15 +64,16 @@ const SubscriptionRequestModal = (props: Props) => {
             const reutlt = await pickupRequestApi(data)
             props.onClose()
             toast.success(reutlt.message)
-        } catch (error) {
+        } catch (error: any) {
             console.log('error request subscritption request ', error)
+            error.response.data.message ? toast.error(error.response.data.message) : toast.error('something went wrong ')
         }
         
     }
 
     return (
-        <div className='fixed inset-0  bg-opacity-50 backdrop-blur-xs flex justify-center items-start'>
-            <div className="bg-primary border border-gray-500 px-3 py-2 rounded-xl">
+        <div className='fixed inset-0  bg-opacity-50 backdrop-blur-xs flex justify-center items-center z-10'>
+            <div className="bg-primary border border-gray-500 px-3 py-2 rounded-xl ">
 
                 <div onClick={props.onClose} className="font-bold text-end text-accent2 cursor-pointer"><IoMdClose className="inline" /></div>
                 <div className='px-6 py-4 '>

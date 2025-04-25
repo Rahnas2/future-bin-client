@@ -2,6 +2,7 @@
 import { wasteType } from "@/types/wasteTyp";
 import { subscriptionType } from "../types/SubscriptionType";
 import axiosInstance from "./axiosInstance";
+import axios from "axios";
 
 
 export const fetchUsersApi = async (page: number, limit: number, search: string) => {
@@ -64,5 +65,11 @@ export const fetchPickupRequestSummaryApi = async () => {
 
 export const fetchPickupRequestAnalyticsApi = async (from: string, to: string) => {
     const response = await axiosInstance.get(`/admin/dashboard/analytics?from=${from}&to=${to}`)
+    return response.data
+}
+
+//Revenue
+export const fetchRevenueSummaryApi = async() => {
+    const response = await axiosInstance.get('/admin/revenue')
     return response.data
 }

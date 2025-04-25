@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import MyEarningsSummary from './MyEarningsSummary'
+
 import { ArrowDownLeft, HandCoins, Podcast, Truck } from 'lucide-react'
 import Wallet from './Wallet'
 import Transactions from '@/components/common/Payment/Transactions'
 import { collectorEarningsSummary } from '@/types/collectorEarningsSummary'
 import { fetchCollectorEarningsSummaryApi } from '@/api/collectorServices'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
+import PaymentSummaryCard from '@/components/common/Payment/PaymentSummaryCard'
 
 type Props = {}
 
@@ -42,10 +43,10 @@ const MyEarningsComponent = (props: Props) => {
 
             {/* Earnings summary */}
             <div className='flex gap-5 justify-between mb-20'>
-                <MyEarningsSummary Icon={HandCoins} text1='Total Earnings' text2={'$ ' + summary?.totalEarnings || '0'} />
-                <MyEarningsSummary Icon={Truck} text1='On-demand Earnings' text2={'$ ' + summary?.onDemandEarnings || '0'} />
-                <MyEarningsSummary Icon={Podcast} text1='Subscription Earnings' text2={'$ ' + summary?.subscriptionEarnings || '0'} />
-                <MyEarningsSummary Icon={ArrowDownLeft} text1='Last Payment Received' text2={summary?.totalEarnings ? new Date(summary.totalEarnings).toDateString() : '--'} />
+                <PaymentSummaryCard Icon={HandCoins} text1='Total Earnings' text2={'$ ' + summary?.totalEarnings || '0'} />
+                <PaymentSummaryCard Icon={Truck} text1='On-demand Earnings' text2={'$ ' + summary?.onDemandEarnings || '0'} />
+                <PaymentSummaryCard Icon={Podcast} text1='Subscription Earnings' text2={'$ ' + summary?.subscriptionEarnings || '0'} />
+                <PaymentSummaryCard Icon={ArrowDownLeft} text1='Last Payment Received' text2={summary?.totalEarnings ? new Date(summary.totalEarnings).toDateString() : '--'} />
             </div>
 
             <div className='flex justify-around'>
@@ -55,7 +56,7 @@ const MyEarningsComponent = (props: Props) => {
                 {/* transactions hitory */}
                 <div>
                     <h2 className='font-medium text-lg mb-3 -mt-2'>Transactions</h2>
-                    <Transactions role='collector' />
+                    <Transactions />
                 </div>
 
             </div>

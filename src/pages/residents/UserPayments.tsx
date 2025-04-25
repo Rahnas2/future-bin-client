@@ -17,7 +17,7 @@ const UserPayments = (props: Props) => {
 
                 <div>
                     <h2 className='font-medium text-lg mb-6'>Transactions</h2>
-                    <Transactions role={role!} />
+                    <Transactions />
                 </div>
             </div>
         </div>

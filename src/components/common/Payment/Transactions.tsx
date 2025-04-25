@@ -1,14 +1,13 @@
 import { TransactionType } from '@/types/transaction';
 import React, { useState } from 'react'
 import Pagination from '../Pagination';
-import { fetchTransactiosForUserApi } from '@/api/userService';
+
 import ComponentSpinner from '../ComponentSpinner';
+import { fetchTransactiosHistory } from '@/api/transactionsService';
 
-type Props = {
-    role: string
-}
 
-const Transactions: React.FC<Props> = ({ role }) => {
+
+const Transactions = () => {
 
     const [transactions, setTransactions] = useState<TransactionType[]>([]);
     const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +19,7 @@ const Transactions: React.FC<Props> = ({ role }) => {
         const fetchTransactions = async () => {
             try {
                 setIsLoading(true)
-                const result = await fetchTransactiosForUserApi()
+                const result = await fetchTransactiosHistory(currentPage, 10)
                 setTransactions(result.transactions)
             } catch (error) {
                 console.error('error fetching transactins ', error)

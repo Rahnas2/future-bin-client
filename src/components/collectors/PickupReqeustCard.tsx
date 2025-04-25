@@ -74,8 +74,9 @@ const PickupReqeustCard = (props: Props) => {
             const result = await acceptPickupRequestApi(props.request._id as string, name)
             props.onAction(props.request._id as string)
             toast.success(result.message)
-        } catch (error) {
+        } catch (error: any) {
             console.log('error ', error)
+            error.response.data.message ? toast.error(error.response.data.message ): toast.error('something went wrong')
         }
     }
 

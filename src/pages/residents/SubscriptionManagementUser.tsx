@@ -1,8 +1,6 @@
 
 import SideNav from '@/components/UserDash/SideNav'
 import UserSubscriptionComp from '../../components/User/Subscription/UserSubscriptionComp'
-import React from 'react'
-
 type Props = {}
 
 const SubscriptionManagementUser = (props: Props) => {
