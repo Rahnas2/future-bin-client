@@ -40,11 +40,11 @@ const PaymentAdmin = (props: Props) => {
   },[])
   return (
     <div className='flex min-h-lvh'>
-      <div className="py-4 min-h-lvh bg-primary mt-10 mr-10 rounded-t-2xl px-4 flex-1">
-        <h1 className="text-lg font-medium mb-6">Payment Dashboard</h1>
+      <div className="py-4 min-h-lvh bg-primary mt-10 mr-10 rounded-t-2xl px-4 flex-1 flex flex-col gap-5">
+        <h1 className="text-lg font-medium ">Payment Dashboard</h1>
 
         {/* Revenue summary */}
-        <div className='flex gap-5 justify-between mb-20'>
+        <div className='flex gap-5 justify-between '>
           <PaymentSummaryCard Icon={Banknote} text1='Gross Revenue' text2={`$ ${summary.credited}`} />
           <PaymentSummaryCard Icon={Send} text1='Total Payouts' text2={`$ ${summary.transfered}`} />
           <PaymentSummaryCard Icon={RotateCcw} text1='Total Refunds' text2={`$ ${summary.refunded}`} />

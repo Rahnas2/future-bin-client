@@ -120,13 +120,14 @@ const OtpVerfication = () => {
             if(mode === 'scheduled-pickup-completed'){
                 await scheduledPickupCompletedApi(id)
                 navigate(-1)
+                toast.success('success')
                 return 
             }
 
 
         } catch (error: any) {
             error.message && toast.error(error.message)
-            console.log('error ', error)
+            console.log('error otp verification ', error)
         } finally {
             setIsLoading(false)
         }

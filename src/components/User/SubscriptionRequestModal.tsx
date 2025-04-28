@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { subscriptionType } from '../../types/SubscriptionType'
-import { SubscriptionPickupRequestType } from '../../types/PickupRequest'
+import { BasePickupRequestType, pickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
 import { IRootState } from '../../redux/slices'
 import { useSelector } from 'react-redux'
 import { IoMdAdd, IoMdClose } from 'react-icons/io'
 import { pickupRequestApi } from '../../api/userService'
 import toast from 'react-hot-toast'
+import ChangeAddressModal from '../common/PickupRequest.ts/ChangeAddressModal'
 
 type Props = {
     onClose: () => void,
@@ -45,6 +46,21 @@ const SubscriptionRequestModal = (props: Props) => {
         }
     })
 
+    const [changeAddress, setChangeAddress] = useState(false)
+
+    const handleOpen = () => {
+        setChangeAddress(true)
+    }
+
+    const handleClose = () => {
+        setChangeAddress(false)
+    }
+
+    const handleChangeAddress = (updatedData: Pick<BasePickupRequestType, 'name' | 'mobile' | 'address'>) => {
+        setData(prev => ({ ...prev, ...updatedData }))
+    }
+
+
     useEffect(() => {
         if (user && user.address) {
             setData(prevData => ({
@@ -58,7 +74,7 @@ const SubscriptionRequestModal = (props: Props) => {
 
     }, [])
 
-    const handleReqeust = async() => {
+    const handleReqeust = async () => {
         try {
             console.log('data here ', data)
             const reutlt = await pickupRequestApi(data)
@@ -68,7 +84,7 @@ const SubscriptionRequestModal = (props: Props) => {
             console.log('error request subscritption request ', error)
             error.response.data.message ? toast.error(error.response.data.message) : toast.error('something went wrong ')
         }
-        
+
     }
 
     return (
@@ -80,15 +96,15 @@ const SubscriptionRequestModal = (props: Props) => {
                     <div className='mb-4'>
                         <div className='font-bold mb-5'>Confirm Address</div>
                         <div className='w-xs border border-gray-500 rounded-lg px-4 py-2 shadow-2xl'>
-                            <div className='font-bold mb-3 capitalize opacity-50'>{user?.firstName + ' ' + user?.lastName}</div>
-                            <div className='mb-3'>{user?.address.houseNo + ', ' + user?.address.street + ', ' + user?.address.district + ', ' + user?.address.city + ', ' + user?.address.pincode}</div>
-                            <div className=''>{user?.mobile}</div>
+                            <div className='font-bold mb-3 capitalize opacity-50'>{data.name}</div>
+                            <div className='mb-3'>{data.address.houseNo + ', ' + data.address.street + ', ' + data.address.district + ', ' + data.address.city + ', ' + data.address.pincode}</div>
+                            <div className=''>{data.mobile}</div>
                         </div>
 
-                        <div className='flex items-center text-accent2 font-bold mt-4 '>
+                        <button onClick={handleOpen} className='flex items-center text-accent2 font-bold mt-4 cursor-pointer'>
                             <IoMdAdd className='inline' />&nbsp;
-                            <span>Add new Address</span>
-                        </div>
+                            <span>Change Address</span>
+                        </button>
 
                         <div className='mt-8 text-end'>
                             <span onClick={handleReqeust} className='bg-accent px-5 py-2 rounded-lg cursor-pointer'>Request</span>
@@ -97,6 +113,8 @@ const SubscriptionRequestModal = (props: Props) => {
                 </div>
 
             </div>
+
+            {changeAddress && <ChangeAddressModal onClose={handleClose} onChangeAddress={handleChangeAddress} />}
         </div>
     )
 }

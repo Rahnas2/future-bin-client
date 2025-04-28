@@ -35,7 +35,6 @@ function CollectorProfile({ }: Props) {
                 console.log('fetch collector profile error ', error)
             }
 
-            // console.log('user ', user)
         }
         fetchUser()
     }, [dispatch])

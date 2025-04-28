@@ -9,7 +9,7 @@ type Props = {
     mobile: string | undefined,
     isEdit: boolean,
     selectedImage: File | null,
-    setSelectedImage: (file: File | null) => Promise<void> | null 
+    setSelectedImage: (file: File ) => void 
     imgValError: string | undefined | null
 }
 

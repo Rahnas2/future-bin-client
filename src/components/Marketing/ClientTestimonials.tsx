@@ -15,7 +15,6 @@ import Rating from '@mui/material/Rating';
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import ComponentSpinner from "../common/ComponentSpinner";
-import { BiLeftArrow } from "react-icons/bi";
 
 type Props = {}
 

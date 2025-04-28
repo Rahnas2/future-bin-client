@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
-import Select from '@mui/material/Select';
-import { InputLabel, MenuItem, FormControl, Box, TextField, dividerClasses } from '@mui/material'
+import { Box, FormControl, MenuItem, TextField } from '@mui/material'
 import Input from '../../themes/input';
 
 import { MdAdd, MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { BiCurrentLocation } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { data, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { completeProfile } from '../../redux/slices/authSlice';
@@ -21,6 +20,8 @@ import { initiateSocket } from '@/services/socket';
 import { fetchUserProfile } from '@/redux/slices/userSlice';
 import { fetchCollectorProfile } from '@/redux/slices/collectorSlice';
 
+import { geocodeFullAddress, getAddressSuggestions, getCoordinatesFromSuggestion } from '@/api/geocoding';
+
 
 const CompleteProfile = () => {
 
@@ -33,7 +34,6 @@ const CompleteProfile = () => {
     const role = Role
 
     const [mobile, setMobile] = useState('')
-
     const [profileImg, setProfileImg] = useState<File | null>(null)
 
     // const [error, setError] = useState<completeProfileType>({})
@@ -44,6 +44,9 @@ const CompleteProfile = () => {
     };
 
     const [error, setError] = useState<ErrorType<completeProfileType>>({});
+
+    const [geocodeTimer, setGeocodeTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
+    const [suggestions, setSuggestions] = useState<any[]>([]);
 
     type IdCardType = {
         front: File | null;
@@ -60,7 +63,7 @@ const CompleteProfile = () => {
         houseNo: '',
         district: '',
         city: '',
-        pincode: '',
+        pincode: 0,
         location: {
             type: '',
             coordinates: [0, 0]
@@ -81,15 +84,15 @@ const CompleteProfile = () => {
                 const { longitude, latitude } = position.coords
                 try {
                     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
-                    console.log(response)
+
                     const address = response.data.address
-                    console.log('address ', address)
+
                     const { road, state_district, village, town, neighbourhood, postcode } = address
                     setAddress({
-                        street: road,
+                        street: road || neighbourhood || '',
                         houseNo: '',
-                        district: state_district,
-                        city: village || town,
+                        district: state_district || '',
+                        city: village || town || '',
                         pincode: postcode,
                         location: {
                             type: 'Point',
@@ -221,7 +224,13 @@ const CompleteProfile = () => {
     //handle address change
     const handleAddress = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setAddress({ ...address, [name]: value })
+
+        const newAddress = {
+            ...address,
+            [name]: value
+        };
+
+        setAddress(newAddress)
 
         try {
             await completeProfileSchema.validateAt(`address.${name}`, { ...dataToValidate, address: { ...address, [name]: value } })
@@ -232,6 +241,22 @@ const CompleteProfile = () => {
                     [name]: null
                 }
             }));
+
+            if (name !== 'houseNo') {
+                console.log('address suggstions')
+                if (geocodeTimer) clearTimeout(geocodeTimer);
+
+                // Set a new timer to prevent excessive API calls
+                const timer = setTimeout(async () => {
+
+                    const query = [newAddress.street, newAddress.district, newAddress.city, newAddress.pincode].filter(Boolean).join(", ");
+                    const fetchedSuggestions = await getAddressSuggestions(query);
+                    setSuggestions(fetchedSuggestions);
+                }, 2000);
+
+                setGeocodeTimer(timer);
+
+            }
         } catch (error) {
             if (error instanceof ValidationError) {
                 setError((prevErrors) => ({
@@ -244,6 +269,23 @@ const CompleteProfile = () => {
             }
         }
     }
+
+    //when User Select From Suggestion 
+    const handleSuggestionClick = (place: any) => {
+        const { address: suggestedAddress } = place;
+        console.log('place ', place)
+        setAddress({
+            street: suggestedAddress.road || suggestedAddress.neighbourhood || '',
+            houseNo: '',
+            district: suggestedAddress.state_district || '',
+            city: suggestedAddress.village || suggestedAddress.town || suggestedAddress.city || '',
+            pincode: suggestedAddress.postcode || 0,
+            location: getCoordinatesFromSuggestion(place),
+        });
+
+        setSuggestions([]); // Clear suggestions
+    };
+
 
     //handle vehicle details change
     const handleVehicleDetails = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -292,11 +334,27 @@ const CompleteProfile = () => {
             formData.append('vehicleImage', vehicleImg)
         }
 
-        console.log('forda before sent', ...formData)
+
         try {
             //validation 
             await completeProfileSchema.validate(dataToValidate, { abortEarly: false })
             setError({})
+
+            // If coordinates are missing 
+            if (!address.location.coordinates[0] || !address.location.coordinates[1]) {
+                console.log('hello ', address)
+                const locationData = await geocodeFullAddress(address);
+
+                if (locationData) {
+                    setAddress(prev => ({
+                        ...prev,
+                        location: locationData,
+                    }));
+                } else {
+                    toast.error('Unable to fetch location coordinates. Please check the address.')
+                    return
+                }
+            }
 
             const result = await dispatch(completeProfile(formData)).unwrap()
 
@@ -310,14 +368,6 @@ const CompleteProfile = () => {
                 toast.success(result.message)
                 return
             }
-
-            console.log('result ', result)
-
-            // if (role === 'resident') {
-            //     navigate('/')
-            //     return
-            // }
-            // return navigate('/collector/dashboard')
         } catch (error: any) {
 
             //validation error
@@ -368,21 +418,6 @@ const CompleteProfile = () => {
                             onChange={handleMobile}
                         />
                         <br /> <br />
-                        {/* <FormControl className='w-xs'>
-                            <InputLabel id="demo-simple-select-label">Select District</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                name='select-district'
-                                value="kannur"
-                                id="demo-simple-select"
-                                label="Select District"
-
-                            >
-                                {availableDistrict.map((district, index) => (
-                                    <MenuItem key={index} value={district}>{district}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl> */}
                     </ThemeProvider>
 
                     {/* id card section */}
@@ -516,9 +551,24 @@ const CompleteProfile = () => {
                                     onChange={handleAddress}
                                 />
                                 <div className='flex justify-center'>
-                                    <button onClick={getLocation} className='bg-accent py-2 px-4 rounded-lg flex items-center cursor-pointer'><BiCurrentLocation className='inline' />&nbsp;&nbsp;Use my location</button>
+                                    <button onClick={getLocation} className='bg-accent py-2 px-4 rounded-lg flex items-center cursor-pointer'><BiCurrentLocation className='inline' />&nbsp;&nbsp;Choose Location</button>
                                 </div>
                             </Box>
+
+                            {/* Suggestions Dropdown */}
+                            {suggestions.length > 0 && (
+                                <div className="border border-gray-700 p-2 rounded shadow-lg bg-primary">
+                                    {suggestions.map((suggestion, idx) => (
+                                        <div
+                                            key={idx}
+                                            onClick={() => handleSuggestionClick(suggestion)}
+                                            className="cursor-pointer hover:bg-seconday p-2 "
+                                        >
+                                            {suggestion.display_name}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
                         </ThemeProvider>
 

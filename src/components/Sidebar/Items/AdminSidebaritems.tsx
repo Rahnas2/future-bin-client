@@ -27,8 +27,8 @@ const AdminSidebaritems: React.FC<Props> = ({ isExpanded }) => {
                 <NavLink
                     to="/admin/collectors/approved"
                     className={({ isActive }) => cn(
-                        "block py-2 px-3 my-1 rounded-lg ",
-                        isActive ? "bg-emerald-100 text-emerald-700" : "hover:bg-gray-100"
+                        "block py-2 px-3 -mt-4 rounded-lg ",
+                        isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'
                     )}
                 >
                     Approved Collectors
@@ -36,8 +36,8 @@ const AdminSidebaritems: React.FC<Props> = ({ isExpanded }) => {
                 <NavLink
                     to="/admin/collectors/requests"
                     className={({ isActive }) => cn(
-                        "block py-2 px-3 my-1 rounded-lg ",
-                        isActive ? "bg-emerald-100 text-emerald-700" : "hover:bg-gray-100"
+                        "block py-2 px-3 -mb-4 rounded-lg ",
+                        isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'
                     )}
                 >
                     Approval Requests

@@ -7,6 +7,7 @@ import { IRootState } from '../../redux/slices'
 import toast from 'react-hot-toast'
 import SubscriptionRequestModal from '../User/SubscriptionRequestModal'
 import ComponentSpinner from '../common/ComponentSpinner'
+import ChangeAddressModal from '../common/PickupRequest.ts/ChangeAddressModal'
 
 
 type Props = {}

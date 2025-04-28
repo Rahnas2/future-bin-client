@@ -2,7 +2,6 @@
 
 import { onDemandWasteType } from '@/types/onDemandWasteType'
 import ManageWasteTypes from '@/components/common/ManageWasteTypes'
-import { FaEdit } from 'react-icons/fa'
 import { useState } from 'react'
 import AddWasteTypeModal from '@/components/common/AddWasteTypeModal'
 import { useOnDemandComplete } from '@/context/OnDemandCompleteContex'

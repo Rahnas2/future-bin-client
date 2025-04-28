@@ -1,332 +1,262 @@
-import React, { useState, useEffect, useMemo } from "react";
+
+
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/ui/chart"
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+} from "@/components/ui/select"
+import { Calendar } from "@/components/ui/calendar"
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useEffect, useState } from "react"
+import { transactionAnalyticsApi } from "@/api/transactionsService"
+import { CalendarIcon } from "lucide-react"
+import toast from "react-hot-toast"
 
-// Define transaction type
-export interface Transaction {
-  id: string;
-  amount: number; // In cents (Stripe convention)
-  status: "succeeded" | "pending" | "failed";
-  customer_email: string | null;
-  created: number; // Unix timestamp
-  currency: string;
-}
 
-// Define chart data type
-interface ChartData {
-  period: string;
-  revenue: number;
-}
 
-// Chart configuration
 const chartConfig = {
-  revenue: {
-    label: "Revenue (USD)",
-    color: "var(--color-accent2)",
-  },
-} satisfies ChartConfig;
 
-const RevenueChart: React.FC = () => {
-  const [filter, setFilter] = useState<"yearly" | "monthly" | "custom">("yearly");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+} satisfies ChartConfig
 
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+function RevenueChart() {
+  const [activeFilter, setActiveFilter] = useState('yearly')
+  const [chartData, setChartData] = useState<{ x: string, y: number }[]>([])
 
-  // Handle filter change with type validation
-  const handleFilterChange = (value: string) => {
-    if (["yearly", "monthly", "custom"].includes(value)) {
-      setFilter(value as "yearly" | "monthly" | "custom");
-    } else {
-      console.warn(`Invalid filter value: ${value}`);
+  const [loading, setLoading] = useState(false)
+  const [fromDate, setFromDate] = useState(new Date())
+  const [toDate, setToDate] = useState(new Date())
+  const [showDatePickers, setShowDatePickers] = useState(false)
+
+
+
+  //Fetch Analytics 
+  const fetchAnalyticsData = async () => {
+    setLoading(true)
+    try {
+      let queryParams = `filter=${activeFilter}`;
+
+      // Add date parameters for custom filter
+      if (activeFilter === 'custom' && fromDate && toDate) {
+        queryParams += `&startDate=${fromDate}&endDate=${toDate}`;
+      }
+
+      const result = await transactionAnalyticsApi(queryParams)
+
+      setChartData(result.analytics);
+
+    } catch (error) {
+      console.error("Error fetching analytics data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch transactions from API
   useEffect(() => {
-    const fetchTransactions = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        let from: Date;
-        let to = new Date();
-        to.setHours(23, 59, 59, 999);
+    // Set default dates for custom filter
+    if (activeFilter === 'custom') {
+      setShowDatePickers(true);
 
-        if (filter === "yearly") {
-          from = new Date();
-          from.setFullYear(from.getFullYear() - 5);
-          from.setHours(0, 0, 0, 0);
-        } else if (filter === "monthly") {
-          from = new Date();
-          from.setMonth(from.getMonth() - 12);
-          from.setHours(0, 0, 0, 0);
-        } else {
-          from = startDate || new Date(new Date().setDate(new Date().getDate() - 30)); // Default to last 30 days
-          to = endDate || new Date();
-          from.setHours(0, 0, 0, 0);
-          to.setHours(23, 59, 59, 999);
-        }
+      // Set default date range if not already set (e.g., last 7 days)
+      const defaultEndDate = new Date();
+      const defaultStartDate = new Date();
+      defaultStartDate.setDate(defaultStartDate.getDate() - 7);
 
-
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-        setError("Failed to load transactions. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTransactions();
-  }, [filter, startDate, endDate]);
-
-  // Process chart data
-  const chartData = useMemo(() => {
-    if (!transactions.length) {
-      console.log("No transactions available for chart data");
-      return [];
-    }
-
-    const dataMap = new Map<string, number>();
-
-    transactions.forEach((tx) => {
-      const date = new Date(tx.created * 1000);
-      let period: string;
-
-      if (filter === "yearly") {
-        period = date.getFullYear().toString();
-      } else if (filter === "monthly") {
-        period = `${date.getFullYear()}-${(date.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}`;
-      } else {
-        period = date.toISOString().split("T")[0]; // YYYY-MM-DD
-      }
-
-      const amount = tx.amount / 100; // Convert cents to dollars
-      dataMap.set(period, (dataMap.get(period) || 0) + amount);
-    });
-
-    // Generate all periods in the range
-    const result: ChartData[] = [];
-    let current: Date;
-    if (filter === "yearly") {
-      current = new Date();
-      current.setFullYear(current.getFullYear() - 5);
-      for (let i = 0; i <= 5; i++) {
-        const period = current.getFullYear().toString();
-        result.push({
-          period,
-          revenue: dataMap.get(period) || 0,
-        });
-        current.setFullYear(current.getFullYear() + 1);
-      }
-    } else if (filter === "monthly") {
-      current = new Date();
-      current.setMonth(current.getMonth() - 12);
-      for (let i = 0; i <= 12; i++) {
-        const period = `${current.getFullYear()}-${(current.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}`;
-        result.push({
-          period,
-          revenue: dataMap.get(period) || 0,
-        });
-        current.setMonth(current.getMonth() + 1);
-      }
+      setFromDate(defaultStartDate);
+      setToDate(defaultEndDate);
     } else {
-      current = new Date(startDate || (transactions[0]?.created * 1000) || new Date().setDate(new Date().getDate() - 30));
-      const end = new Date(endDate || new Date());
-      current.setHours(0, 0, 0, 0);
-      while (current <= end) {
-        const period = current.toISOString().split("T")[0];
-        result.push({
-          period,
-          revenue: dataMap.get(period) || 0,
-        });
-        current.setDate(current.getDate() + 1);
-      }
+      setShowDatePickers(false);
+      fetchAnalyticsData();
     }
+  }, [activeFilter]);
 
-    console.log("Processed chart data:", result);
-    return result;
-  }, [transactions, filter, startDate, endDate]);
 
-  // Format X-axis ticks
-  const formatTick = (period: string) => {
-    if (filter === "yearly") {
-      return period; // e.g., "2023"
-    } else if (filter === "monthly") {
-      const [year, month] = period.split("-");
-      return new Date(parseInt(year), parseInt(month) - 1).toLocaleDateString(
-        "en-US",
-        { month: "short", year: "numeric" }
-      ); // e.g., "Jan 2023"
-    } else {
-      return new Date(period).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }); // e.g., "Apr 23"
-    }
+
+  const handleFilterChange = (value: string) => {
+    setActiveFilter(value);
   };
 
-  // Format tooltip label
-  const formatTooltipLabel = (period: string) => {
-    if (filter === "yearly") {
-      return period;
-    } else if (filter === "monthly") {
-      const [year, month] = period.split("-");
-      return new Date(parseInt(year), parseInt(month) - 1).toLocaleDateString(
-        "en-US",
-        { month: "long", year: "numeric" }
-      );
-    } else {
-      return new Date(period).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      });
-    }
-  };
 
   return (
-    <div>
-      {/* Revenue Chart */}
-      <Card className="mb-10 bg-primary border-gray-500 text-white">
-        <CardHeader className="flex flex-col sm:flex-row items-center gap-4">
-          <div className="flex-1">
-            <CardTitle>Revenue Overview</CardTitle>
-            <CardDescription>
-              Total revenue from transactions
-            </CardDescription>
-          </div>
-          <div className="flex items-center gap-4">
-            <Select value={filter} onValueChange={handleFilterChange}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select filter" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="yearly">Yearly</SelectItem>
-                <SelectItem value="monthly">Monthly</SelectItem>
-                <SelectItem value="custom">Custom Range</SelectItem>
-              </SelectContent>
-            </Select>
-            {filter === "custom" && (
-              <div className="flex gap-2">
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date: Date | null) => setStartDate(date)}
-                  selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
-                  placeholderText="Start Date"
-                  className="border rounded-md px-3 py-2"
-                />
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date: Date | null) => setEndDate(date)}
-                  selectsEnd
-                  startDate={startDate}
-                  endDate={endDate}
-                //   minDate={startDate}
-                  placeholderText="End Date"
-                  className="border rounded-md px-3 py-2"
-                />
+    <Card className="bg-primary text-text border-gray-500 shadow-2xl">
+      <CardHeader className="flex items-stretch space-y-0 border-b px-5 sm:flex-row">
+        <div className="grid flex-1 gap-1 text-center sm:text-left">
+          <CardTitle>Revenue Analytics</CardTitle>
+          <CardDescription>
+            {activeFilter === 'yearly' && 'Yearly revenue breakdown'}
+            {activeFilter === 'monthly' && 'Monthly revenue breakdown'}
+            {activeFilter === 'custom' && 'Custom date range revenue'}
+          </CardDescription>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+          <Select value={activeFilter} onValueChange={handleFilterChange}>
+            <SelectTrigger
+              className="w-[160px] rounded-lg sm:ml-auto"
+              aria-label="Select a filter"
+            >
+              <SelectValue placeholder="Filter" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="yearly" className="rounded-lg">
+                Yearly
+              </SelectItem>
+              <SelectItem value="monthly" className="rounded-lg">
+                Monthly
+              </SelectItem>
+              <SelectItem value="custom" className="rounded-lg">
+                Custom Range
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          {showDatePickers && (
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex items-center gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-[140px] justify-start text-left font-normal text-white bg-transparent hover:bg-transparent hover:text-white"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {fromDate ? fromDate.toLocaleDateString() : "From Date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={fromDate}
+                      onSelect={(date) => {
+                        if (date) setFromDate(date);
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          {error && (
-            <div className="text-red-500 text-center mb-4">{error}</div>
+
+              <div className="flex items-center gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-[140px] justify-start text-left font-normal text-white bg-transparent hover:bg-transparent hover:text-white"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {toDate ? toDate.toLocaleDateString() : "To Date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={toDate}
+                      onSelect={(date) => {
+                        if (date) setToDate(date);
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Apply Button */}
+              <Button
+                variant="ghost"
+                className=""
+                onClick={() => {
+                  if (fromDate > toDate) {
+                    toast("Start date cannot be after end date!");
+                    return;
+                  }
+                  fetchAnalyticsData();
+                }}
+              >
+                Apply
+              </Button>
+            </div>
           )}
+
+        </div>
+      </CardHeader>
+      <CardContent className="px-2 sm:p-6">
+        {loading ? (
+          <div className="flex justify-center items-center h-[250px]">
+            <p>Loading data...</p>
+          </div>
+        ) : chartData.length === 0 ? (
+          <div className="flex justify-center items-center h-[250px]">
+            <p>No data available for the selected period</p>
+          </div>
+        ) : (
           <ChartContainer
             config={chartConfig}
-            className="aspect-auto h-[300px] w-full"
+            className="aspect-auto h-[250px] w-full"
           >
-            {chartData.length > 0 ? (
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor="var(--color-accent2)"
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="var(--color-accent2)"
-                      stopOpacity={0.1}
-                    />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="period"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tickFormatter={formatTick}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tickMargin={8}
-                  tickFormatter={(value) => `$${value.toFixed(0)}`}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={
-                    <ChartTooltipContent
-                      labelFormatter={formatTooltipLabel}
-                    //   valueFormatter={(value) => `$${value.toFixed(2)}`}
-                    />
-                  }
-                />
-                <Area
-                  dataKey="revenue"
-                  type="monotone"
-                  fill="url(#fillRevenue)"
-                  stroke="var(--color-accent2)"
-                  name="Revenue"
-                />
-              </AreaChart>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <p className="text-muted-foreground">
-                  {loading
-                    ? "Loading data..."
-                    : "No data available for the selected period"}
-                </p>
-              </div>
-            )}
+            <LineChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: 30,
+                right: 10,
+                top: 10,
+                bottom: 20,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="x"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                minTickGap={32}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => `$${value}`}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    className="w-[150px] text-seconday"
+                    formatter={(value) => `$${value}`}
+                  />
+                }
+              />
+              <Line
+                dataKey="y"
+                type="monotone"
+                stroke="var(--accent)"
+                strokeWidth={2}
+                dot={true}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
           </ChartContainer>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
+        )}
+      </CardContent>
+    </Card>
+  )
+}
 
-export default RevenueChart;
+
+export default RevenueChart

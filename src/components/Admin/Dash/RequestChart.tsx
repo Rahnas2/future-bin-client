@@ -60,7 +60,7 @@ const RequestChart: React.FC<Props> = ({
 
       while (currentDate <= toDate) {
         emptyData.push({
-          date: currentDate.toISOString().split('T')[0], // Store date as YYYY-MM-DD
+          date: currentDate.toISOString().split('T')[0],
           onDemand: 0,
           subscription: 0,
         });

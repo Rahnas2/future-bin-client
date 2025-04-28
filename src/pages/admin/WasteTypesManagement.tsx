@@ -84,7 +84,7 @@ const WasteTypesManagement = (props: Props) => {
   return (
     <>
       <div className='flex min-h-lvh'>
-        <div className="py-4 flex-1 bg-primary my-10 mr-10 rounded-t-2xl px-4 ">
+        <div className="py-4 flex-1 bg-primary mt-10 mr-10 rounded-t-2xl px-4 ">
 
           <div className="bg-seconday py-6 rounded-xl">
 

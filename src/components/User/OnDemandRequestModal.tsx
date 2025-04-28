@@ -5,13 +5,14 @@ import Input from '../../themes/input'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../redux/slices'
 import { pickupRequestApi } from '../../api/userService'
-import { OnDemandPickupRequestType } from '../../types/PickupRequest'
+import { BasePickupRequestType, OnDemandPickupRequestType, pickupRequestType } from '../../types/PickupRequest'
 // import { wasteTypes } from '../../utils/availableWasteTypes'
 import toast from 'react-hot-toast'
 import { AppDispatch } from '@/redux/store'
 import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
 import { onDemandWasteType } from '@/types/onDemandWasteType'
 import ComponentSpinner from '../common/ComponentSpinner'
+import ChangeAddressModal from '../common/PickupRequest.ts/ChangeAddressModal'
 
 type Props = {
     onClose: () => void
@@ -24,6 +25,9 @@ const OnDemandRequestModal = (props: Props) => {
     const dispatch = useDispatch<AppDispatch>()
 
     const [fetchingWasteTypes, setFetchingWasteTypes] = useState(false)
+
+    //For Change Address Modal
+    const [changeAddress, setChangeAddress] = useState(false)
 
     //fetch waste types
     useEffect(() => {
@@ -68,12 +72,24 @@ const OnDemandRequestModal = (props: Props) => {
         totalWeight: 0
     })
 
+    const handleOpen = () => {
+        setChangeAddress(true)
+    }
+
+    const handleClose = () => {
+        setChangeAddress(false)
+    }
+
+    const handleChangeAddress = (updatedData: Pick<BasePickupRequestType, 'name' | 'mobile' | 'address'>) => {
+        setData(prev => ({ ...prev, ...updatedData }))
+    }
+
     //fetch user address
     useEffect(() => {
         if (user && user.address) {
             setData(prevData => ({
                 ...prevData,
-                name: user.firstName + ', ' + user.lastName,
+                name: user.firstName + ' ' + user.lastName,
                 mobile: user.mobile,
                 email: user.email,
                 address: user.address,
@@ -172,7 +188,7 @@ const OnDemandRequestModal = (props: Props) => {
             const reutlt = await pickupRequestApi(submissionData)
             props.onClose()
             toast.success(reutlt.message)
-        } catch (error: any) {  
+        } catch (error: any) {
             console.error('error request on-demnand pickup ', error)
             toast.error(error.response.data.message || 'something went wrong')
         }
@@ -198,15 +214,15 @@ const OnDemandRequestModal = (props: Props) => {
                             <div className='mb-5'>
                                 <div className='font-medium mb-5'>Address</div>
                                 <div className='w-xs border border-gray-500 rounded-lg px-4 py-2 shadow-2xl'>
-                                    <div className='font-bold mb-3 capitalize opacity-50'>{user?.firstName + ' ' + user?.lastName}</div>
-                                    <div className='mb-3'>{user?.address.houseNo + ', ' + user?.address.street + ', ' + user?.address.district + ', ' + user?.address.city + ', ' + user?.address.pincode}</div>
-                                    <div className=''>{user?.mobile}</div>
+                                    <div className='font-bold mb-3 capitalize opacity-50'>{data.name}</div>
+                                    <div className='mb-3'>{data.address.houseNo + ', ' + data.address.street + ', ' + data.address.district + ', ' + data.address.city + ', ' + data.address.pincode}</div>
+                                    <div className=''>{data.mobile}</div>
                                 </div>
 
-                                <div className='flex items-center text-accent2 font-bold mt-4 '>
+                                <button onClick={handleOpen} className='flex items-center text-accent2 font-bold mt-4 cursor-pointer'>
                                     <IoMdAdd className='inline' />&nbsp;
-                                    <span>Add new Address</span>
-                                </div>
+                                    <span>Change Address</span>
+                                </button>
                             </div>
 
                             {/* Waste Types Section */}
@@ -278,7 +294,7 @@ const OnDemandRequestModal = (props: Props) => {
                                 <div className='flex justify-between  text-lg'>
                                     <span>Total Price</span>
                                     <span className=''>
-                                    $ {data.totalAmount}
+                                        $ {data.totalAmount}
                                     </span>
                                 </div>
                             </div>
@@ -295,72 +311,10 @@ const OnDemandRequestModal = (props: Props) => {
                     </>
                 }
             </div>
+
+            {changeAddress && <ChangeAddressModal onClose={handleClose} onChangeAddress={handleChangeAddress} />}
         </div>
     )
 }
 
 export default OnDemandRequestModal
-
-
-// < div className = 'fixed inset-0 bg-opacity-50 flex justify-center items-center' >
-//     <div className="bg-primary border border-gray-500 px-3 py-3 rounded-xl">
-//         <div onClick={props.onClose} className="font-bold text-end text-accent2 cursor-pointer"><IoMdClose className="inline" /></div>
-//         <div className='px-6 py-4 w-4xl'>
-
-//             <div className='flex gap-20'>
-//                 <div className='mb-5'>
-//                     <div className='font-bold mb-5'>Address</div>
-//                     <div className='w-xs border border-gray-500 rounded-lg px-4 py-2 shadow-2xl'>
-//                         <div className='font-bold mb-3 capitalize opacity-50'>{user?.firstName + ' ' + user?.lastName}</div>
-//                         <div className='mb-3'>{user?.address.houseNo + ', ' + user?.address.street + ', ' + user?.address.district + ', ' + user?.address.city + ', ' + user?.address.pincode}</div>
-//                         <div className=''>{user?.mobile}</div>
-//                     </div>
-
-//                     <div className='flex items-center text-accent2 font-bold mt-4 '>
-//                         <IoMdAdd className='inline' />&nbsp;
-//                         <span>Add new Address</span>
-//                     </div>
-//                 </div>
-
-//                 <div>
-//                     <div className='font-bold mb-5'>Waste Types</div>
-//                     <FormGroup sx={{
-//                         display: 'flex', flexDirection: 'row', gap: 2,
-//                     }}>
-//                         {wasteTypes?.map((waste, index) => (
-//                             <FormControlLabel key={index} control={<Checkbox sx={{
-//                                 color: "hsl(0, 0%, 50%)",
-//                                 "&.Mui-checked": { color: "#009E4F" },
-//                             }} />}
-//                                 label={waste.name}
-//                                 checked={checkedState[index]}
-//                                 onChange={() => handleCheckBoxChange(index)}
-//                             />
-//                         ))}
-//                     </FormGroup>
-//                 </div>
-//             </div>
-
-//             <div className='mt-5'>
-
-//                 <ThemeProvider theme={Input}>
-//                     <TextField
-//                         // sx={{borderColor: 'blue !important' }}
-//                         InputProps={{
-//                             sx: { borderRadius: 1 },
-//                         }}
-//                         label="Approximate Weight (kg)"
-//                         value={data.weight}
-//                         onChange={handleWeightChange}
-//                         error={!!error}
-//                         helperText={error}
-//                     />
-//                 </ThemeProvider>
-//             </div>
-
-//             <div className='flex justify-end'>
-//                 <span onClick={handleSubmit} className='bg-accent px-6 py-2 rounded-lg cursor-pointer'>Request</span>
-//             </div>
-//         </div>
-//     </div>
-//     </div >
