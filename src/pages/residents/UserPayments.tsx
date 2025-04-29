@@ -11,8 +11,6 @@ const UserPayments = (props: Props) => {
 
     const { role } = useSelector((state: IRootState) => state.auth)
     return (
-        <div className="flex gap-4 px-10 ">
-            <SideNav />
             <div className="flex-1 py-15 px-8 bg-seconday rounded-lg shadow-sm">
 
                 <div>
@@ -20,7 +18,6 @@ const UserPayments = (props: Props) => {
                     <Transactions />
                 </div>
             </div>
-        </div>
     )
 }
 

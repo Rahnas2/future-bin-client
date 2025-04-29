@@ -83,9 +83,3 @@ export const updatePaymentStatusApi = async(requestId: string, paymentStatus: st
     const response = await axiosInstance.put('/payment-status', {requestId, paymentStatus})
     return response.data
 }
-
-//Transaction
-// export const fetchTransactiosForUserApi = async() => {
-//     const response = await axiosInstance.get('/users/transactions')
-//     return response.data
-// }

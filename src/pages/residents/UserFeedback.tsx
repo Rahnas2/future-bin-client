@@ -77,8 +77,6 @@ const UserFeedback = (props: Props) => {
   }, [collectorsReviews, isLoadingCollectorsReviews, hasMore, fetchCollectorsReviews]);
 
   return (
-    <div className="flex gap-4 px-10">
-      <SideNav />
       <div className="flex-1 py-15 px-8 bg-seconday rounded-lg shadow-sm">
         {isLoadingCollectorsReviews && collectorsReviews.length === 0 ? (
           <div className="flex justify-center items-center h-64">
@@ -110,7 +108,7 @@ const UserFeedback = (props: Props) => {
           </div>
         )}
       </div>
-    </div>
+
   );
 };
 

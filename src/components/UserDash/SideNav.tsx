@@ -19,30 +19,30 @@ function SideNav() {
         }
     }
     return (
-        <div className="bg-seconday py-8 px-8 w-fit flex flex-col gap-10 text-2xl rounded-xl [&>*]:rounded-2xl [&>*]:cursor-pointer">
-            <NavLink to="/profile" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
+        <div className=" md:bg-seconday py-8 px-4 md:px-8 w-fit flex flex-col gap-10 text-lg md:text-2xl rounded-xl [&>*]:rounded-2xl [&>*]:cursor-pointer border md:border-0 border-gray-500">
+            <NavLink to="/profile" className={({ isActive }) => `flex flex-col md:flex-row items-center px-4 py-2  gap-2 md:gap-5  ${isActive ?'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'}`}>
                 <span><FaUserCircle className="inline" /></span>
-                <span>Profile</span>
+                <span className="">Profile</span>
             </NavLink>
-            <NavLink to="/subscription" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
+            <NavLink to="/subscription" className={({ isActive }) => `flex flex-col md:flex-row items-center px-4 py-2  gap-2 md:gap-5  ${isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'}`}>
                 <span><MdOutlineSubscriptions className="inline" /></span>
-                <span>Subscription</span>
+                <span className="">Subscription</span>
             </NavLink>
-            <NavLink to="/pickup-requests" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
+            <NavLink to="/pickup-requests" className={({ isActive }) => `flex flex-col md:flex-row items-center px-4 py-2  gap-2 md:gap-5  ${isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'}`}>
                 <span><FaCodePullRequest className="inline" /></span>
-                <span>Request</span>
+                <span className="">Request</span>
             </NavLink>
-            <NavLink to="/feedback" className={({ isActive }) => `flex items-center px-4 py-2  gap-5  ${isActive ? 'bg-accent2 text-primary' : '[&>*]:opacity-50'}`}>
+            <NavLink to="/feedback" className={({ isActive }) => `flex flex-col md:flex-row items-center px-4 py-2 gap-2 md:gap-5  ${isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'}`}>
                 <span><MdFeedback className="inline" /></span>
-                <span>Feedback</span>
+                <span className="">Feedback</span>
             </NavLink>
-            <NavLink to="/transactions" className="flex items-center px-4 py-2  gap-5">
+            <NavLink to="/transactions" className={({ isActive }) => `flex flex-col md:flex-row items-center px-4 py-2 gap-2 md:gap-5  ${isActive ? 'bg-accent3 text-seconday' : 'opacity-50 hover:text-accent3 hover:opacity-100'}`}>
                 <span><MdOutlinePayments className="inline" /></span>
-                <span>Transactions</span>
+                <span className="">Transactions</span>
             </NavLink>
-            <div onClick={handleLogOut} className="flex items-center px-4 py-2  gap-5">
+            <div onClick={handleLogOut} className="flex flex-col md:flex-row items-center px-4 py-2  gap-2 md:gap-5 opacity-50 hover:opacity-100 hover:text-accent3">
                 <span><MdLogout className="inline" /></span>
-                <span>Logout</span>
+                <span className="">Logout</span>
             </div>
         </div>
     )

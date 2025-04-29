@@ -10,6 +10,8 @@ import { getClientSecretApi } from '@/api/paymentService';
 import ComponentSpinner from '@/components/common/ComponentSpinner';
 import NotificationItem from '@/components/Notification/NotificationItem';
 import EmptyNotifications from '@/components/Notification/EmptyNotifications';
+import { useDispatch } from 'react-redux';
+import { incrementNotification } from '@/redux/slices/countSlice';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const appearance = {
@@ -21,6 +23,8 @@ type Props = {}
 
 const NotificationList = (props: Props) => {
 
+    const dispatch = useDispatch()
+
     const socket = getSocket();
     const [notifications, setNotifications] = useState<notificationType[]>([]);
 
@@ -28,9 +32,6 @@ const NotificationList = (props: Props) => {
     const [clientSecret, setClientSecret] = useState<string | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
-
-    
-
 
     //fetch All Notifications
     useEffect(() => {
@@ -52,7 +53,7 @@ const NotificationList = (props: Props) => {
     useEffect(() => {
 
         const handleNotification = (data: any) => {
-            console.log('data ', data)
+            console.log('handling notifiation  ', data)
             setNotifications((prev) => [data.notification, ...prev]);
         }
 

@@ -92,7 +92,7 @@ const ScheduledPickupModal: React.FC<Props> = ({ pickupRequestId, email, onClose
                                         <p className={`${pickup.status === 'completed' ? 'text-accent2' : pickup.status === 'missed' ? 'text-red-500' : 'opacity-50 '} `}>Status: {pickup.status}</p>
                                     </div>
 
-                                    {pickup.status === 'pending' && <button disabled={isToday(pickup.scheduledDate.toString())} onClick={() => handleNavigation(pickup._id)} className='px-3 py-0.5 flex items-center bg-accent rounded-md'><CheckCircle className='inline w-4 h-4 mr-1' />Complete</button>}
+                                    {pickup.status === 'pending' && <button disabled={isToday(pickup.scheduledDate.toString())} onClick={() => handleNavigation(pickup._id)} className='px-3 py-0.5 flex items-center bg-accent rounded-md cursor-pointer'><CheckCircle className='inline w-4 h-4 mr-1' />Complete</button>}
                                 </div>
 
                             </div>

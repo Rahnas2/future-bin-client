@@ -62,6 +62,7 @@ import MyEarnings from '@/pages/collectors/MyEarnings'
 import PaymentAdmin from '@/pages/admin/PaymentAdmin'
 import CollectorFeedback from '@/pages/collectors/CollectorFeedback'
 import FeedbackAdmin from '@/pages/admin/FeedbackAdmin'
+import ResidentNavLayout from '@/components/Layout/ResidentNavLayout'
 
 
 
@@ -99,7 +100,8 @@ const AppRoutes = () => {
       '/feedback',
       '/pickup-request/history',
       '/transactions',
-      '/chat'
+      '/chat',
+      '/pickup-requests'
     ];
 
     // Get the root element
@@ -176,25 +178,19 @@ const AppRoutes = () => {
       {/* user routes */}
       <Route path='/' element={
         <UserRoute>
-          <LandingPage />
+          <ResidentNavLayout><LandingPage /></ResidentNavLayout>
         </UserRoute>}
       />
 
       <Route path='/about-us' element={
-        <UserRoute>
-          <>
-            <UserNav />
-            <AboutUs />
-          </>
+        <UserRoute> 
+          <ResidentNavLayout><AboutUs /></ResidentNavLayout>
         </UserRoute>
       } />
 
-      <Route path='/subscription-plans' element={
+      <Route path='/available-plans' element={
         <UserRoute>
-          <>
-            <UserNav />
-            <SubscriptionPlans />
-          </>
+         <ResidentNavLayout><SubscriptionPlans /></ResidentNavLayout>
         </UserRoute>
       } />
 
@@ -208,25 +204,19 @@ const AppRoutes = () => {
 
       <Route path='/profile' element={
         <UserRoute>
-          <Profile />
+          <ResidentNavLayout><Profile /></ResidentNavLayout>
         </UserRoute>
       } />
 
       <Route path='/subscription' element={
         <UserRoute>
-          <>
-            <UserNav />
-            <SubscriptionManagementUser />
-          </>
+          <ResidentNavLayout><SubscriptionManagementUser /></ResidentNavLayout>
         </UserRoute>
       } />
 
       <Route path='/pickup-requests' element={
         <UserRoute>
-          <>
-            <UserNav />
-            <UserPickupRequestHsitory />
-          </>
+          <ResidentNavLayout><UserPickupRequestHsitory /></ResidentNavLayout>
         </UserRoute>
       } />
 
@@ -238,20 +228,14 @@ const AppRoutes = () => {
 
       <Route path='/feedback' element={
         <UserRoute>
-          <>
-            <UserNav />
-            <UserFeedback />
-          </>
+          <ResidentNavLayout><UserFeedback /></ResidentNavLayout>
         </UserRoute>
       }
       />
 
       <Route path='/transactions' element={
         <UserRoute>
-          <>
-            <UserNav />
-            <UserPayments />
-          </>
+          <ResidentNavLayout><UserPayments /></ResidentNavLayout>
         </UserRoute>
       } />
 

@@ -48,7 +48,7 @@ const UserSubscriptionComp = (props: Props) => {
 
     return (
         <div>
-            <div className="flex gap-10"> <ActiveSubscriptionCard requestId={pickupRequest._id!} subscription={pickupRequest.subscription} price={pickupRequest.totalAmount} />
+            <div className="flex flex-col md:flex-row gap-10"> <ActiveSubscriptionCard requestId={pickupRequest._id!} subscription={pickupRequest.subscription} price={pickupRequest.totalAmount} />
                 <ActiveSubscriptionFeatures features={pickupRequest.subscription.features} />
             </div>
         </div>

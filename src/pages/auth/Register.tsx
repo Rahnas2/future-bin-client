@@ -107,7 +107,7 @@ const Register = () => {
                         <OAuth mode='register' />
 
 
-                <div className='flex gap-5 items-center justify-around opacity-50 mb-8 w-[80%]'>
+                <div className='flex gap-5 items-center justify-around opacity-50 mb-6 md:mb-8 w-[80%]'>
                     <hr className='w-48' />
                     <span>OR</span>
                     <hr className='w-48' />

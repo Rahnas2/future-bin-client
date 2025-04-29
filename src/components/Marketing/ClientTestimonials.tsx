@@ -41,9 +41,9 @@ const ClientTestimonials = (props: Props) => {
 
   return (
     <div className='flex flex-col items-center overflow-x-hidden'>
-      <div className='text-accent mb-4 text-xl font-medium'>Client Testimonials</div>
+      <div className='text-accent mb-4 text-lg md:text-xl font-medium'>Client Testimonials</div>
 
-      <h1 className='text-2xl font-bold mb-10'>See what our Client has to Say</h1>
+      <h1 className='text-xl md:text-2xl font-semibold md:font-bold mb-10'>See what our Client has to Say</h1>
 
       {isLoadingReviews ? <ComponentSpinner /> :
       reviews.length === 0 ? <div className="text-center py-12">No testimonials available yet</div> : 

@@ -6,7 +6,7 @@ type Props = {}
 
 const Footer = (props: Props) => {
   return (
-    <div className="bg-seconday flex flex-col ">
+    <div className="bg-seconday flex flex-col -mx-8">
         <div className='flex justify-center'>
             <img className='w-35' src={brand} alt="brand icon" />
         </div>

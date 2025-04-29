@@ -170,145 +170,139 @@ function Profile() {
 
     return (
         <>
-            <UserNav />
+            <div className="md:bg-seconday flex-1 md:py-15 px-4 md:px-8  rounded-md">
 
-            <div className="flex gap-4 px-10">
-                <SideNav />
+                <ProfileCard isEdit={isEdit} image={user?.image} firstName={data.firstName} lastName={data.lastName} email={data.email} mobile={data.mobile} selectedImage={selectedImage} setSelectedImage={handleSelectedImage} imgValError={errors.profileImage} />
 
-                <div className="bg-seconday flex-1 py-15 px-8  rounded-md">
-
-                    <ProfileCard isEdit={isEdit} image={user?.image} firstName={data.firstName} lastName={data.lastName} email={data.email} mobile={data.mobile} selectedImage={selectedImage} setSelectedImage={handleSelectedImage} imgValError={errors.profileImage} />
-
-                    {/* personal infromation */}
-                    <div className="mt-8">
-                        <div className="font-bold">Personal Information</div>
-                        <div onClick={() => setIsEdit(!isEdit)} aria-disabled={isEdit} className={`flex justify-end items-center gap-2 mb-10 cursor-pointer ${isEdit ? 'opacity-100' : 'opacity-50'}`}>
-                            <FaEdit className=" inline text-lg" />
-                            <span >Edit Profile</span>
-                        </div>
-
-                        <ThemeProvider theme={Input}>
-                            <Box
-                                className='grid grid-cols-2 gap-x-20 gap-y-10 pr-5 '
-                                sx={{ my: 3, }}
-                            >
-                                <TextField id="outlined-basic"
-                                    label="First name"
-                                    variant="outlined"
-                                    name="firstName"
-                                    value={data.firstName}
-                                    onChange={isEdit ? handleChange : undefined}
-                                    error={!!errors.firstName}
-                                    helperText={errors.firstName}
-                                />
-
-                                <TextField id="outlined-basic"
-                                    label="Last name"
-                                    variant="outlined"
-                                    name='lastName'
-
-                                    value={data.lastName}
-                                    onChange={isEdit ? handleChange : undefined}
-                                    error={!!errors.lastName}
-                                    helperText={errors.lastName}
-                                />
-
-                                <TextField id="outlined-basic"
-                                    label="Email"
-                                    variant="outlined"
-                                    name="email"
-
-                                    value={data.email}
-                                    onChange={isEdit ? handleChange : undefined}
-                                    error={!!errors.email}
-                                    helperText={errors.email}
-                                />
-
-                                <TextField id="outlined-basic"
-                                    label="Mobile"
-                                    variant="outlined"
-                                    name='mobile'
-
-                                    value={data.mobile}
-                                    onChange={isEdit ? handleChange : undefined}
-                                    error={!!errors.mobile}
-                                    helperText={errors.mobile}
-                                />
-                            </Box>
-
-                        </ ThemeProvider>
-
-                        <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
-
-                        {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
+                {/* personal infromation */}
+                <div className="mt-8">
+                    <div className="font-medium md:font-bold">Personal Information</div>
+                    <div onClick={() => setIsEdit(!isEdit)} aria-disabled={isEdit} className={`flex justify-end items-center gap-2 mb-10 cursor-pointer ${isEdit ? 'opacity-100' : 'opacity-50'}`}>
+                        <FaEdit className=" inline text-lg" />
+                        <span >Edit Profile</span>
                     </div>
 
-                    {/* address informaiton */}
-                    <div className="my-8">
-                        <div className="mb-6 font-bold">Address Information</div>
-                        <ThemeProvider theme={Input}>
-                            <Box
-                                className='grid grid-cols-2 gap-x-20 gap-y-8 pr-5 '
-                                sx={{}}
-                            >
-                                <TextField id="outlined-basic"
-                                    label="street"
-                                    variant="outlined"
-                                    name="firstName"
-                                    value={user?.address?.street}
-                                // onChange={handleChange}
-                                // error={!!errors.firstName}
-                                // helperText={errors.firstName}
-                                />
+                    <ThemeProvider theme={Input}>
+                        <Box
+                            className='grid grid-cols-2 gap-x-7 md:gap-x-20 gap-y-10 md:pr-5 '
+                            sx={{ my: 3, }}
+                        >
+                            <TextField id="outlined-basic"
+                                label="First name"
+                                variant="outlined"
+                                name="firstName"
+                                value={data.firstName}
+                                onChange={isEdit ? handleChange : undefined}
+                                error={!!errors.firstName}
+                                helperText={errors.firstName}
+                            />
 
-                                <TextField id="outlined-basic"
-                                    label="house no / building name"
-                                    variant="outlined"
-                                    name='lastName'
-                                    value={user?.address?.houseNo}
-                                // onChange={handleChange}
-                                // error={!!errors.lastName}
-                                // helperText={errors.lastName}
-                                />
+                            <TextField id="outlined-basic"
+                                label="Last name"
+                                variant="outlined"
+                                name='lastName'
 
-                                <TextField id="outlined-basic"
-                                    label="district"
-                                    variant="outlined"
-                                    name="firstName"
-                                    value={user?.address?.district}
-                                // onChange={handleChange}
-                                // error={!!errors.firstName}
-                                // helperText={errors.firstName}
-                                />
+                                value={data.lastName}
+                                onChange={isEdit ? handleChange : undefined}
+                                error={!!errors.lastName}
+                                helperText={errors.lastName}
+                            />
 
-                                <TextField id="outlined-basic"
-                                    label="city"
-                                    variant="outlined"
-                                    name='lastName'
-                                    value={user?.address?.city}
-                                // onChange={handleChange}
-                                // error={!!errors.lastName}
-                                // helperText={errors.lastName}
-                                />
+                            <TextField id="outlined-basic"
+                                label="Email"
+                                variant="outlined"
+                                name="email"
 
-                                <TextField id="outlined-basic"
-                                    label="pincode"
-                                    variant="outlined"
-                                    name="firstName"
-                                    value={user?.address?.pincode}
-                                // onChange={handleChange}
-                                // error={!!errors.firstName}
-                                // helperText={errors.firstName}
-                                />
+                                value={data.email}
+                                onChange={isEdit ? handleChange : undefined}
+                                error={!!errors.email}
+                                helperText={errors.email}
+                            />
 
-                            </Box>
+                            <TextField id="outlined-basic"
+                                label="Mobile"
+                                variant="outlined"
+                                name='mobile'
 
-                        </ ThemeProvider>
-                    </div>
+                                value={data.mobile}
+                                onChange={isEdit ? handleChange : undefined}
+                                error={!!errors.mobile}
+                                helperText={errors.mobile}
+                            />
+                        </Box>
 
-                    {/* change password modal */}
-                    {isOpen && <ChangePasswordModal onClose={handleClose} />}
+                    </ ThemeProvider>
+
+                    <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
+
+                    {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
                 </div>
+
+                {/* address informaiton */}
+                <div className="my-8">
+                    <div className="mb-6 font-bold">Address Information</div>
+                    <ThemeProvider theme={Input}>
+                        <Box
+                            className='grid grid-cols-2 gap-x-20 gap-y-8 pr-5 '
+                            sx={{}}
+                        >
+                            <TextField id="outlined-basic"
+                                label="street"
+                                variant="outlined"
+                                name="firstName"
+                                value={user?.address?.street}
+                            // onChange={handleChange}
+                            // error={!!errors.firstName}
+                            // helperText={errors.firstName}
+                            />
+
+                            <TextField id="outlined-basic"
+                                label="house no / building name"
+                                variant="outlined"
+                                name='lastName'
+                                value={user?.address?.houseNo}
+                            // onChange={handleChange}
+                            // error={!!errors.lastName}
+                            // helperText={errors.lastName}
+                            />
+
+                            <TextField id="outlined-basic"
+                                label="district"
+                                variant="outlined"
+                                name="firstName"
+                                value={user?.address?.district}
+                            // onChange={handleChange}
+                            // error={!!errors.firstName}
+                            // helperText={errors.firstName}
+                            />
+
+                            <TextField id="outlined-basic"
+                                label="city"
+                                variant="outlined"
+                                name='lastName'
+                                value={user?.address?.city}
+                            // onChange={handleChange}
+                            // error={!!errors.lastName}
+                            // helperText={errors.lastName}
+                            />
+
+                            <TextField id="outlined-basic"
+                                label="pincode"
+                                variant="outlined"
+                                name="firstName"
+                                value={user?.address?.pincode}
+                            // onChange={handleChange}
+                            // error={!!errors.firstName}
+                            // helperText={errors.firstName}
+                            />
+
+                        </Box>
+
+                    </ ThemeProvider>
+                </div>
+
+                {/* change password modal */}
+                {isOpen && <ChangePasswordModal onClose={handleClose} />}
             </div>
         </>
     )

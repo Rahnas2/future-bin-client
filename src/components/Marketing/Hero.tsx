@@ -19,7 +19,7 @@ const Hero = (props: Props) => {
     }
     
     return (
-        <div className='flex gap-10 justify-center h-150'>
+        <div className='flex md:gap-10 justify-center h-150'>
             <div className='flex flex-col justify-center items-center'>
                 <h1 className='text-4xl font-bold text-center w-md px-10 mb-3 leading-normal'>Waste is only Waste if we waste it</h1>
                 <p className='opacity-50 mb-8'>Be part of the solution not pollution</p>
