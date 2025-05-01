@@ -112,16 +112,16 @@ const OnDemandPickups = (props: Props) => {
 
                     <div className="text-sm flex flex-col gap-5">
 
-                        <div className="flex">
-                            <div className="flex-1"><span className="opacity-50">Plan</span> <br /> {req.wasteTypes.map(w => (<span className="font-medium capitalize">{w.name + ' '}</span>))}</div>
-                            <div className="flex-1"><span className="opacity-50">Total Weight</span> <br /> <span className="font-medium">{req.totalWeight}</span></div>
-                            <div className="text-end"><button onClick={() => handleRequestAction(req._id as string, 'completed', req.email)} className="px-3 py-2 border border-gray-500 cursor-pointer rounded-md w-xs shadow-lg">Completed Pickup</button></div>
+                        <div className="flex justify-between">
+                            <div className="md:flex-1"><span className="opacity-50">Waste Types</span> <br /> {req.wasteTypes.map(w => (<span className="font-medium capitalize block md:inline">{w.name + ' '}</span>))}</div>
+                            <div className="md:flex-1"><span className="opacity-50">Total Weight</span> <br /> <span className="font-medium">{req.totalWeight}</span></div>
+                            <div className="md:text-end"><button onClick={() => handleRequestAction(req._id as string, 'completed', req.email)} className="px-3 py-2 border border-gray-500 cursor-pointer rounded-md w-40 md:w-xs shadow-lg">Completed Pickup</button></div>
                         </div>
 
-                        <div className="flex">
-                            <div className="flex-1"><span className="opacity-50">Total Price</span> <br /> <span className="font-medium">{req.totalAmount}</span></div>
-                            <div className="flex-1"><span className="opacity-50">Assigned At</span> <br /> <span className="font-medium"></span>{new Date(req.assignedAt!).toDateString()}</div>
-                            <div className="text-end"><button onClick={() => handleRequestAction(req._id as string, 'cancel')} className=" px-3 py-2  border border-red-500 bg-red-500 cursor-pointer rounded-md w-xs">Cancel Pickup</button></div>
+                        <div className="flex justify-between">
+                            <div className="md:flex-1"><span className="opacity-50">Total Price</span> <br /> <span className="font-medium">{req.totalAmount}</span></div>
+                            <div className="md:flex-1"><span className="opacity-50">Assigned At</span> <br /> <span className="font-medium"></span>{new Date(req.assignedAt!).toDateString()}</div>
+                            <div className="md:text-end"><button onClick={() => handleRequestAction(req._id as string, 'cancel')} className=" px-3 py-2  border border-red-500 bg-red-500 cursor-pointer rounded-md w-40 md:w-xs">Cancel Pickup</button></div>
                         </div>
                     </div>
                 </div>

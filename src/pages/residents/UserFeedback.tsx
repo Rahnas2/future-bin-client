@@ -77,7 +77,7 @@ const UserFeedback = (props: Props) => {
   }, [collectorsReviews, isLoadingCollectorsReviews, hasMore, fetchCollectorsReviews]);
 
   return (
-      <div className="flex-1 py-15 px-8 bg-seconday rounded-lg shadow-sm">
+      <div className="flex-1 md:py-15 px-8 md:bg-seconday rounded-lg shadow-sm">
         {isLoadingCollectorsReviews && collectorsReviews.length === 0 ? (
           <div className="flex justify-center items-center h-64">
             <ComponentSpinner />

@@ -183,14 +183,14 @@ const AppRoutes = () => {
       />
 
       <Route path='/about-us' element={
-        <UserRoute> 
+        <UserRoute>
           <ResidentNavLayout><AboutUs /></ResidentNavLayout>
         </UserRoute>
       } />
 
       <Route path='/available-plans' element={
         <UserRoute>
-         <ResidentNavLayout><SubscriptionPlans /></ResidentNavLayout>
+          <ResidentNavLayout><SubscriptionPlans /></ResidentNavLayout>
         </UserRoute>
       } />
 
@@ -274,18 +274,6 @@ const AppRoutes = () => {
         }
         />
 
-        <Route path='collector/request/cancel' element={
-          <CollectorRoute>
-            <CollectorCacelRequest />
-          </CollectorRoute>
-        } />
-
-        <Route path='collector/request/on-demand/complete' element={
-          <CollectorRoute>
-            <CollectorOnDemandCompleted />
-          </CollectorRoute>
-        } />
-
         {/* <Route path='collector/subscriptions' element={
           <CollectorRoute>
             <CollectorSubscriptions />
@@ -304,12 +292,6 @@ const AppRoutes = () => {
           </CollectorRoute>
         } />
 
-        <Route path='collector/inbox' element={
-          <CollectorRoute>
-            <CollectorInbox />
-          </CollectorRoute>
-        } />
-
         <Route path='collector/feedbacks' element={
           <CollectorRoute>
             <CollectorFeedback />
@@ -321,16 +303,36 @@ const AppRoutes = () => {
             <CollectorNotifications />
           </CollectorRoute>
         } />
+      </Route>
 
-        {/* admin routes */}
-        <Route
-          path="admin/login"
-          element={
-            <PublicRoute>
-              <SignIn />
-            </PublicRoute>
-          }
-        />
+      <Route path='collector/request/cancel' element={
+        <CollectorRoute>
+          <CollectorCacelRequest />
+        </CollectorRoute>
+      } />
+
+      <Route path='collector/request/on-demand/complete' element={
+        <CollectorRoute>
+          <CollectorOnDemandCompleted />
+        </CollectorRoute>
+      } />
+
+      <Route path='/collector/inbox' element={
+        <CollectorRoute>
+          <CollectorInbox />
+        </CollectorRoute>
+      } />
+
+      {/* admin routes */}
+      <Route
+        path="admin/login"
+        element={
+          <PublicRoute>
+            <SignIn />
+          </PublicRoute>
+        }
+      />
+      <Route path="/*" element={<SideBarLayout />}>
         <Route
           path="admin/dashboard"
           element={

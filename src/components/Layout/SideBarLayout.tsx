@@ -12,7 +12,7 @@ const SideBarLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen overflow-hidden">
             {/* Mobile menu toggle */}
             <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}

@@ -34,7 +34,7 @@ const ActiveSubscriptionCard: React.FC<Props> = ({requestId, subscription, price
 
     return (
         <>
-        <div className="flex flex-col gap-6 bg-primary px-6 py-5 rounded-2xl w-md">
+        <div className="flex flex-col gap-6 bg-primary px-6 py-5 rounded-2xl md:w-md border border-gray-500 shadow-sm md:shadow md:border-0">
 
             <div className="text-end text-sm font-bold">
                 <div><span>Started From:&nbsp;&nbsp;&nbsp;</span>

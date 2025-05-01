@@ -11,7 +11,7 @@ const UserPayments = (props: Props) => {
 
     const { role } = useSelector((state: IRootState) => state.auth)
     return (
-            <div className="flex-1 py-15 px-8 bg-seconday rounded-lg shadow-sm">
+            <div className="flex-1 md:py-15 md:px-8 md:bg-seconday rounded-lg shadow-sm">
 
                 <div>
                     <h2 className='font-medium text-lg mb-6'>Transactions</h2>

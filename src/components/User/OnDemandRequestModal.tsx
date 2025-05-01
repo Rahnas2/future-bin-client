@@ -195,7 +195,7 @@ const OnDemandRequestModal = (props: Props) => {
     }
 
     return (
-        <div className='fixed inset-0 bg-opacity-50 flex justify-center items-center'>
+        <div className='fixed inset-0 bg-opacity-50 flex justify-center items-center z-50'>
             <div className="bg-primary border border-gray-500 px-8 py-6 rounded-xl w-[900px] max-w-[100%] max-h-[98vh] flex flex-col">
                 {!initialized ? <ComponentSpinner /> :
                     <>

@@ -29,6 +29,7 @@ const AddWasteTypeModal = (props: Props) => {
     console.log('fetched wate types ', fetchedWasteTypes)
 
     useEffect(() => {
+        console.log('hello...... fetching....')
         const updateWasteTypes = async () => {
             setLoading(true);
             try {

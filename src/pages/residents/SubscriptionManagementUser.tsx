@@ -5,7 +5,7 @@ type Props = {}
 
 const SubscriptionManagementUser = (props: Props) => {
     return (
-            <div className="bg-seconday flex-1 py-15 px-8  rounded-md">
+            <div className="md:bg-seconday flex-1 md:py-15 px-4 md:px-8 rounded-md ">
                 <UserSubscriptionComp />
             </div>
     )

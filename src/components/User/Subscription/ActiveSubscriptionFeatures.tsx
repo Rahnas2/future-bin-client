@@ -9,7 +9,7 @@ type Props = {
 
 const ActiveSubscriptionFeatures = (props: Props) => {
     return (
-        <div className='flex flex-col bg-primary px-6 py-5 rounded-2xl'>
+        <div className='flex flex-col bg-primary px-6 py-5 rounded-2xl border border-gray-500 shadow-sm md:shadow md:border-0'>
             <div className='mb-5 font-bold text-xl'>Available Services</div>
             <div className='flex flex-col gap-2'>
                 {

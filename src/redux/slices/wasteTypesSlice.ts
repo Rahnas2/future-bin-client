@@ -6,9 +6,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchWasteTypes = createAsyncThunk("wasteTypes/fetch", async ({page, limit, search}: {page: number, limit: number, search: string}, { rejectWithValue }) => {
     try {
         const response = await fetchAllWasteTypesApi(page, limit, search)
-        console.log('response in slice ', response)
+        console.log('response in slice fetch waste types ', response)
         return response
     } catch (error: any) {
+        console.log('error response in slice fetch waste types ', error)
         return rejectWithValue(error?.response?.data.message || 'something went wrong')
     }
 

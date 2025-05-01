@@ -6,7 +6,7 @@ type Props = {}
 
 const UserPickupRequestHsitory = (props: Props) => {
   return (
-    <div className="bg-seconday flex-1 py-15 px-8  rounded-md">
+    <div className="md:bg-seconday flex justify-center md:block flex-1 md:py-15 md:px-8  rounded-md">
         <UserPickupRequestComp />
     </div>
   )

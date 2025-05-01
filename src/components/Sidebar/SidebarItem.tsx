@@ -52,11 +52,6 @@ const SidebarItem: React.FC<Props> = ({
                         </span>
                     )}
 
-                    {/* {isExpanded && (
-                        <span className="ml-auto">
-                            {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                        </span>
-                    )} */}
 
                     {!isExpanded && (
                         <span className="absolute left-full ml-4 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">

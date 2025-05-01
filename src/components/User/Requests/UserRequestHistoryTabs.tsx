@@ -15,7 +15,7 @@ const UserRequestHistoryTabs = (props: Props) => {
     }
     
     return (
-        <div className='flex gap-5 w-fit  bg-primary rounded-2xl [&>*]:rounded-2xl [&>*]:px-6 [&>*]:py-3 [&>*]:cursor-pointer'>
+        <div className='flex md:gap-5 w-fit  bg-primary rounded-2xl text-sm  [&>*]:rounded-2xl [&>*]:px-4 [&>*]:md:px-6 [&>*]:py-3 [&>*]:cursor-pointer'>
             <span onClick={() => handleTab('all')} className={`${props.currentTab === 'all' && 'bg-accent'} `}>All</span>
             <span onClick={() => handleTab('pending')} className={`${props.currentTab === 'pending' && 'bg-accent'} `}>Pending</span>
             <span onClick={() => handleTab('accepted')} className={`${props.currentTab === 'accepted' && 'bg-accent'} `}>In Progress</span>

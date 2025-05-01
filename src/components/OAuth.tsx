@@ -8,7 +8,7 @@ import { facebookLogin, fbRegister, googleLogin, googleRegister } from '../redux
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
-import { FacebookProvider, LoginButton } from 'react-facebook'
+import { LoginButton } from 'react-facebook'
 import { initiateSocket } from '@/services/socket'
 import { fetchUserProfile } from '@/redux/slices/userSlice'
 import { fetchCollectorProfile } from '@/redux/slices/collectorSlice'
@@ -103,7 +103,7 @@ const OAuth = (props: props) => {
 
 
     return (
-        <div className='border rounded-2xl border-gray-600 bg-[hsl(182,56%,11%)] mt-4 mb-8 w-[80%]'>
+        <div className='border rounded-2xl border-gray-600 bg-[hsl(182,56%,11%)] mt-4 mb-8 w-[80%] *:w-full'>
 
             <div onClick={handleGoogleAuth} className='flex px-4 py-4 border-b border-gray-600 justify-between items-center cursor-pointer'>
                 <div className='flex gap-5 items-center'>
@@ -113,8 +113,8 @@ const OAuth = (props: props) => {
                 <span className='text-xl'><MdKeyboardArrowRight className='inline' /></span>
             </div>
 
-            {/* <FacebookProvider appId='1634568927450402'> */}
-                <LoginButton scope="email" onSuccess={handleSuccessFacebook} onError={handleErrorFacebook}>
+           
+                <LoginButton scope="email" onSuccess={handleSuccessFacebook} onError={handleErrorFacebook} >
                     <div className='flex px-4 py-4  justify-between items-center'>
                         <div className='flex gap-5 items-center'>
                             <span className='text-xl'><FaFacebook className='inline' /></span>
@@ -124,7 +124,6 @@ const OAuth = (props: props) => {
                         <span className='text-xl'><MdKeyboardArrowRight className='inline' /></span>
                     </div>
                 </LoginButton>
-            {/* </ FacebookProvider > */}
         </div>
     )
 }

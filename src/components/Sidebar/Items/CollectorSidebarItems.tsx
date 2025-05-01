@@ -91,11 +91,6 @@ const CollectorSidebarItems: React.FC<Props> = ({ isExpanded }) => {
                 label="Notifications"
                 isExpanded={isExpanded}
             />
-
-            <button onClick={handleLogOut} className='transition-all duration-200 group relative mx-2 my-0'>
-                <span className="flex-shrink-0"><LogOut size={20} /></span>
-                <span className='ml-2 whitespace-nowrap overflow-hidden text-ellipsis'>Logout</span>
-            </button>
         </>
     );
 

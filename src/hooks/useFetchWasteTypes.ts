@@ -14,8 +14,8 @@ const useFetchWasteTypes = () => {
         if (!initialized) {
             const findWasteTypes = async () => {
                 try {
-                    const response = await dispatch(fetchWasteTypes()).unwrap();
-                    console.log('response ', response);
+                    const response = await dispatch(fetchWasteTypes({ page: 1, limit: 20, search: '' })).unwrap()
+                    console.log('response here man', response);
                     return response; 
                 } catch (error) {
                     console.log('error fetching waste types..', error);

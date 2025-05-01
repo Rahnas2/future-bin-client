@@ -41,7 +41,7 @@ const UserPickupRequestComp = (props: Props) => {
 
     return (
         <div>
-            <div className='text-xl font-bold mb-5'>Requests</div>
+            <div className='text-lg font-medium mb-5'>Requests</div>
             <UserRequestHistoryTabs
                 currentTab={tab}
                 setTab={handleTabChange}

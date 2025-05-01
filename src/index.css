@@ -26,6 +26,7 @@
   font-weight: 400;
   color: #ffffff !important;
   background-color: #0D2D2E;
+  overflow-x: hidden;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -141,4 +142,30 @@
   body {
     @apply bg-background text-text;
   }
+}
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;  /* width of the entire scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);  /* color of the tracking area */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(88, 17, 195, 0.2);  /* color of the scroll thumb */
+  border-radius: 10px;  /* roundness of the scroll thumb */
+  transition: background-color 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);  /* color of the scroll thumb on hover */
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;  /* "auto" or "thin" */
+  scrollbar-color: var(--accent) rgba(0, 0, 0, 0.05);  /* thumb and track color */
 }

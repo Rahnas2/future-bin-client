@@ -46,10 +46,10 @@ const UserRequestHistoryTable = (props: Props) => {
                                 <TableCell >{req._id?.slice(-5)}</TableCell >
                                 <TableCell >{req.type}</TableCell >
                                 <TableCell >
-                                    <span className={`border rounded-full px-4 py-1 ${req.status === 'pending' ? 'text-blue-400 border-blue-400' : req.status === 'accepted' ? 'text-accent3 border-accent3' : ''}`} >{req.status}</span>
+                                    <span className={`border rounded-full px-2 md:px-4 py-1 ${req.status === 'pending' ? 'text-blue-400 border-blue-400' : req.status === 'accepted' ? 'text-accent3 border-accent3' : ''}`} >{req.status}</span>
                                 </TableCell >
                                 <TableCell  >
-                                    <span className={`border rounded-full px-4 py-1 ${req.paymentStatus === 'pending' ? 'text-blue-400 border-blue-400' : req.paymentStatus === 'success' ? 'text-accent2' : ''}`} >{req.paymentStatus}</span>
+                                    <span className={`border rounded-full px-2 md:px-4 py-1 ${req.paymentStatus === 'pending' ? 'text-blue-400 border-blue-400' : req.paymentStatus === 'success' ? 'text-accent2' : ''}`} >{req.paymentStatus}</span>
                                 </TableCell >
                                 <TableCell >{req.totalAmount}</TableCell >
                             </TableRow>

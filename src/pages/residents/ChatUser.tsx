@@ -40,7 +40,7 @@ const ChatUser = (props: Props) => {
 
   useEffect(() => {
     socket.on('chat update', (updatedChat: chatListType) => {
-      console.log('update chat ', updatedChat)
+      
       setChatList(prev => {
         const updatedList = prev.map(chat =>
           chat._id === updatedChat._id ? updatedChat : chat
