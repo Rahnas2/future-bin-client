@@ -1,5 +1,5 @@
 import { TransactionType } from '@/types/transaction';
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Pagination from '../Pagination';
 
 import ComponentSpinner from '../ComponentSpinner';
@@ -13,23 +13,25 @@ const Transactions = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     const [currentPage, setCurrentPage] = useState(1);
+
     const [totalPages, setTotalPages] = useState(1);
 
-    useState(() => {
+    useEffect(() => {
         const fetchTransactions = async () => {
             try {
                 setIsLoading(true)
+                console.log('current page ', currentPage)
                 const result = await fetchTransactiosHistory(currentPage, 10)
                 setTransactions(result.transactions)
+                setTotalPages(result.totalPages)
             } catch (error) {
                 console.error('error fetching transactins ', error)
             } finally {
                 setIsLoading(false)
             }
         }
-
         fetchTransactions()
-    })
+    }, [currentPage])
 
     if (isLoading) return <ComponentSpinner />
 

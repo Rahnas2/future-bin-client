@@ -1,15 +1,8 @@
 import Transactions from '@/components/common/Payment/Transactions'
-import SideNav from '@/components/UserDash/SideNav'
-import { IRootState } from '@/redux/slices'
-import { stat } from 'fs'
-import React from 'react'
-import { useSelector } from 'react-redux'
 
 type Props = {}
 
 const UserPayments = (props: Props) => {
-
-    const { role } = useSelector((state: IRootState) => state.auth)
     return (
             <div className="flex-1 md:py-15 md:px-8 md:bg-seconday rounded-lg shadow-sm">
 

@@ -13,6 +13,7 @@ import { request } from 'http'
 import { useNavigate } from 'react-router-dom'
 import { calculateDistance } from '@/utils/calculateDistance'
 import { getPosition } from '@/utils/getCurrentPosition'
+import { Phone } from 'lucide-react'
 
 type Props = {
     request: pickupRequestType
@@ -134,13 +135,13 @@ const PickupReqeustCard = (props: Props) => {
                     </div>
 
                     <div className='mb-3'>
-                        <span className='opacity-50'>Approximate Weight:&nbsp;&nbsp;</span>
-                        <span className='text-sm font-medium'>{props.request.type === 'on-demand' && props.request.totalWeight}&nbsp; kg</span>
+                        <span className='opacity-50'>{props.request.type === 'on-demand' ? 'Approximate Weight' : 'Total Pickups'}:&nbsp;&nbsp;</span>
+                        <span className='text-sm font-medium'>{props.request.type === 'on-demand' ? props.request.totalWeight: props.request.subscription.totalPickups}&nbsp; kg</span>
                     </div>
 
-                    <div className='mb-10'>
-                        <span className='opacity-50'>Transportation: &nbsp;&nbsp;</span>
-                        <span className='text-sm font-medium'>15</span>
+                    <div className='mb-10  '>
+                        <span className='opacity-50'><Phone className='w-4 h-4 inline'/> Phone:&nbsp;&nbsp;</span>
+                        <span className='text-sm font-medium'>{props.request.mobile}</span>
                     </div>
 
                     <button onClick={() => navigateMap(props.request.address.location.coordinates)} className='mb-2 cursor-pointer'>

@@ -1,4 +1,4 @@
-import axios from "axios"
+
 import axiosInstance from "./axiosInstance"
 
 export const fetchPickupRequestById = async (id: string) => {

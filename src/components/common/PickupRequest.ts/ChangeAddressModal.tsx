@@ -181,15 +181,15 @@ const ChangeAddressModal: React.FC<Props> = ({ onClose, onChangeAddress }) => {
 
     return (
         <div className="fixed inset-0 flex justify-center items-center z-100">
-            <div className="bg-primary rounded-lg shadow-lg w-full max-w-md p-6 border border-gray-500">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold ">Change Address</h2>
+            <div className="bg-primary rounded-lg shadow-lg w-full max-w-md p-6 border border-gray-500 max-h-[100vh]">
+                <div className="flex justify-between items-center mb-4 md:mb-6">
+                    <h2 className="text-lg md:text-xl font-medium md:font-semibold ">Change Address</h2>
                 </div>
 
                 <Box className="flex flex-col items-center justify-center w-full max-w-lg mx-auto p-4">
 
                     <ThemeProvider theme={Input}>
-                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
+                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: {xs: 2.5, md : 3} }}>
                             <TextField
                                 label="Name"
                                 name='name'
@@ -220,7 +220,7 @@ const ChangeAddressModal: React.FC<Props> = ({ onClose, onChangeAddress }) => {
                                 fullWidth
                             />
 
-                            <Box sx={{ display: 'flex', gap: 3, width: '100%', flexDirection: { xs: 'column', sm: 'row' } }}>
+                            <Box sx={{ display: 'flex', gap: {xs: 2, md : 3}, width: '100%', flexDirection: { xs: 'column', sm: 'row' } }}>
                                 <TextField
                                     label="District"
                                     name="district"
@@ -244,7 +244,7 @@ const ChangeAddressModal: React.FC<Props> = ({ onClose, onChangeAddress }) => {
 
                             <Box sx={{
                                 display: 'flex',
-                                gap: 3,
+                                gap: {xs: 2.5, md : 3},
                                 width: '100%',
                                 flexDirection: { xs: 'column', sm: 'row' },
                                 alignItems: 'center'
@@ -308,7 +308,7 @@ const ChangeAddressModal: React.FC<Props> = ({ onClose, onChangeAddress }) => {
                     
                 </Box>
 
-                <div className="flex justify-end space-x-3 mt-6">
+                <div className="flex justify-end space-x-3 mt-4 md:mt-6">
                     <button
                         onClick={onClose}
                         className="px-4 py-2 border border-gray-500 text-gray-200 rounded-md hover:bg-gray-500 transition-colors"

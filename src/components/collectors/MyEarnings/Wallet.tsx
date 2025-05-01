@@ -19,7 +19,7 @@ const Wallet: React.FC<Props> = ({ balance, onBalanceChange }) => {
     };
 
     const handleWithdrawBalance = async () => {
-        // if (balance < 100) return toast.error('minimum withdraw amount is 100')
+        if (balance < 1) return toast.error('minimum withdraw amount is 100')
 
         try {
             setWithdrawing(true)

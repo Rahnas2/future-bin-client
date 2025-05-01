@@ -1,4 +1,5 @@
 import { onDemandWasteType } from "./onDemandWasteType"
+import { refundType } from "./refundType"
 import { requestCancellationType } from "./requestCancellation"
 import { subscriptionType } from "./SubscriptionType"
 
@@ -24,6 +25,7 @@ export interface BasePickupRequestType  {
     collectorId?: string,
     collectorName?: string,
     cancellation?: requestCancellationType
+    refund?: refundType,
     paymentStatus?: string,
     totalAmount: number,
     paidAmount?: number,
@@ -52,10 +54,6 @@ export interface SubscriptionPickupRequestType extends BasePickupRequestType {
         startDate?: string,
         endDate?: string,
     }
-    // subscriptionPlanId: string,
-    // subscriptionPlanName: string,
-    // totalPickups: number,
-    // completedPickups: number
 }
 
 export interface OnDemandPickupRequestState {

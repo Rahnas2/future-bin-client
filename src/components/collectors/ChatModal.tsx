@@ -91,7 +91,7 @@ const ChatModal = (props: Props) => {
                             }`}
                     >
                         <small className="opacity-50 text">{new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</small>
-                        <p className={`px-4 py-1 ${message.senderId === props.participant ? 'bg-primary' : 'bg-gray-600'}`}>{message.message}</p>
+                        <p className={`px-4 py-1 text-text ${message.senderId === props.participant ? 'bg-primary' : 'bg-seconday'}`}>{message.message}</p>
 
 
                     </div>
@@ -99,8 +99,7 @@ const ChatModal = (props: Props) => {
             </div>
 
             <div className='flex gap-2 px-3'>
-                <span><GrEmoji className='inline' /></span>
-                <input onChange={(e) => handleMessage(e)} value={message} className='flex-1 border border-gray-600 rounded-full' type="text" placeholder='Type a message' />
+                <input onChange={(e) => handleMessage(e)} value={message} className='flex-1 border border-gray-600 rounded-full px-2 py-1 text-sm' type="text" placeholder='Type a message' />
                 <button onClick={sendMessage}><FiSend className='inline' /></button>
             </div>
         </div>

@@ -104,7 +104,7 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                         <span className='opacity-50'>{pickupRequest?._id}</span>
                     </div>
 
-                    <div className='flex justify-between'>
+                    <div className='flex flex-col md:flex-row gap-8 justify-between'>
 
                         <div className=''>
                             <Address address={pickupRequest?.address!} />
@@ -125,7 +125,7 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                             }
                         </div>
 
-                        <div className='grid grid-cols-2 gap-x-10'>
+                        <div className='grid grid-cols-2 gap-x-10 gap-y-5 md:gap-y-0'>
                             <div>
                                 <div className='mb-3'>Created At Date & Time</div>
                                 <div className='opacity-50 flex flex-col gap-2'>
@@ -154,15 +154,21 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
                     </div>
 
-                    <div className='flex justify-between items-center'>
+                    <div className='flex flex-col md:flex-row gap-8 justify-between items-center'>
                         {role && role === 'collector' ?
                             <div>
                                 <div className='mb-5 font-medium'>User Information</div>
                                 <PersonalInfoCard userName={pickupRequest?.name!} mobile={pickupRequest?.mobile!} email={pickupRequest?.email!} />
                             </div> :
                             <div>
-                                <div className='mb-5 font-medium'>Collector Information</div>
-                                <PersonalInfoCard userName={pickupRequest?.collectorName!} mobile='9090909090' email='' />
+                                {pickupRequest?.status !== 'pending' ?
+                                    <>
+                                        <div className='mb-5 font-medium'>Collector Information</div>
+                                        <PersonalInfoCard userName={pickupRequest?.collectorName!} mobile='9090909090' email='' />
+                                    </> :
+                                    <></>
+                                }
+
                             </div>
                         }
                         <div className='flex-1 px-3'>
@@ -183,18 +189,30 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                                     <span>{pickupRequest?.paidAmount}</span>
                                 </div>
 
+                                {pickupRequest?.refund?.refunded &&
+                                    <div>
+                                        <span>Refunded Amount </span>
+                                        <span>{pickupRequest.refund.refundedAmount}</span>
+                                    </div>
+                                }
+
                                 <div>
                                     <span>Payment Status</span>
-                                    <span className={`${pickupRequest?.paymentStatus === 'pending' ? 'text-blue-500' : pickupRequest?.paymentStatus === 'accepted' ? 'text-accent2' : 'text-red-500'}`}>{pickupRequest?.paymentStatus}</span>
+                                    <span className={`${pickupRequest?.paymentStatus === 'pending' ? 'text-blue-500' : pickupRequest?.paymentStatus === 'succeeded' ? 'text-accent2' : 'text-red-500'}`}>{pickupRequest?.paymentStatus}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {pickupRequest?.status === 'cancelled' &&
-                        <div className='bg-red-500 rounded-sm p-2'>
-                            <div>{role === pickupRequest.cancellation?.cancelledBy ? 'You' : pickupRequest.cancellation?.cancelledBy} the request because {pickupRequest.cancellation?.reason}</div>
-                            <span>Description: {pickupRequest.cancellation?.description ? pickupRequest.cancellation?.description : '-'}</span>
+                        <div className='border-l-4 p-4 border-red-700 bg-red-900/2  rounded-sm'>
+                            <div>
+                                {pickupRequest.cancellation?.cancelledBy === role
+                                    ? 'You cancelled the request'
+                                    : `${pickupRequest.cancellation?.cancelledBy} ${pickupRequest.collectorName} cancelled the request`
+                                } because {pickupRequest.cancellation?.reason}
+                            </div>
+                            <span>Description: {pickupRequest.cancellation?.description ? pickupRequest.cancellation?.description : '--'}</span>
                         </div>
                     }
 
@@ -223,7 +241,7 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                                 )}
 
                             </div> : <></>
-                            }
+                        }
 
                     </div>
                 </div >
