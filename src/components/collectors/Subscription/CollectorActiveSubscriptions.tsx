@@ -87,23 +87,23 @@ const CollectorActiveSubscriptions = (props: Props) => {
                         <button onClick={() => navigateMap(req.address.location.coordinates)} className='cursor-pointer w-fit'><MapPin className="inline h-4 w-4 mr-2" />&nbsp;<span>{req.address.street + ',' + req.address.city}</span></button>
                     </div>
 
-                    {/* <div className='relative text-end'>
+                    <div className='relative text-end'>
                         <button onClick={() => handleChatOpen(req._id as string)} className='cursor-pointer'>
                             <MessageCircle className='inline text-4xl text-blue-400 ' />
                         </button>
 
                         {activeChatId === req._id && (
-                                                    <>
-                                                        <div
-                                                            className="fixed inset-0 bg-opacity-30 flex justify-center items-center"
-                                                            onClick={handleChatClose}
-                                                        ></div>
-                                                        <div className="absolute bottom-3 right-10 z-50 bg-white text-secondary rounded-sm">
-                                                            <ChatModal participant={req.userId as string} participantName={req.name} />
-                                                        </div>
-                                                    </>
-                                                )}
-                    </div> */}
+                            <>
+                                <div
+                                    className="fixed inset-0 bg-opacity-30 flex justify-center items-center"
+                                    onClick={handleChatClose}
+                                ></div>
+                                <div className="absolute bottom-3 right-10 z-50 bg-white text-secondary rounded-sm">
+                                    <ChatModal participant={req.userId as string} participantName={req.name} />
+                                </div>
+                            </>
+                        )}
+                    </div>
 
                     <div className="border opacity-10 my-5"></div>
 

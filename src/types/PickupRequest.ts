@@ -24,7 +24,11 @@ export interface BasePickupRequestType  {
     }
     collectorId?: string,
     collectorName?: string,
-    cancellation?: requestCancellationType
+    userImage?: string,
+    collectorImage?: string,
+    collectorEmail?: string,
+    collectorMobile?: string,
+    cancellation?: requestCancellationType,
     refund?: refundType,
     paymentStatus?: string,
     totalAmount: number,

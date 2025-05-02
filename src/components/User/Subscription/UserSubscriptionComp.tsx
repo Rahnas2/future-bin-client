@@ -39,7 +39,7 @@ const UserSubscriptionComp = (props: Props) => {
             <div className="p-6 text-center ">
                 <h3 className="mb-2 text-lg font-medium">No Active Subscription</h3>
                 <p className="text-gray-600">You don't have any active subscriptions at the moment.</p>
-                <Link to="/subscription-plans" className="mt-4 inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700" >
+                <Link to="/available-plans" className="mt-4 inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700" >
                     Browse Subscriptions
                 </Link>
             </div>

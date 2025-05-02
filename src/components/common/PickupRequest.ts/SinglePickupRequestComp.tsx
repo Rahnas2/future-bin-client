@@ -158,13 +158,13 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                         {role && role === 'collector' ?
                             <div>
                                 <div className='mb-5 font-medium'>User Information</div>
-                                <PersonalInfoCard userName={pickupRequest?.name!} mobile={pickupRequest?.mobile!} email={pickupRequest?.email!} />
+                                <PersonalInfoCard image={pickupRequest?.collectorImage} userName={pickupRequest?.name!} mobile={pickupRequest?.mobile!} email={pickupRequest?.email!} />
                             </div> :
                             <div>
                                 {pickupRequest?.status !== 'pending' ?
                                     <>
                                         <div className='mb-5 font-medium'>Collector Information</div>
-                                        <PersonalInfoCard userName={pickupRequest?.collectorName!} mobile='9090909090' email='' />
+                                        <PersonalInfoCard image={pickupRequest?.collectorImage} userName={pickupRequest?.collectorName!} mobile={pickupRequest?.collectorMobile!} email={pickupRequest?.collectorEmail!} />
                                     </> :
                                     <></>
                                 }
