@@ -92,13 +92,11 @@ const AddWasteTypeModal = (props: Props) => {
 
     return (
         <div className='fixed inset-0 flex justify-center items-center  backdrop-blur-xs z-10'>
-
-
-            <div className='border border-gray-500 px-4 py-4'>
+            <div className='border border-gray-600 px-4 py-4 rounded-lg'>
                 <div onClick={props.onClose} className="font-bold text-end text-accent2 cursor-pointer"><IoMdClose className="inline" /></div>
-                <div className='flex gap-8 px-4 py-4'>
+                <div className='flex gap-4 md:gap-8 px-2 md:px-4 py-2 md:py-4'>
                     <ThemeProvider theme={Input}>
-                        <FormControl className='w-xs m-0 border-blue-500'>
+                        <FormControl className='w-40 md:w-3xs  m-0 border-blue-500'>
                             <InputLabel id="name">Select Waste Type</InputLabel>
                             <Select
                                 labelId="name"
@@ -116,7 +114,7 @@ const AddWasteTypeModal = (props: Props) => {
                             </Select>
                         </FormControl>
 
-                        <FormControl className='w-sm m-0 border-blue-500'>
+                        <FormControl className='w-35 md:w-2xs m-0 border-blue-500'>
                             <InputLabel id="weight">select weight</InputLabel>
                             <Select
                                 labelId="weight"
@@ -145,18 +143,18 @@ const AddWasteTypeModal = (props: Props) => {
                 </div>
 
                 <div>
-                    <h1>Added Wastes</h1>
+                    <h1 className='mb-5'>Added Wastes</h1>
                     {addedWasteTypes.map(waste => (
-                        <div className='flex gap-5'>
+                        <div className='flex gap-5 bg-seconday border-1 border-gray-700 rounded-md p-3 m-2'>
                             <span>{waste.name}</span>
-                            <span>{waste.price}</span>
-                            <span>{waste.weight}</span>
+                            <span>$ {waste.price}</span>
+                            <span>{waste.weight} (Kg)</span>
                         </div>
                     ))}
                 </div>
 
                 <div className='flex justify-center'>
-                    <button onClick={handleSubmit} className='px-3 py-1 bg-accent rounded-md'>Done</button>
+                    <button onClick={handleSubmit} className='px-5 py-1 bg-accent rounded-md'>Done</button>
                 </div>
             </div>
         </div>

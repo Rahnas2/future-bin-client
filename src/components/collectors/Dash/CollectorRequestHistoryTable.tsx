@@ -81,7 +81,7 @@ const CollectorRequestHistoryTable = (props: Props) => {
                                     </button>
                                 </div>
                             </td>
-                            {props.type === 'pending' &&
+                            {/* {props.type === 'pending' &&
                                 <td className='p-2 flex justify-center relative '>
                                     <button onClick={() => toggleActionMenu(req._id as string)} className='flex items-center justify-between bg-accent px-5 py-1 rounded-lg font-bold cursor-pointer'>
                                         <span className=''>Action</span>
@@ -104,7 +104,7 @@ const CollectorRequestHistoryTable = (props: Props) => {
                                             </button>
                                         </div>
                                     )}
-                                </td>}
+                                </td>} */}
                         </tr>
                     ))}
                 </tbody>

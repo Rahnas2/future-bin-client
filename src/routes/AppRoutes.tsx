@@ -101,9 +101,9 @@ const AppRoutes = () => {
       '/pickup-request/history',
       '/transactions',
       '/chat',
-      '/pickup-requests'
+      '/pickup-requests',
+      '/collector/inbox'
     ];
-
     // Get the root element
     const rootElement = document.getElementById('root');
 
@@ -252,66 +252,62 @@ const AppRoutes = () => {
         </UserRoute>
       } />
 
-      <Route path="/*" element={<SideBarLayout />}>
+      <Route path="/collector" element={<SideBarLayout />}>
         {/* colllector routes */}
-        <Route path='collector/profile' element={
+        <Route path='profile' element={
           <CollectorRoute>
             <CollectorProfile />
           </CollectorRoute>
         } />
 
-        <Route path='collector/dashboard' element={
+        <Route path='dashboard' element={
           <CollectorRoute>
             <CollectorDash />
           </CollectorRoute>
         } />
 
 
-        <Route path='collector/requests' element={
+        <Route path='requests' element={
           <CollectorRoute>
             <CollectorRequests />
           </ CollectorRoute >
         }
         />
-
-        {/* <Route path='collector/subscriptions' element={
-          <CollectorRoute>
-            <CollectorSubscriptions />
-          </CollectorRoute>
-        } /> */}
-
-        <Route path="collector/pickups" element={
+        <Route path="pickups" element={
           <CollectorRoute>
             <CollectorPickups />
           </CollectorRoute>
         } />
 
-        <Route path='collector/earnings' element={
+        <Route path='earnings' element={
           <CollectorRoute>
             <MyEarnings />
           </CollectorRoute>
         } />
 
-        <Route path='collector/feedbacks' element={
+        <Route path='feedbacks' element={
           <CollectorRoute>
             <CollectorFeedback />
           </CollectorRoute>
         } />
 
-        <Route path='collector/notifications' element={
+        <Route path='notifications' element={
           <CollectorRoute>
             <CollectorNotifications />
           </CollectorRoute>
         } />
+
       </Route>
 
-      <Route path='collector/request/cancel' element={
+      <Route path="/collector/*" element={<NotFound />} />
+
+      <Route path='/collector/request/cancel' element={
         <CollectorRoute>
           <CollectorCacelRequest />
         </CollectorRoute>
       } />
 
-      <Route path='collector/request/on-demand/complete' element={
+      <Route path='/collector/request/on-demand/complete' element={
         <CollectorRoute>
           <CollectorOnDemandCompleted />
         </CollectorRoute>
@@ -332,9 +328,11 @@ const AppRoutes = () => {
           </PublicRoute>
         }
       />
-      <Route path="/*" element={<SideBarLayout />}>
+
+
+      <Route path="/admin" element={<SideBarLayout />}>
         <Route
-          path="admin/dashboard"
+          path="dashboard"
           element={
             <AdminRoute>
               <AdmDash />
@@ -343,7 +341,7 @@ const AppRoutes = () => {
         />
 
         <Route
-          path="admin/collectors"
+          path="collectors"
           element={
             <AdminRoute>
               <CollectorManagement />
@@ -354,9 +352,8 @@ const AppRoutes = () => {
           <Route path="requests" element={<ApprovalRequests />} />
         </Route>
 
-
         <Route
-          path="admin/users"
+          path="users"
           element={
             <AdminRoute>
               <UserManagement />
@@ -364,45 +361,44 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path='admin/subscriptions'
+          path='subscriptions'
           element={
             <AdminRoute>
               <SubscriptionManagemnt />
             </AdminRoute>
           }></Route>
 
-
         <Route
-          path="admin/collectors/:name"
-          element={
-            <AdminRoute>
-              <CollectorDetails />
-            </AdminRoute>
-          }
-        />
-
-        <Route
-          path="admin/waste-types"
+          path="waste-types"
           element={
             <AdminRoute>
               <WasteTypesManagement />
             </AdminRoute>
           } />
 
-        <Route path='admin/payments' element={
+        <Route path='payments' element={
           <AdminRoute>
             <PaymentAdmin />
           </AdminRoute>
         } />
 
-        <Route path='admin/feedbacks' element={
+        <Route path='feedbacks' element={
           <AdminRoute>
             <FeedbackAdmin />
           </AdminRoute>
         } />
 
-
       </Route>
+
+      <Route
+        path="/admin/collectors/:name"
+        element={
+          <AdminRoute>
+            <CollectorDetails />
+          </AdminRoute>
+        }
+      />
+      <Route path="/admin/*" element={<NotFound />} />
 
       <Route path='/map' element={<Map />} />
 

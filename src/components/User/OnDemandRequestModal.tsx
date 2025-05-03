@@ -13,6 +13,7 @@ import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
 import { onDemandWasteType } from '@/types/onDemandWasteType'
 import ComponentSpinner from '../common/ComponentSpinner'
 import ChangeAddressModal from '../common/PickupRequest.ts/ChangeAddressModal'
+import ButtonSpinner from '../common/ButtonSpinner'
 
 type Props = {
     onClose: () => void
@@ -25,6 +26,8 @@ const OnDemandRequestModal = (props: Props) => {
     const dispatch = useDispatch<AppDispatch>()
 
     const [fetchingWasteTypes, setFetchingWasteTypes] = useState(false)
+    const [isRequestingPickup, setIsRequestingPickup] = useState(false)
+
 
     //For Change Address Modal
     const [changeAddress, setChangeAddress] = useState(false)
@@ -179,6 +182,8 @@ const OnDemandRequestModal = (props: Props) => {
                 return toast.error('Please enter valid weights for selected waste types');
             }
 
+            setIsRequestingPickup(true)
+
             const submissionData = {
                 ...data,
                 wasteTypes: selectedWasteTypes
@@ -191,6 +196,8 @@ const OnDemandRequestModal = (props: Props) => {
         } catch (error: any) {
             console.error('error request on-demnand pickup ', error)
             toast.error(error.response.data.message || 'something went wrong')
+        } finally {
+            setIsRequestingPickup(false);
         }
     }
 
@@ -302,10 +309,12 @@ const OnDemandRequestModal = (props: Props) => {
 
                         <div className='flex justify-end mt-6'>
                             <button
+                                disabled={isRequestingPickup}
                                 onClick={handleSubmit}
-                                className='bg-accent px-6 py-2 rounded-lg text-white hover:bg-opacity-90 transition-colors'
+                                className='bg-accent px-6 py-2 flex justify-center rounded-lg text-white hover:bg-opacity-90 transition-colors cursor-pointer  w-40'
                             >
-                                Request Pickup
+                                {isRequestingPickup ? <ButtonSpinner />: 'Request Pickup'}
+                                
                             </button>
                         </div>
                     </>

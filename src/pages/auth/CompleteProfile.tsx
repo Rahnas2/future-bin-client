@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { Box, FormControl, MenuItem, TextField } from '@mui/material'
 import Input from '../../themes/input';
@@ -6,8 +6,7 @@ import Input from '../../themes/input';
 import { MdAdd, MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { BiCurrentLocation } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
-import { data, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { completeProfile } from '../../redux/slices/authSlice';
 import { AppDispatch } from '../../redux/store';
@@ -20,7 +19,8 @@ import { initiateSocket } from '@/services/socket';
 import { fetchUserProfile } from '@/redux/slices/userSlice';
 import { fetchCollectorProfile } from '@/redux/slices/collectorSlice';
 
-import { geocodeFullAddress, getAddressSuggestions, getCoordinatesFromSuggestion } from '@/api/geocoding';
+import { geocodeFullAddress, getAddressFromCoordinates, getAddressSuggestions, getCoordinatesFromSuggestion } from '@/api/geocoding';
+import { getPosition } from '@/utils/getCurrentPosition';
 
 
 const CompleteProfile = () => {
@@ -29,6 +29,7 @@ const CompleteProfile = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
     const { isLoading } = useSelector((state: IRootState) => state.auth)
+    const [isFetchingLocation, setIsFetchingLocation] = useState(false);
 
     const { Role, Email } = location.state
     const role = Role
@@ -73,41 +74,58 @@ const CompleteProfile = () => {
     type ExcludeUndefined<T> = T extends undefined ? never : T;
 
 
-    const getLocation = () => {
-        if (!navigator.geolocation) {
-            toast.error('Geolocation is not supported by your browser');
-            return;
-        }
 
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const { longitude, latitude } = position.coords
-                try {
-                    const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+    const getCurrentAddress = async () => {
+        try {
+            setIsFetchingLocation(true);
+            const coords = await getPosition()
 
-                    const address = response.data.address
+            const response = await getAddressFromCoordinates(coords.latitude, coords.longitude)
 
-                    const { road, state_district, village, town, neighbourhood, postcode } = address
-                    setAddress({
-                        street: road || neighbourhood || '',
-                        houseNo: '',
-                        district: state_district || '',
-                        city: village || town || '',
-                        pincode: postcode,
-                        location: {
-                            type: 'Point',
-                            coordinates: [longitude, latitude]
+            const address = response.data.address
+
+            const { road, state_district, village, town, neighbourhood, postcode } = address
+            const newAddress = {
+                street: road || neighbourhood || '',
+                houseNo: '',
+                district: state_district || '',
+                city: village || town || '',
+                pincode: postcode || 0,
+                location: {
+                    type: 'Point',
+                    coordinates: [coords.longitude, coords.latitude],
+                },
+            };
+
+            setAddress(newAddress)
+
+            try {
+                await completeProfileSchema.validateAt('address', { ...dataToValidate, address: newAddress });
+                setError((prevErrors) => ({
+                    ...prevErrors,
+                    address: undefined, // Clear all address-related errors
+                }));
+            } catch (validationError) {
+                if (validationError instanceof ValidationError) {
+                    const addressErrors: Record<string, string> = {};
+                    validationError.inner.forEach((err) => {
+                        if (err.path?.startsWith('address.')) {
+                            const field = err.path.split('.')[1];
+                            addressErrors[field] = err.message;
                         }
-                    })
-                } catch (error) {
-                    console.error(error)
+                    });
+                    setError((prevErrors) => ({
+                        ...prevErrors,
+                        address: addressErrors,
+                    }));
                 }
-            },
-            (error) => {
-                toast.error('Unable to retrieve your location');
-                console.error(error);
             }
-        )
+
+        } catch (error) {
+            console.error('error getting current position ', error)
+        } finally {
+            setIsFetchingLocation(false);
+        }
     }
 
     const [vehicleDetails, setVehicleInfo] = useState({
@@ -126,6 +144,14 @@ const CompleteProfile = () => {
         vehicleImg: role === 'collector' ? vehicleImg : undefined,
         role,
     };
+
+    useEffect(() => {
+        return () => {
+            if (geocodeTimer) {
+                clearTimeout(geocodeTimer);
+            }
+        };
+    }, [geocodeTimer]);
 
     //handle profile image changes 
     const handleProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,6 +190,7 @@ const CompleteProfile = () => {
                 setError((prevError) => ({
                     ...prevError,
                     idCard: {
+                        ...prevError.idCard,
                         [side]: null
                     }
                 }))
@@ -172,6 +199,7 @@ const CompleteProfile = () => {
                     setError((prevError) => ({
                         ...prevError,
                         idCard: {
+                            ...prevError.idCard,
                             [side]: error.message
                         }
                     }))
@@ -271,19 +299,49 @@ const CompleteProfile = () => {
     }
 
     //when User Select From Suggestion 
-    const handleSuggestionClick = (place: any) => {
+    const handleSuggestionClick = async (place: any) => {
         const { address: suggestedAddress } = place;
-        console.log('place ', place)
-        setAddress({
+        const newAddress = {
             street: suggestedAddress.road || suggestedAddress.neighbourhood || '',
             houseNo: '',
             district: suggestedAddress.state_district || '',
-            city: suggestedAddress.village || suggestedAddress.town || suggestedAddress.city || '',
+            city:
+                suggestedAddress.village ||
+                suggestedAddress.town ||
+                suggestedAddress.city ||
+                '',
             pincode: suggestedAddress.postcode || 0,
             location: getCoordinatesFromSuggestion(place),
-        });
-
-        setSuggestions([]); // Clear suggestions
+        };
+    
+        setAddress(newAddress);
+        setSuggestions([]);
+    
+        // Validate the new address
+        try {
+            await completeProfileSchema.validateAt('address', {
+                ...dataToValidate,
+                address: newAddress,
+            });
+            setError((prevErrors) => ({
+                ...prevErrors,
+                address: undefined, // Clear all address errors
+            }));
+        } catch (validationError) {
+            if (validationError instanceof ValidationError) {
+                const addressErrors: Record<string, string> = {};
+                validationError.inner.forEach((err) => {
+                    if (err.path?.startsWith('address.')) {
+                        const field = err.path.split('.')[1];
+                        addressErrors[field] = err.message;
+                    }
+                });
+                setError((prevErrors) => ({
+                    ...prevErrors,
+                    address: addressErrors,
+                }));
+            }
+        }
     };
 
 
@@ -437,10 +495,10 @@ const CompleteProfile = () => {
                                         onChange={(e) => handleIdCard(e, 'front')}
                                     />
                                 </label>
-                                <span className={`text-center ${error.idCard?.front ? 'text-red-700' : 'opacity-50'}`}>{(error.idCard?.front) ? `${error.idCard.front}` : 'Back Side'}</span>
+                                <span className={`text-center ${error.idCard?.front ? 'text-red-700' : 'opacity-50'}`}>{(error.idCard?.front) ? `${error.idCard.front}` : 'Front Side'}</span>
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor='idcard-back' className={`border border-dashed ${error.idCard?.front ? 'border-red-700' : ''} rounded-xl w-xs h-48 flex items-center justify-center`}>
+                                <label htmlFor='idcard-back' className={`border border-dashed ${error.idCard?.back ? 'border-red-700' : ''} rounded-xl w-xs h-48 flex items-center justify-center`}>
                                     {idCard.back ? <img className='p-1 h-48 w-xs rounded-xl' src={URL.createObjectURL(idCard.back)} alt="" /> : <MdAdd className='inline text-3xl font-bold' />}
                                     <input
                                         type="file"
@@ -451,7 +509,7 @@ const CompleteProfile = () => {
                                         onChange={(e) => handleIdCard(e, 'back')}
                                     />
                                 </label>
-                                <span className={`text-center ${error.idCard?.front ? 'text-red-700' : 'opacity-50'}`}>{(error.idCard?.back) ? `${error.idCard.back}` : 'Back Side'}</span>
+                                <span className={`text-center ${error.idCard?.back ? 'text-red-700' : 'opacity-50'}`}>{(error.idCard?.back) ? `${error.idCard.back}` : 'Back Side'}</span>
                             </div>
                         </div>
                     </div>}
@@ -551,7 +609,19 @@ const CompleteProfile = () => {
                                     onChange={handleAddress}
                                 />
                                 <div className='flex justify-center'>
-                                    <button onClick={getLocation} className='bg-accent py-2 px-4 rounded-lg flex items-center cursor-pointer'><BiCurrentLocation className='inline' />&nbsp;&nbsp;Choose Location</button>
+                                    <button
+                                        onClick={getCurrentAddress}
+                                        disabled={isFetchingLocation}
+                                        className='bg-accent py-2 px-4 rounded-lg flex items-center justify-center cursor-pointer min-w-40'
+                                    >
+                                        {isFetchingLocation ? (
+                                            <ButtonSpinner /> 
+                                        ) : (
+                                            <>
+                                                <BiCurrentLocation className='inline' />&nbsp;Choose Location
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
                             </Box>
 
@@ -626,10 +696,10 @@ const CompleteProfile = () => {
                     </div>}
 
                 </div>
-            </div>
+            </div >
 
             <div className='flex justify-center'>
-                <button disabled={isLoading} onClick={handleSubmit} className='bg-accent py-2 px-8 rounded-lg flex items-center font-bold mt-15 mb-3 cursor-pointer'>
+                <button disabled={isLoading} onClick={handleSubmit} className='bg-accent py-2 px-8 rounded-lg flex items-center justify-center font-bold mt-15 mb-3 cursor-pointer w-40'>
                     {isLoading ? <ButtonSpinner /> :
                         <div>Proceed&nbsp;<MdKeyboardArrowRight className='inline' /></div>
                     }

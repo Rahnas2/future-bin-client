@@ -100,7 +100,7 @@ const ReqActionCompletion = (props: Props) => {
                 Done
             </button>
 
-            {showPaymentQr && <PaymentQrModal paymentUrl={paymentSessionResponse.url} amount={paymentSessionResponse.amount} onClose={handleClose} />}
+            {showPaymentQr && <PaymentQrModal paymentUrl={paymentSessionResponse.url} amount={paymentSessionResponse.amount / 100} onClose={handleClose} />}
         </div>
     )
 

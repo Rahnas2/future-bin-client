@@ -12,6 +12,8 @@ import UsersData from "@/components/Admin/UserManagement.tsx/UsersData"
 import Pagination from "@/components/common/Pagination"
 import AdminSearch from "@/components/Admin/AdminSearch"
 import { fetchSingleUserApi } from "@/api/adminServices"
+import EmptyUsers from "@/components/Admin/UserManagement.tsx/EmptyUsers"
+import { Users } from "lucide-react"
 
 
 const UserManagement = () => {
@@ -40,7 +42,7 @@ const UserManagement = () => {
     const handler = setTimeout(() => {
       setDebouncedTerm(searchTerm)
       setCurrentPage(1)
-    } , 500); 
+    }, 500);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
@@ -66,34 +68,36 @@ const UserManagement = () => {
 
   return (
     <div className="flex min-h-lvh">
-   
+
       <div className="bg-primary mt-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
 
         <div className="bg-seconday py-6 rounded-xl">
 
-          <div className="font-bold mb-8 px-6">All User</div>
+          <div className="font-medium text-lg mb-8 px-6">All User</div>
+          {totalPages === 0 ? <EmptyUsers Icon={Users} text='No Users' /> :
+            <>
+              <AdminSearch onSearch={handleSearch} />
 
-          <AdminSearch onSearch={handleSearch} />
-
-          <div>
-            <table className="w-full table">
-              <thead className="">
-                <tr className="border-b opacity-50">
-                  <th className="pl-6 p-3 text-left">#</th>
-                  <th className="p-3 text-left">Profile</th>
-                  <th className="p-3 text-left">Full Name</th>
-                  <th className="p-3 text-left">Mobile</th>
-                  <th className="p-3 text-left">Email</th>
-                  <th className="p-3 text-left">District</th>
-                  <th className="p-3 text-left">Area</th>
-                  <th className="pl-4 py-3 text-left"></th>
-                </tr>
-              </thead>
-              <UsersData role="resident" getUserDetail={getUserDetail} status={false} />
-            </table>
-          </div>
-
-          <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>
+              <div>
+                <table className="w-full table">
+                  <thead className="">
+                    <tr className="border-b opacity-50">
+                      <th className="pl-6 p-3 text-left">#</th>
+                      <th className="p-3 text-left">Profile</th>
+                      <th className="p-3 text-left">Full Name</th>
+                      <th className="p-3 text-left">Mobile</th>
+                      <th className="p-3 text-left">Email</th>
+                      <th className="p-3 text-left">District</th>
+                      <th className="p-3 text-left">Area</th>
+                      <th className="pl-4 py-3 text-left"></th>
+                    </tr>
+                  </thead>
+                  <UsersData role="resident" getUserDetail={getUserDetail} status={false} />
+                </table>
+              </div>
+            </>
+          }
+          {totalPages > 0 && <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>}
         </div>
       </div>
       {isModalOpen && (

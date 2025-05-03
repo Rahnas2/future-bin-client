@@ -10,6 +10,7 @@ const NotFound = (props: Props) => {
     const [isLidOpen, setIsLidOpen] = useState(false);
 
     useEffect(() => {
+        console.log('hello my guyss ....')
         const interval = setInterval(() => {
             setIsLidOpen(prev => !prev);
             setTimeout(() => {

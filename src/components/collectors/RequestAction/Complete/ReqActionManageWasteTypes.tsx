@@ -68,9 +68,11 @@ const ReqActionManageWasteTypes = (props: Props) => {
             <ManageWasteTypes />
 
             <div className='flex justify-between mt-8 text-sm'>
-                <button onClick={handleAddOpen} className='px-8 py-2 rounded-md text-sm font-medium  focus:outline-none transition text-accent2 hover:text-green-800 hover:bg-gray-200 '><Plus className='inline mr-2 w-4 h-4'/>Add</button>
+                <button onClick={handleAddOpen} className='px-8 py-2 rounded-md text-sm font-medium  focus:outline-none transition text-accent2 hover:text-green-50 hover:bg-primary '>
+                    <Plus className='inline mr-2 w-4 h-4' />Add
+                </button>
                 <button disabled={isUpdating} onClick={handleUpdate} className='bg-accent px-3 py-2 rounded-sm w-50' >
-                    {isUpdating ? <div className='flex justify-center'><ButtonSpinner /></div> : <><SaveIcon className="w-4 h-4 mr-2 inline"/>Update Collection</>}
+                    {isUpdating ? <div className='flex justify-center'><ButtonSpinner /></div> : <><SaveIcon className="w-4 h-4 mr-2 inline" />Update Collection</>}
                 </button>
             </div>
 

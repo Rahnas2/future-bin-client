@@ -11,7 +11,6 @@ import ComponentSpinner from '@/components/common/ComponentSpinner';
 import NotificationItem from '@/components/Notification/NotificationItem';
 import EmptyNotifications from '@/components/Notification/EmptyNotifications';
 import { useDispatch } from 'react-redux';
-import { incrementNotification } from '@/redux/slices/countSlice';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const appearance = {

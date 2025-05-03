@@ -44,21 +44,22 @@ type Props = {
   toDate: Date;
 };
 
-const RequestChart: React.FC<Props> = ({ 
-  timeRange, 
-  setTimeRange, 
-  data, 
-  fromDate, 
-  toDate 
+const RequestChart: React.FC<Props> = ({
+  timeRange,
+  setTimeRange,
+  data,
+  fromDate,
+  toDate
 }) => {
   // Process data to ensure all dates are present
   const processedData = React.useMemo(() => {
+
     if (!data || data.length === 0) {
       const emptyData: pickupRequestTrendType[] = [];
       let currentDate = new Date(fromDate);
-      currentDate.setHours(0, 0, 0, 0);
+      const endDate = new Date(toDate);
 
-      while (currentDate <= toDate) {
+      while (currentDate <= endDate) {
         emptyData.push({
           date: currentDate.toISOString().split('T')[0],
           onDemand: 0,
@@ -79,16 +80,25 @@ const RequestChart: React.FC<Props> = ({
         },
       ])
     );
+    console.log('data map ', dataMap)
 
     // Fill in all dates in the range
     const filledData: pickupRequestTrendType[] = [];
     let currentDate = new Date(fromDate);
     currentDate.setHours(0, 0, 0, 0);
+
     const endDate = new Date(toDate);
     endDate.setHours(0, 0, 0, 0);
 
+    console.log('current date here  ', currentDate)
+    console.log('end date here ', endDate)
+
     while (currentDate <= endDate) {
-      const dateStr = currentDate.toISOString().split('T')[0];
+      console.log('current date iso ', currentDate)
+      console.log('end date iso ', endDate)
+
+      const dateStr = currentDate.toLocaleDateString('en-CA')
+      console.log('date str ', dateStr)
       filledData.push(
         dataMap.get(dateStr) || {
           date: dateStr,
@@ -97,7 +107,9 @@ const RequestChart: React.FC<Props> = ({
         }
       );
       currentDate.setDate(currentDate.getDate() + 1);
+
     }
+    console.log('filled dates ', filledData)
 
     return filledData;
   }, [data, fromDate, toDate]);
@@ -167,11 +179,10 @@ const RequestChart: React.FC<Props> = ({
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Request Analysis</CardTitle>
           <CardDescription>
-            {`Showing total requests for the last ${
-              timeRange === '6m' ? '6 months' :
+            {`Showing total requests for the last ${timeRange === '6m' ? '6 months' :
               timeRange === '30d' ? '30 days' :
-              timeRange === '7d' ? '7 days' : ''
-            }`}
+                timeRange === '7d' ? '7 days' : ''
+              }`}
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -236,9 +247,9 @@ const RequestChart: React.FC<Props> = ({
                 ticks={generateTicks}
                 tickFormatter={formatDate}
               />
-              <YAxis 
-                axisLine={false} 
-                tickLine={false} 
+              <YAxis
+                axisLine={false}
+                tickLine={false}
                 tickMargin={8}
                 allowDecimals={false}
               />

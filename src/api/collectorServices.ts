@@ -35,7 +35,6 @@ export const fetchMessagesBetweenTwoUserApi = async (userId: string) => {
 //payment 
 export const createPaymentSessionApi = async(amount: number, userId: string, pickupRequestId: string) => {
     const response = await axiosInstance.post('/api/collector/create-payment-session', {amount, userId, pickupRequestId})
-    console.log('respose create payment session ', response)
     return response.data
 }
 

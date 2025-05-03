@@ -7,6 +7,8 @@ import { AppDispatch } from '@/redux/store'
 import { fetchCollectors } from '@/redux/slices/adminSlice'
 import UsersData from '../UsersData'
 import Pagination from '@/components/common/Pagination'
+import EmptyUsers from '../EmptyUsers'
+import { Truck } from 'lucide-react'
 
 
 
@@ -21,7 +23,7 @@ const ApprovedCollectors = () => {
 
   useEffect(() => {
     const fetchApprovedCollectors = async () => {
-      const response = await dispatch(fetchCollectors({approvedStatus: 'approved', page: currentPage, limit: 10, search: searchTerm})).unwrap()
+      const response = await dispatch(fetchCollectors({ approvedStatus: 'approved', page: currentPage, limit: 10, search: searchTerm })).unwrap()
       setTotalPages(response.totalPages);
     };
     fetchApprovedCollectors();
@@ -32,7 +34,7 @@ const ApprovedCollectors = () => {
     const handler = setTimeout(() => {
       setDebouncedTerm(searchTerm)
       setCurrentPage(1)
-    } , 500); 
+    }, 500);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
@@ -44,16 +46,19 @@ const ApprovedCollectors = () => {
 
   return (
     <div className="bg-seconday py-6 rounded-xl">
-      <div className="font-bold mb-8 px-6">All Collectos</div>
+      <div className="font-medium text-lg mb-8 px-6">All Collectors</div>
 
-      <AdminSearch onSearch={handleSearch}/>
+      {totalPages === 0 ? <EmptyUsers Icon={Truck } text='No Approval Collectors' /> :
+        <>
+          <AdminSearch onSearch={handleSearch} />
 
-      <table className='w-full'>
-        <TableHead status={true} />
-        <UsersData role='collector' status={true} />
-      </table>
-
-      <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>
+          <table className='w-full'>
+            <TableHead status={true} />
+            <UsersData role='collector' status={true} />
+          </table>
+        </>
+      }
+      {totalPages > 0 && <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>}
 
 
     </div>

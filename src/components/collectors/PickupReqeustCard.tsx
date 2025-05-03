@@ -9,11 +9,11 @@ import { IRootState } from '../../redux/slices'
 import { acceptPickupRequestApi } from '../../api/collectorServices'
 import toast from 'react-hot-toast'
 import ChatModal from './ChatModal'
-import { request } from 'http'
 import { useNavigate } from 'react-router-dom'
 import { calculateDistance } from '@/utils/calculateDistance'
 import { getPosition } from '@/utils/getCurrentPosition'
 import { Phone } from 'lucide-react'
+import ButtonSpinner from '../common/ButtonSpinner'
 
 type Props = {
     request: pickupRequestType
@@ -50,6 +50,8 @@ const PickupReqeustCard = (props: Props) => {
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [approximateDistance, setApproximateDistance] = useState(0)
 
+    const [isAcceptingRequest, setIsAcceptingRequest] = useState(false)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -71,13 +73,16 @@ const PickupReqeustCard = (props: Props) => {
     //accept request
     const handleRequestAccept = async () => {
         try {
+            setIsAcceptingRequest(true)
             const name = collector?.firstName + ' ' + collector?.lastName
             const result = await acceptPickupRequestApi(props.request._id as string, name)
             props.onAction(props.request._id as string)
             toast.success(result.message)
         } catch (error: any) {
             console.log('error ', error)
-            error.response.data.message ? toast.error(error.response.data.message ): toast.error('something went wrong')
+            error.response.data.message ? toast.error(error.response.data.message) : toast.error('something went wrong')
+        } finally {
+            setIsAcceptingRequest(false)
         }
     }
 
@@ -136,11 +141,11 @@ const PickupReqeustCard = (props: Props) => {
 
                     <div className='mb-3'>
                         <span className='opacity-50'>{props.request.type === 'on-demand' ? 'Approximate Weight' : 'Total Pickups'}:&nbsp;&nbsp;</span>
-                        <span className='text-sm font-medium'>{props.request.type === 'on-demand' ? props.request.totalWeight: props.request.subscription.totalPickups}&nbsp; kg</span>
+                        <span className='text-sm font-medium'>{props.request.type === 'on-demand' ? props.request.totalWeight : props.request.subscription.totalPickups}&nbsp; kg</span>
                     </div>
 
                     <div className='mb-10  '>
-                        <span className='opacity-50'><Phone className='w-4 h-4 inline'/> Phone:&nbsp;&nbsp;</span>
+                        <span className='opacity-50'><Phone className='w-4 h-4 inline' /> Phone:&nbsp;&nbsp;</span>
                         <span className='text-sm font-medium'>{props.request.mobile}</span>
                     </div>
 
@@ -155,19 +160,23 @@ const PickupReqeustCard = (props: Props) => {
                     </div>
 
                     <div className='flex mt-6 items-center gap-4'>
-                        <div onClick={handleRequestAccept} className='bg-accent px-6 py-2 rounded-4xl font-bold cursor-pointer'>
-                            <span><IoMdCheckmarkCircleOutline className='inline text-xl' /></span>
-                            <span className='ml-2 '>Accept</span>
-                        </div>
-                        <div onClick={handleRequestDecline} className='bg-red-700 px-6 py-2 rounded-4xl font-bold cursor-pointer'>
+                        <button disabled={isAcceptingRequest} onClick={handleRequestAccept} className='flex-1 bg-accent flex justify-center px-6 py-2 rounded-4xl font-bold cursor-pointer'>
+                            {isAcceptingRequest ? <ButtonSpinner /> :
+                                <>
+                                    <span><IoMdCheckmarkCircleOutline className='inline text-xl' /></span>
+                                    <span className='ml-2 '>Accept</span>
+                                </>
+                            }
+                        </button>
+                        <button onClick={handleRequestDecline} className='flex-1 bg-red-700 px-6 py-2 rounded-4xl font-bold cursor-pointer'>
                             <span><IoMdCloseCircleOutline className='inline text-2xl' /></span>
                             <span className='ml-2 cursor-pointer'>Ignore</span>
-                        </div>
+                        </button>
 
-                        <div className='relative'>
-                            <div onClick={handleChatOpen} className='cursor-pointer'>
+                        <div className='relative '>
+                            <button onClick={handleChatOpen} className='cursor-pointer'>
                                 <IoChatbox className='inline text-4xl text-blue-500' />
-                            </div>
+                            </button>
 
                             {isChatOpen && (
                                 <>

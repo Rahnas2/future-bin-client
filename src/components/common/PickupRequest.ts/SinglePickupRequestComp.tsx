@@ -13,8 +13,8 @@ import { reviewType } from '@/types/reviewType'
 import FeedBackAddEditModal from '@/components/User/Feedback/FeedBackAddEditModal'
 import { fetchUserReviewWithCollectorIdApi } from '@/api/reviewService'
 import CancelPickupRequestModal from './CancelPickupRequestModal'
-import ActiveSubscriptionCard from '@/components/User/Subscription/ActiveSubscriptionCard'
 import ChatModal from '@/components/collectors/ChatModal'
+import { requestCancellationType } from '@/types/requestCancellation'
 
 type Props = {
     requestId: string
@@ -48,6 +48,16 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
     const handleCancelModalClose = () => {
         setCancelModal(false)
+    }
+
+    const handlePickupCancelled = (cancellationData: requestCancellationType) => {
+        if (pickupRequest) {
+            setPickupRequest({
+                ...pickupRequest,
+                status: 'cancelled',
+                cancellation: cancellationData
+            })
+        }
     }
 
     //Handle Chat Modal 
@@ -248,7 +258,7 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
             }
             {addEditModal && <FeedBackAddEditModal onClose={handleAddEditModalClose} mode={feedback ? 'edit' : 'add'} review={feedback ? feedback : undefined} setReview={setFeedback} type='collector' collectorId={pickupRequest?.collectorId as string} />}
-            {cancelModal && <CancelPickupRequestModal onClose={handleCancelModalClose} pickupRequestId={pickupRequest?._id as string} />}
+            {cancelModal && <CancelPickupRequestModal onClose={handleCancelModalClose} pickupRequestId={pickupRequest?._id as string} onCancelSuccess={handlePickupCancelled}/>}
         </>
     )
 }

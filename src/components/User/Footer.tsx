@@ -4,14 +4,14 @@ import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 
 type Props = {}
 
-const Footer = (props: Props) => {
+const Footer = () => {
   return (
-    <div className="bg-seconday flex flex-col -mx-8">
+    <div className="bg-seconday  flex flex-col -mx-8">
         <div className='flex justify-center'>
             <img className='w-35' src={brand} alt="brand icon" />
         </div>
 
-        <p className='opacity-50 text-center text-sm -mt-8 '>Comprehensive waste management solutions for residential, commercial, and industrial needs</p>
+        <p className='opacity-50 text-center text-sm -mt-8 px-8'>Comprehensive waste management solutions for residential, commercial, and industrial needs</p>
 
         <div className='flex md:gap-80 justify-around  md:justify-normal mt-15 text-sm  md:px-50 '>
                 <div className='flex flex-col gap-5'>

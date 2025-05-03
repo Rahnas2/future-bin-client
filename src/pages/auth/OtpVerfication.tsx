@@ -30,6 +30,9 @@ const OtpVerfication = () => {
     //to show loader and disable button after submit verify
     const [isLoading, setIsLoading] = useState(false)
 
+    // Add loading state for resend button
+    const [isResendingOtp, setIsResendingOtp] = useState(false)
+
     useEffect(() => {
         let interval: any;
         if (!isResent) {
@@ -79,13 +82,18 @@ const OtpVerfication = () => {
 
     //resent otp 
     const handleResentOtp = async () => {
+        if (isResendingOtp) return; 
         try {
+            setIsResendingOtp(true);
             await dispatch(sendOtp(email)).unwrap()
-            toast.success('new otp sended')
+            toast.success('New OTP sent')
             setIsResent(false);
             setTimer(20);
         } catch (error) {
             console.error('error resending otp ', error)
+            toast.error('Failed to resend OTP')
+        } finally {
+            setIsResendingOtp(false);
         }
 
     }
@@ -161,10 +169,15 @@ const OtpVerfication = () => {
                     </button>
                 </div>
             </div>
-            <div className='lg:w-1/2 xl:w-3/5 text-center'>
+            <div className='lg:w-1/2 xl:w-3/5 flex justify-center items-center'>
                 <span className='opacity-50'>Didn't receive the OTP?</span>&nbsp;
-                <span aria-disabled={!isResent} onClick={isResent ? handleResentOtp : undefined} className={`${isResent ? "opacity-100 cursor-pointer" : "text-accent2"}`}>{isResent ? "  Resend OTP" : `  ${timer}`}</span>
-
+                <button 
+                    disabled={!isResent || isResendingOtp} 
+                    onClick={isResent && !isResendingOtp ? handleResentOtp : undefined} 
+                    className={`${isResent && !isResendingOtp ? "opacity-100 cursor-pointer" : "text-accent2 cursor-not-allowed"}`}
+                >
+                    {isResendingOtp ? <ButtonSpinner /> : isResent ? "  Resend OTP" : `  ${timer}`}
+                </button>
             </div>
         </>
     )

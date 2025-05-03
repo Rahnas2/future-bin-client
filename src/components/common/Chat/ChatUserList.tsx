@@ -22,9 +22,11 @@ const ChatUserList = (props: Props) => {
 
             {!chat.image ? <FaUserCircle className='w-13 h-13' />: <img className='w-13 h-13 rounded-full' src={chat.image} alt="" />}
 
-            <div className='flex-1'>
+            <div className='flex-1 min-w-0'>
               <div>{chat.firstName + ' ' + chat.lastName}</div>
-              {chat.lastMessage.isImage ? <div className='text-sm opacity-70'><CiImageOn className='inline'/>&nbsp;&nbsp;<span>Image</span></div>: <div className='opacity-50'>{chat.lastMessage.message}</div>}
+              {chat.lastMessage.isImage ? <div className='text-sm opacity-70 '>
+                <CiImageOn className='inline'/>&nbsp;&nbsp;<span>Image</span></div>: 
+                <div className='opacity-50 truncate '>{chat.lastMessage.message}</div>}
             </div>
 
             <div className='opacity-50 text-end'>yestruday</div>

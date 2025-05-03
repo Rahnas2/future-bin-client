@@ -10,9 +10,10 @@ import toast from 'react-hot-toast'
 type Props = {
     onClose: () => void
     pickupRequestId: string
+    onCancelSuccess: (data: requestCancellationType) => void
 }
 
-const CancelPickupRequestModal: React.FC<Props> = ({ onClose, pickupRequestId }) => {
+const CancelPickupRequestModal: React.FC<Props> = ({ onClose, pickupRequestId, onCancelSuccess }) => {
 
     const [data, setData] = useState({
         reason: '',
@@ -40,6 +41,12 @@ const CancelPickupRequestModal: React.FC<Props> = ({ onClose, pickupRequestId })
             }
 
             await cancelPickupRequestApi(pickupRequestId, dataToSend)
+
+            onCancelSuccess({
+                reason: dataToSend.reason!,
+                description: dataToSend.description,
+                cancelledBy: 'resident', 
+            })
 
             onClose()
 

@@ -54,6 +54,9 @@ const AdminDashComp = (props: Props) => {
 
             const now = new Date()
 
+            const to = new Date(now);
+            to.setHours(23, 59, 59, 999)
+
             let from = new Date(now)
 
             if (timeRange === '30d') {
@@ -65,11 +68,10 @@ const AdminDashComp = (props: Props) => {
             }
 
             from.setHours(0, 0, 0, 0);
-            now.setHours(0, 0, 0, 0); 
 
 
             setFromDate(from)
-            setToDate(now)
+            setToDate(to)
 
             try {
                 const result = await fetchPickupRequestAnalyticsApi(from.toISOString(), now.toISOString())

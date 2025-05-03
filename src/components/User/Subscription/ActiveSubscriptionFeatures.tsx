@@ -14,7 +14,7 @@ const ActiveSubscriptionFeatures = (props: Props) => {
             <div className='flex flex-col gap-2'>
                 {
                     props.features.map(feature => (
-                        <div>
+                        <div key={feature}>
                             <TiTick className='inline text-accent2 mr-3' />
                             <span>{feature}</span>
                         </div>

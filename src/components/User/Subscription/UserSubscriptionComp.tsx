@@ -32,6 +32,8 @@ const UserSubscriptionComp = (props: Props) => {
         fetchRequestHistory()
     }, [])
 
+    
+
     if (isLoading) return <ComponentSpinner />
 
     if (!pickupRequest) {
@@ -48,7 +50,8 @@ const UserSubscriptionComp = (props: Props) => {
 
     return (
         <div>
-            <div className="flex flex-col md:flex-row gap-10 "> <ActiveSubscriptionCard requestId={pickupRequest._id!} subscription={pickupRequest.subscription} price={pickupRequest.totalAmount} />
+            <div className="flex flex-col md:flex-row gap-10 "> 
+                <ActiveSubscriptionCard requestId={pickupRequest._id!} subscription={pickupRequest.subscription} price={pickupRequest.totalAmount} setPickupRequest={setPickupRequest}/>
                 <ActiveSubscriptionFeatures features={pickupRequest.subscription.features} />
             </div>
         </div>

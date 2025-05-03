@@ -7,6 +7,8 @@ import { fetchCollectors } from '@/redux/slices/adminSlice'
 import UsersData from '../UsersData'
 import Pagination from '@/components/common/Pagination'
 import { fetchCollectorsApi } from '@/api/adminServices'
+import EmptyUsers from '../EmptyUsers'
+import { GitPullRequest } from 'lucide-react'
 
 type Props = {}
 
@@ -29,29 +31,34 @@ const ApprovalRequests = (props: Props) => {
 
     useEffect(() => {
         const handler = setTimeout(() => {
-          setDebouncedTerm(searchTerm)
-          setCurrentPage(1)
-        } , 500); 
+            setDebouncedTerm(searchTerm)
+            setCurrentPage(1)
+        }, 500);
         return () => clearTimeout(handler);
-      }, [searchTerm]);
+    }, [searchTerm]);
 
-      const handleSearch = (val: string) => {
+    const handleSearch = (val: string) => {
         setSerachTerm(val)
-      }
+    }
 
     return (
         <div className="bg-seconday py-6 rounded-xl">
 
-            <div className="font-bold mb-8 px-6">All Collectos</div>
+            <div className="font-medium text-lg mb-8 px-6">All Requests</div>
 
+            {totalPages === 0 ? <EmptyUsers Icon={GitPullRequest} text='No Approval Requests' /> : 
+            <>
             <AdminSearch onSearch={handleSearch}/>
 
             <table className='w-full'>
                 <TableHead status={true} />
                 <UsersData role='collector' status={false} />
             </table>
+            </>
+            }
+            {totalPages > 0 && <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>}
 
-            <div className="mt-6"><Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /></div>
+
 
         </div>
     )
