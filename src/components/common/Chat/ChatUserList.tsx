@@ -11,7 +11,7 @@ type Props = {
 const ChatUserList = (props: Props) => {
 
   return (
-    <div className='bg-seconday w-xs py-8 rounded-lg'>
+    <div className=''>
       <div className='text-center'>
         <input className='border h-10 border-gray-500 placeholder:px-4 rounded-lg' type="search" placeholder='searach user' />
       </div>

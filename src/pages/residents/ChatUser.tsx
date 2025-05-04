@@ -19,6 +19,7 @@ const ChatUser = (props: Props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [chatList, setChatList] = useState<chatListType[]>([])
   const [selectedChat, setSelectedChat] = useState<chatListType>()
+  const [showChatWindowOnMobile, setShowChatWindowOnMobile] = useState(false)
 
   useEffect(() => {
     const fetchChatList = async () => {
@@ -56,8 +57,13 @@ const ChatUser = (props: Props) => {
     };
   }, [selectedChat]);
 
-  const handleSelectedChat = async (data: chatListType) => {
-    setSelectedChat(data)
+  const handleSelectedChat = (chat: chatListType) => {
+    setSelectedChat(chat)
+    setShowChatWindowOnMobile(true)
+  }
+
+  const handleBackToList = () => {
+    setShowChatWindowOnMobile(false)
   }
 
   if (isLoading) return <ComponentSpinner />
@@ -67,9 +73,24 @@ const ChatUser = (props: Props) => {
     <div className='px-6 py-4 h-screen overflow-hidden'>
       <BackBtn />
       {chatList.length === 0 ? <EmptyChatList /> :
-        <div className='flex justify-center px-10 py-6 gap-5 '>
-          <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
-          <ChatWindow selectedChat={selectedChat as chatListType} role='resident' />
+        <div className='flex justify-center px-10 py-6 gap-5 h-full'>
+          {/* <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
+          <ChatWindow selectedChat={selectedChat as chatListType} role='resident' /> */}
+
+          {/* Chat List */}
+      <div className={` ${showChatWindowOnMobile ? 'hidden' : 'block' } md:block bg-seconday w-xs py-8 rounded-lg`}>
+        <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
+      </div>
+
+      {/* Chat Window */}
+      <div className={` ${showChatWindowOnMobile ? 'block' : 'hidden'} md:block flex  bg-seconday flex-1 rounded-lg h-[650px]`}>
+        <ChatWindow
+          selectedChat={selectedChat as chatListType}
+          onBack={handleBackToList}
+          role="resident"
+        />
+      </div>
+      
         </div>
       }
 

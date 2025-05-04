@@ -1,17 +1,20 @@
-import { JSX, ReactNode } from "react";
+import { JSX } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { IRootState } from "../redux/slices";
 
-const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const accessToken = useSelector((state: IRootState) => state.auth.accessToken);
+const ProtectedRoute = ({ children, allowedRole }: { children: JSX.Element, allowedRole: string }) => {
+  const { accessToken, role } = useSelector((state: IRootState) => state.auth);
+  console.log('access token ', accessToken)
+  console.log('role ', role)
   const location = useLocation()
   
-  if (!accessToken) {
-    return <Navigate to="/login" state={{ from: location }}  replace />;
-  }
-  
-  return children;
+  if (!accessToken) return <Navigate to="/hello" state={{ from: location }} replace />
+
+  if (allowedRole !== role ) return <Navigate to="/" replace />
+
+  return children
+
 };
 
 export default ProtectedRoute

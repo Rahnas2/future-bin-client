@@ -1,5 +1,4 @@
 
-import UserNav from '../../components/UserNav'
 import Hero from '../../components/Marketing/Hero'
 import AboutUs from '../../components/Marketing/AboutUs';
 import SubscriptionPlans from '../../components/Marketing/SubscriptionPlans';

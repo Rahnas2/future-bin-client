@@ -1,8 +1,12 @@
 
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { initializeAuth } from '../utils/authUtils'
+
+import PublicRoute from './PublicRoute'
+import GuestOnlyRoute from './GuestOnlyRoute'
+import ProtectedRoute from './ProtectedRoute'
 
 //Auth pages
 import Login from '../pages/auth/Login'
@@ -14,6 +18,9 @@ import OtpVerfication from '../pages/auth/OtpVerfication'
 //user pages
 import LandingPage from '../pages/residents/LandingPage'
 import Profile from '../pages/residents/Profile'
+import AboutUs from '../components/Marketing/AboutUs'
+import SubscriptionPlans from '../components/Marketing/SubscriptionPlans'
+import UserPickupRequestHsitory from '../pages/residents/UserPickupRequestHsitory'
 
 //Admin pages
 import SignIn from '../pages/admin/SignIn'
@@ -26,22 +33,15 @@ import CollectorDetails from '../pages/admin/CollectorDetails'
 import WasteTypesManagement from '@/pages/admin/WasteTypesManagement'
 
 
-import PublicRoute from './PublicRoute'
-import AdminRoute from './AdminRoute'
 import CollectorDash from '../pages/collectors/CollectorDash'
 import CollectorProfile from '../pages/collectors/CollectorProfile'
-import UserRoute from './UserRoute'
-import CollectorRoute from './CollectorRoute'
 import SubscriptionManagemnt from '../pages/admin/SubscriptionManagemnt'
 import ResetPassword from '../pages/auth/ResetPassword'
 import NotFound from '../pages/NotFound'
-import AboutUs from '../components/Marketing/AboutUs'
-import AdminNav from '../components/Admin/AdminNav'
-import UserNav from '../components/UserNav'
-import SubscriptionPlans from '../components/Marketing/SubscriptionPlans'
+
 import CollectorRequests from '../pages/collectors/CollectorRequests'
 import { getSocket, initiateSocket } from '../services/socket'
-import UserPickupRequestHsitory from '../pages/residents/UserPickupRequestHsitory'
+
 import Loader from '@/components/common/Loader'
 import SubscriptionManagementUser from '@/pages/residents/SubscriptionManagementUser'
 import NotificationUser from '@/pages/residents/NotificationUser'
@@ -63,6 +63,9 @@ import PaymentAdmin from '@/pages/admin/PaymentAdmin'
 import CollectorFeedback from '@/pages/collectors/CollectorFeedback'
 import FeedbackAdmin from '@/pages/admin/FeedbackAdmin'
 import ResidentNavLayout from '@/components/Layout/ResidentNavLayout'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/redux/store'
+import CollectorRoute from './CollectorRoute'
 
 
 
@@ -72,17 +75,7 @@ import ResidentNavLayout from '@/components/Layout/ResidentNavLayout'
 const AppRoutes = () => {
   const location = useLocation();
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
-
-
-  useEffect(() => {
-    const initAuth = async () => {
-      await initializeAuth(); // Wait for token refresh
-      setIsAuthInitialized(true); // Mark auth as initialized
-      initiateSocket()
-    };
-    initAuth();
-  }, []);
-
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     // Define auth-related routes
@@ -129,127 +122,140 @@ const AppRoutes = () => {
     };
   }, [location.pathname]);
 
+
+  useEffect(() => {
+    const initAuth = async () => {
+      console.log('initializing auth ')
+      await initializeAuth(); // Wait for token refresh
+      setIsAuthInitialized(true); // Mark auth as initialized
+      console.log('inizilized auth  completed ')
+      initiateSocket()
+    };
+    initAuth();
+  }, [dispatch]);
+
+
+
+
   if (!isAuthInitialized) {
     return <Loader />
   }
-
-
 
 
   return (
     <Routes>
 
       {/* auth routes */}
-
       <Route path='/login' element={
-        <PublicRoute>
+        <GuestOnlyRoute>
           <Login />
-        </PublicRoute>
+        </GuestOnlyRoute>
       } />
       <Route path='/register' element={
-        <PublicRoute>
+        <GuestOnlyRoute>
           <Register />
-        </PublicRoute>
+        </GuestOnlyRoute>
       } />
 
       <Route path='/otp-verification' element={
-        // <PublicRoute>
+
         <OtpVerfication />
-        // </PublicRoute>
       } />
       <Route path='/select-role' element={
-        <PublicRoute>
+        <GuestOnlyRoute>
           <SelectRole />
-        </PublicRoute>
+        </GuestOnlyRoute>
       } />
       <Route path='/complete-profile' element={
-        <PublicRoute>
+        <GuestOnlyRoute>
           <CompleteProfile />
-        </PublicRoute>
+        </GuestOnlyRoute>
       } />
 
       <Route path='/reset-password' element={
-        <PublicRoute>
+        <GuestOnlyRoute>
           <ResetPassword />
-        </PublicRoute>
+        </GuestOnlyRoute>
       } />
 
 
       {/* user routes */}
+
       <Route path='/' element={
-        <UserRoute>
+        <PublicRoute>
           <ResidentNavLayout><LandingPage /></ResidentNavLayout>
-        </UserRoute>}
+        </PublicRoute>
+      }
       />
 
       <Route path='/about-us' element={
-        <UserRoute>
+        <PublicRoute>
           <ResidentNavLayout><AboutUs /></ResidentNavLayout>
-        </UserRoute>
+        </PublicRoute>
       } />
 
       <Route path='/available-plans' element={
-        <UserRoute>
+        <PublicRoute>
           <ResidentNavLayout><SubscriptionPlans /></ResidentNavLayout>
-        </UserRoute>
+        </PublicRoute>
       } />
 
       <Route path='/notifications' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <NotificationUser />
-        </UserRoute>
+        </ProtectedRoute>
       }>
 
       </Route>
 
       <Route path='/profile' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <ResidentNavLayout><Profile /></ResidentNavLayout>
-        </UserRoute>
+        </ProtectedRoute>
       } />
 
       <Route path='/subscription' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <ResidentNavLayout><SubscriptionManagementUser /></ResidentNavLayout>
-        </UserRoute>
+        </ProtectedRoute>
       } />
 
       <Route path='/pickup-requests' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <ResidentNavLayout><UserPickupRequestHsitory /></ResidentNavLayout>
-        </UserRoute>
+        </ProtectedRoute >
       } />
 
       <Route path='/pickup-reqeusts/:id' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <SinglePickupRequest />
-        </UserRoute>
+        </ProtectedRoute>
       } />
 
       <Route path='/feedback' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <ResidentNavLayout><UserFeedback /></ResidentNavLayout>
-        </UserRoute>
+        </ProtectedRoute >
       }
       />
 
       <Route path='/transactions' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <ResidentNavLayout><UserPayments /></ResidentNavLayout>
-        </UserRoute>
+        </ProtectedRoute >
       } />
 
 
       <Route path='/payment-status' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <PaymentStatus />
-        </UserRoute>
+        </ProtectedRoute >
       } />
 
       <Route path='/chat' element={
-        <UserRoute>
+        <ProtectedRoute allowedRole="resident">
           <ChatUser />
-        </UserRoute>
+        </ProtectedRoute >
       } />
 
       <Route path="/collector" element={<SideBarLayout />}>
@@ -258,43 +264,45 @@ const AppRoutes = () => {
           <CollectorRoute>
             <CollectorProfile />
           </CollectorRoute>
+
         } />
 
         <Route path='dashboard' element={
           <CollectorRoute>
             <CollectorDash />
           </CollectorRoute>
+
         } />
 
 
         <Route path='requests' element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <CollectorRequests />
-          </ CollectorRoute >
+          </ProtectedRoute>
         }
         />
         <Route path="pickups" element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <CollectorPickups />
-          </CollectorRoute>
+          </ProtectedRoute>
         } />
 
         <Route path='earnings' element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <MyEarnings />
-          </CollectorRoute>
+          </ProtectedRoute>
         } />
 
         <Route path='feedbacks' element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <CollectorFeedback />
-          </CollectorRoute>
+          </ProtectedRoute>
         } />
 
         <Route path='notifications' element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <CollectorNotifications />
-          </CollectorRoute>
+          </ProtectedRoute>
         } />
 
       </Route>
@@ -302,30 +310,30 @@ const AppRoutes = () => {
       <Route path="/collector/*" element={<NotFound />} />
 
       <Route path='/collector/request/cancel' element={
-        <CollectorRoute>
+        <ProtectedRoute allowedRole="collector">
           <CollectorCacelRequest />
-        </CollectorRoute>
+        </ProtectedRoute>
       } />
 
       <Route path='/collector/request/on-demand/complete' element={
-        <CollectorRoute>
+        <ProtectedRoute allowedRole="collector">
           <CollectorOnDemandCompleted />
-        </CollectorRoute>
+        </ProtectedRoute>
       } />
 
       <Route path='/collector/inbox' element={
-        <CollectorRoute>
+        <ProtectedRoute allowedRole="collector">
           <CollectorInbox />
-        </CollectorRoute>
+        </ProtectedRoute>
       } />
 
       {/* admin routes */}
       <Route
         path="admin/login"
         element={
-          <PublicRoute>
+          <GuestOnlyRoute>
             <SignIn />
-          </PublicRoute>
+          </GuestOnlyRoute>
         }
       />
 
@@ -334,18 +342,18 @@ const AppRoutes = () => {
         <Route
           path="dashboard"
           element={
-            <AdminRoute>
+            <ProtectedRoute allowedRole="admin">
               <AdmDash />
-            </AdminRoute>
+            </ProtectedRoute >
           }
         />
 
         <Route
           path="collectors"
           element={
-            <AdminRoute>
+            <ProtectedRoute allowedRole="admin">
               <CollectorManagement />
-            </AdminRoute>
+            </ProtectedRoute>
           }
         >
           <Route path="approved" element={<ApprovedCollectors />} />
@@ -355,37 +363,37 @@ const AppRoutes = () => {
         <Route
           path="users"
           element={
-            <AdminRoute>
+            <ProtectedRoute allowedRole="admin">
               <UserManagement />
-            </AdminRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path='subscriptions'
           element={
-            <AdminRoute>
+            <ProtectedRoute allowedRole="admin">
               <SubscriptionManagemnt />
-            </AdminRoute>
+            </ProtectedRoute>
           }></Route>
 
         <Route
           path="waste-types"
           element={
-            <AdminRoute>
+            <ProtectedRoute allowedRole="admin">
               <WasteTypesManagement />
-            </AdminRoute>
+            </ProtectedRoute>
           } />
 
         <Route path='payments' element={
-          <AdminRoute>
+          <ProtectedRoute allowedRole="admin">
             <PaymentAdmin />
-          </AdminRoute>
+          </ProtectedRoute>
         } />
 
         <Route path='feedbacks' element={
-          <AdminRoute>
+          <ProtectedRoute allowedRole="admin">
             <FeedbackAdmin />
-          </AdminRoute>
+          </ProtectedRoute>
         } />
 
       </Route>
@@ -393,14 +401,18 @@ const AppRoutes = () => {
       <Route
         path="/admin/collectors/:name"
         element={
-          <AdminRoute>
+          <ProtectedRoute allowedRole="admin">
             <CollectorDetails />
-          </AdminRoute>
+          </ProtectedRoute>
         }
       />
       <Route path="/admin/*" element={<NotFound />} />
 
-      <Route path='/map' element={<Map />} />
+      <Route path='/map' element={
+        <ProtectedRoute allowedRole="collector">
+          <Map />
+        </ProtectedRoute>
+      } />
 
       <Route path="*" element={<NotFound />} />
     </Routes >

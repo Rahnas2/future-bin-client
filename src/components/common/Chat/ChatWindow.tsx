@@ -21,6 +21,7 @@ const EmojiPicker = React.lazy(() => import('emoji-picker-react'))
 type Props = {
   selectedChat: chatListType,
   role: string
+  onBack?: () => void
 }
 
 const ChatWindow = (props: Props) => {
@@ -153,11 +154,45 @@ const ChatWindow = (props: Props) => {
 
 
   return (
-    <div className='flex flex-col bg-seconday flex-1 rounded-lg h-[650px]'>
-      <div className='flex gap-5 justify-center border-b border-b-gray-500 items-center py-2'>
-       {!props.selectedChat.image ? <FaUserCircle className='w-15 h-15' />: <img className='w-15 h-15 rounded-full' src={props.selectedChat.image} alt="" />}
+    <div className='flex flex-col flex-1 h-[650px]'>
+      {/* <div className='flex gap-5 justify-center border-b border-b-gray-500 items-center py-2'>
+        {props.onBack && (
+          <div className='justify-start p-2'>
+            <button onClick={props.onBack} className='text-lg text-white hover:underline'>
+              ← 
+            </button>
+          </div>
+        )}
+
+        {!props.selectedChat.image ? <FaUserCircle className='w-15 h-15' /> : <img className='w-15 h-15 rounded-full' src={props.selectedChat.image} alt="" />}
         <span>{props.selectedChat.firstName + ' ' + props.selectedChat.lastName}</span>
+        </div> */}
+
+      <div className="relative border-b border-b-gray-500 py-2 flex items-center justify-center">
+
+        {/* Back Button - only shown on mobile */}
+        {props.onBack && (
+          <div className="absolute left-5 md:hidden">
+            <button onClick={props.onBack} className="text-lg text-white hover:underline">
+              ←
+            </button>
+          </div>
+        )}
+
+        {/* Centered Profile Info */}
+        <div className="flex items-center gap-3">
+          {!props.selectedChat.image ? (
+            <FaUserCircle className="w-10 h-10 text-white" />
+          ) : (
+            <img className="w-10 h-10 rounded-full" src={props.selectedChat.image} alt="" />
+          )}
+          <span className="text-white font-medium">
+            {props.selectedChat.firstName + ' ' + props.selectedChat.lastName}
+          </span>
+        </div>
+
       </div>
+
 
       <div className='flex-1 my-2 overflow-y-auto relative' ref={messagesContainerRef}>
         {isLoading ? <Loader /> : messages?.length ? messages.map((message, index) => (

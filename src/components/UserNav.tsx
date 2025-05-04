@@ -112,7 +112,9 @@ const UserNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const socket = getSocket();
+  // const socket = getSocket();
+
+  const { accessToken } = useSelector((state: IRootState) => state.auth)
 
   const { unreadNotificationCount, unreadChatCount } = useSelector((state: IRootState) => state.overview);
 
@@ -133,6 +135,7 @@ const UserNav = () => {
 
   // Fetch notification counts
   useEffect(() => {
+    if(!accessToken) return 
     const fetchCounts = async () => {
       try {
         const result = await fetchOverviewCountsApi();
@@ -149,19 +152,38 @@ const UserNav = () => {
 
   // Socket listeners for notifications
   useEffect(() => {
-    socket.on('new-notification', () => {
+    if (!accessToken) return;
+  
+    const socketInstance = getSocket();
+  
+    socketInstance.on('new-notification', () => {
       dispatch(incrementNotification());
     });
-
-    socket.on('new-chat', () => {
+  
+    socketInstance.on('new-chat', () => {
       dispatch(incrementChat());
     });
-
+  
     return () => {
-      socket.off('new-notification');
-      socket.off('new-chat');
+      socketInstance.off('new-notification');
+      socketInstance.off('new-chat');
     };
-  }, [socket, dispatch]);
+  }, [accessToken, dispatch]);
+  
+  // useEffect(() => {
+  //   socket.on('new-notification', () => {
+  //     dispatch(incrementNotification());
+  //   });
+
+  //   socket.on('new-chat', () => {
+  //     dispatch(incrementChat());
+  //   });
+
+  //   return () => {
+  //     socket.off('new-notification');
+  //     socket.off('new-chat');
+  //   };
+  // }, [socket, dispatch]);
 
   // Handle logout
   const handleLogOut = async () => {
@@ -210,12 +232,13 @@ const UserNav = () => {
             <span>Home</span>
           </NavLink>
 
-          <NavLink
+          {accessToken ? <NavLink
             to="/profile"
             className={({ isActive }) => `${(isActive || isDashboardRoute) ? "border-b border-b-accent2 pb-1" : "hover:text-accent3"}`}
           >
             <span>Dashboard</span>
-          </NavLink>
+          </NavLink> : <></>
+          }
 
           <NavLink to="/about-us" className={({ isActive }) => isActive ? "border-b border-b-accent2  pb-1" : "hover:text-accent3"}>
             <span>About us</span>
@@ -227,7 +250,7 @@ const UserNav = () => {
         </div>
 
         {/* Notification Icons (visible on all screens) & Mobile menu toggle */}
-        <div className="flex gap-6 items-center text-2xl">
+        {accessToken ? <div className="flex gap-6 items-center text-2xl">
           <NavLink to="/chat">
             <Badge badgeContent={unreadChatCount} color="error">
               <MdOutlineMessage className="inline" />
@@ -238,9 +261,14 @@ const UserNav = () => {
               <MdNotificationsNone className="inline" />
             </Badge>
           </NavLink>
-
-          
+ 
+        </div>: 
+        <div>
+          <button onClick={() => navigate('/login')} className="bg-accent2 rounded-sm text-sm font-semibold text-primary px-4 py-1 cursor-pointer">Login</button>
         </div>
+        }
+       
+
       </div>
 
       {/* Mobile Navigation Menu */}

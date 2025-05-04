@@ -18,6 +18,7 @@ const CollectorInbox = (props: Props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [chatList, setChatList] = useState<chatListType[]>([])
   const [selectedChat, setSelectedChat] = useState<chatListType>()
+  const [showChatWindowOnMobile, setShowChatWindowOnMobile] = useState(false)
 
   //fetch chat list 
   useEffect(() => {
@@ -25,7 +26,6 @@ const CollectorInbox = (props: Props) => {
       try {
         setIsLoading(true)
         const response = await fetchChatListApi()
-        console.log('hello....', response)
         setChatList(response.chatList)
         setSelectedChat(response.chatList[0])
       } catch (error) {
@@ -57,20 +57,38 @@ const CollectorInbox = (props: Props) => {
     };
   }, []);
 
-  const handleSelectedChat = async (data: chatListType) => {
-    setSelectedChat(data)
+  const handleSelectedChat = (chat: chatListType) => {
+    setSelectedChat(chat)
+    setShowChatWindowOnMobile(true)
+  }
+
+  const handleBackToList = () => {
+    setShowChatWindowOnMobile(false)
   }
 
   if (isLoading) return <ComponentSpinner />
 
   return (
-    <div className='px-6 py-4'>
+    <div className='px-6 py-4 h-screen overflow-hidden'>
       <BackBtn />
       {chatList.length === 0 ? <EmptyChatList /> :
-       <div className='flex justify-center gap-5'>
-        <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
-        <ChatWindow selectedChat={selectedChat as chatListType} role="collector" />
-      </div>
+        <div className='flex justify-center px-10 py-6 gap-5 h-full'>
+
+          {/* Chat List */}
+          <div className={` ${showChatWindowOnMobile ? 'hidden' : 'block'} md:block bg-seconday w-xs py-8 rounded-lg`}>
+            <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
+          </div>
+
+          {/* Chat Window */}
+          <div className={` ${showChatWindowOnMobile ? 'block' : 'hidden'} md:block flex  bg-seconday flex-1 rounded-lg h-[650px]`}>
+            <ChatWindow
+              selectedChat={selectedChat as chatListType}
+              onBack={handleBackToList}
+              role="resident"
+            />
+          </div>
+
+        </div>
       }
 
     </div>
