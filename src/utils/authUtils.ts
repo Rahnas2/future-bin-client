@@ -6,9 +6,9 @@ import { fetchCollectorProfile } from '../redux/slices/collectorSlice';
 
 export const initializeAuth = async () => {
   try {
-    const resultAction = await store.dispatch(refreshToken());
+    const resultAction = await store.dispatch(refreshToken())
+    console.log('result action ', resultAction)
     const role = resultAction.payload.role
-    console.log('access token ', resultAction.payload.accessToken)
     
     if (refreshToken.fulfilled.match(resultAction)) {
 

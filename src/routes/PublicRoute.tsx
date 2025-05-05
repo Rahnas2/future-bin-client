@@ -12,9 +12,7 @@ const PublicRoute = ({ children }: { children: JSX.Element }) => {
             return <Navigate to="/admin/dashboard" state={{ from: location }} replace />;
         }else if(role === 'collector'){
             return <Navigate to="/collector/dashboard" state={{from: location}} replace/>
-        }else {
-            return <Navigate to="/" state={{ from: location }} replace />;
-        }    
+        }   
     }
 
     return children;

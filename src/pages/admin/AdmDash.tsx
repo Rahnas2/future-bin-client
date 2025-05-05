@@ -1,8 +1,4 @@
-import { useDispatch } from "react-redux"
-import AdminNav from "../../components/Admin/AdminNav"
-import { logOut } from "../../redux/slices/authSlice"
-import { AppDispatch } from "../../redux/store"
-import { useNavigate } from "react-router-dom"
+
 import AdminDashComp from "@/components/Admin/Dash/AdminDashComp"
 
 

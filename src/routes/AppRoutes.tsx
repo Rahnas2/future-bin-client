@@ -63,19 +63,12 @@ import PaymentAdmin from '@/pages/admin/PaymentAdmin'
 import CollectorFeedback from '@/pages/collectors/CollectorFeedback'
 import FeedbackAdmin from '@/pages/admin/FeedbackAdmin'
 import ResidentNavLayout from '@/components/Layout/ResidentNavLayout'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/redux/store'
-import CollectorRoute from './CollectorRoute'
-
-
-
 
 
 
 const AppRoutes = () => {
   const location = useLocation();
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
-  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     // Define auth-related routes
@@ -125,14 +118,16 @@ const AppRoutes = () => {
 
   useEffect(() => {
     const initAuth = async () => {
+      
       console.log('initializing auth ')
       await initializeAuth(); // Wait for token refresh
-      setIsAuthInitialized(true); // Mark auth as initialized
+      await initiateSocket(); // Mark auth as initialized
+      setIsAuthInitialized(true); 
       console.log('inizilized auth  completed ')
-      initiateSocket()
+      
     };
     initAuth();
-  }, [dispatch]);
+  }, [location.pathname]);
 
 
 
@@ -261,16 +256,16 @@ const AppRoutes = () => {
       <Route path="/collector" element={<SideBarLayout />}>
         {/* colllector routes */}
         <Route path='profile' element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <CollectorProfile />
-          </CollectorRoute>
+          </ProtectedRoute>
 
         } />
 
         <Route path='dashboard' element={
-          <CollectorRoute>
+          <ProtectedRoute allowedRole="collector">
             <CollectorDash />
-          </CollectorRoute>
+          </ProtectedRoute>
 
         } />
 
@@ -307,8 +302,6 @@ const AppRoutes = () => {
 
       </Route>
 
-      <Route path="/collector/*" element={<NotFound />} />
-
       <Route path='/collector/request/cancel' element={
         <ProtectedRoute allowedRole="collector">
           <CollectorCacelRequest />
@@ -326,6 +319,8 @@ const AppRoutes = () => {
           <CollectorInbox />
         </ProtectedRoute>
       } />
+
+      <Route path="/collector/*" element={<NotFound />} />
 
       {/* admin routes */}
       <Route
