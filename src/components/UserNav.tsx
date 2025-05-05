@@ -105,6 +105,7 @@ import { getSocket } from "@/services/socket";
 import { fetchOverviewCountsApi } from "@/api/overviewService";
 import { logOut } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
+import { ArrowBigDownDash } from "lucide-react";
 
 const UserNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -135,7 +136,7 @@ const UserNav = () => {
 
   // Fetch notification counts
   useEffect(() => {
-    if(!accessToken) return 
+    if (!accessToken) return
     const fetchCounts = async () => {
       try {
         const result = await fetchOverviewCountsApi();
@@ -153,23 +154,23 @@ const UserNav = () => {
   // Socket listeners for notifications
   useEffect(() => {
     if (!accessToken) return;
-  
+
     const socketInstance = getSocket();
-  
+
     socketInstance.on('new-notification', () => {
       dispatch(incrementNotification());
     });
-  
+
     socketInstance.on('new-chat', () => {
       dispatch(incrementChat());
     });
-  
+
     return () => {
       socketInstance.off('new-notification');
       socketInstance.off('new-chat');
     };
   }, [accessToken, dispatch]);
-  
+
   // useEffect(() => {
   //   socket.on('new-notification', () => {
   //     dispatch(incrementNotification());
@@ -189,7 +190,7 @@ const UserNav = () => {
   const handleLogOut = async () => {
     try {
       await dispatch(logOut()).unwrap();
-      navigate('/login');
+      navigate('/');
       setMobileMenuOpen(false);
     } catch (error) {
       console.log('log out error ', error);
@@ -215,11 +216,11 @@ const UserNav = () => {
       <div className="flex items-center justify-evenly lg:justify-around ">
         {/* Mobile menu button */}
         <button
-            className="lg:hidden p-1 opacity-50 hover:opacity-100 cursor-pointer"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
-          </button>
+          className="lg:hidden p-1 opacity-50 hover:opacity-100 cursor-pointer"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
+        </button>
 
         {/* Logo */}
         <div>
@@ -261,45 +262,45 @@ const UserNav = () => {
               <MdNotificationsNone className="inline" />
             </Badge>
           </NavLink>
- 
-        </div>: 
-        <div>
-          <button onClick={() => navigate('/login')} className="bg-accent2 rounded-sm text-sm font-semibold text-primary px-4 py-1 cursor-pointer">Login</button>
-        </div>
+
+        </div> :
+          <div>
+            <button onClick={() => navigate('/login')} className="bg-accent2 rounded-sm text-sm font-semibold text-primary px-4 py-1 cursor-pointer">Login</button>
+          </div>
         }
-       
+
 
       </div>
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 shadow-md z-50 py-4 px-6 flex flex-col gap-4 border-t bg-seconday border-gray-200">
+        <div className="lg:hidden absolute top-full left-0 right-0 shadow-md z-50 py-4 px-6 flex flex-col gap-4 items-center justify-evenly  bg-seconday border-gray-200 ">
           <NavLink
             to="/"
-            className={({ isActive }) => `py-2 ${isActive ? "text-accent2 font-semibold" : "text-gray-700"}`}
+            className={({ isActive }) => `py-2 ${isActive ? "text-accent2 font-semibold" : "hover:text-accent3"}`}
             onClick={closeMobileMenu}
           >
             Home
           </NavLink>
 
           {/* Dashboard with submenu */}
-          <div className="flex flex-col">
+          {accessToken ? <div className="flex flex-col">
             <div
-              className={`py-2 flex justify-between items-center cursor-pointer ${isDashboardRoute ? "text-accent2 font-semibold" : "text-gray-700"}`}
+              className={`py-2 flex justify-between items-center cursor-pointer ${isDashboardRoute ? "text-accent2 font-semibold" : "hover:text-accent3"}`}
               onClick={toggleDashboardSubmenu}
             >
               <span>Dashboard</span>
               <span className="transform transition-transform duration-200" style={{ transform: dashboardSubmenuOpen ? 'rotate(180deg)' : 'rotate(0)' }}>
-                ▼
+              <ArrowBigDownDash className="w-4 h-4 ml-2" />
               </span>
             </div>
 
             {/* Dashboard submenu */}
             {dashboardSubmenuOpen && (
-              <div className="ml-4 flex flex-col gap-3 mt-2 border-l-2 border-gray-200 pl-4">
+              <div className="ml-4 flex flex-col gap-3 mt-2 border-l-2 border-gray-700 pl-4">
                 <NavLink
                   to="/profile"
-                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "text-gray-600"}`}
+                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "hover:text-accent3"}`}
                   onClick={closeMobileMenu}
                 >
                   <FaUserCircle />
@@ -308,7 +309,7 @@ const UserNav = () => {
 
                 <NavLink
                   to="/subscription"
-                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "text-gray-600"}`}
+                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "hover:text-accent3"}`}
                   onClick={closeMobileMenu}
                 >
                   <MdOutlineSubscriptions />
@@ -317,7 +318,7 @@ const UserNav = () => {
 
                 <NavLink
                   to="/pickup-requests"
-                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "text-gray-600"}`}
+                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "hover:text-accent3"}`}
                   onClick={closeMobileMenu}
                 >
                   <FaCodePullRequest />
@@ -326,7 +327,7 @@ const UserNav = () => {
 
                 <NavLink
                   to="/feedback"
-                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "text-gray-600"}`}
+                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "hover:text-accent3"}`}
                   onClick={closeMobileMenu}
                 >
                   <MdFeedback />
@@ -335,7 +336,7 @@ const UserNav = () => {
 
                 <NavLink
                   to="/transactions"
-                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "text-gray-600"}`}
+                  className={({ isActive }) => `py-1 flex items-center gap-2 ${isActive ? "text-accent3 font-semibold" : "hover:text-accent3"}`}
                   onClick={closeMobileMenu}
                 >
                   <MdOutlinePayments />
@@ -343,11 +344,11 @@ const UserNav = () => {
                 </NavLink>
               </div>
             )}
-          </div>
+          </div> : <></>}
 
           <NavLink
             to="/about-us"
-            className={({ isActive }) => `py-2 ${isActive ? "text-accent2 font-semibold" : "text-gray-700"}`}
+            className={({ isActive }) => `py-2 ${isActive ? "text-accent2 font-semibold" : "hover:text-accent3"}`}
             onClick={closeMobileMenu}
           >
             About us
@@ -355,19 +356,20 @@ const UserNav = () => {
 
           <NavLink
             to="/available-plans"
-            className={({ isActive }) => `py-2 ${isActive ? "text-accent2 font-semibold" : "text-gray-700"}`}
+            className={({ isActive }) => `py-2 ${isActive ? "text-accent2 font-semibold" : "hover:text-accent3"}`}
             onClick={closeMobileMenu}
           >
             Subscription plans
           </NavLink>
 
-          <div
-            className="py-2 text-gray-700 flex items-center gap-2 cursor-pointer"
+          {accessToken ? <div
+            className="py-2 flex items-center gap-2 cursor-pointer hover:text-accent3"
             onClick={handleLogOut}
           >
             <MdLogout />
             <span>Logout</span>
-          </div>
+          </div> : <></>}
+          
         </div>
       )}
     </nav>

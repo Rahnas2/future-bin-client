@@ -139,7 +139,7 @@ const CollectorFeedback = (props: Props) => {
 
   return (
     <div className="flex min-h-lvh">
-      <div className="bg-primary my-10 mr-10 rounded-t-2xl px-4 py-4 flex-1">
+      <div className="bg-primary mt-10 mr-10 rounded-t-2xl px-4 py-4 flex-1">
         {isLoadingFeedbacks && feedbacks.length === 0 ? (
           <ComponentSpinner />
         ) : feedbacks.length === 0 ? (

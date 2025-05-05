@@ -32,8 +32,12 @@ const UserManagement = () => {
 
   useEffect(() => {
     const fetchUsersList = async () => {
-      const result = await dispatch(fetchUsers({ page: currentPage, limit: 10, search: debouncedTerm })).unwrap()
-      setTotalPages(result.totalPages)
+      try {
+        const result = await dispatch(fetchUsers({ page: currentPage, limit: 10, search: debouncedTerm })).unwrap()
+        setTotalPages(result.totalPages)
+      } catch (error) {
+        console.error('error fething users ', error)
+      }
     }
     fetchUsersList()
   }, [dispatch, currentPage, debouncedTerm])

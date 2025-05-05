@@ -19,7 +19,7 @@ const Wallet: React.FC<Props> = ({ balance, onBalanceChange }) => {
     };
 
     const handleWithdrawBalance = async () => {
-        if (balance < 1) return toast.error('minimum withdraw amount is 100')
+        if (balance < 1) return toast.error('minimum withdraw amount is $1')
 
         try {
             setWithdrawing(true)
@@ -29,7 +29,7 @@ const Wallet: React.FC<Props> = ({ balance, onBalanceChange }) => {
             const newBalance = balance - payoutAmount
             
             onBalanceChange(newBalance)
-            toast.error('success')
+            toast.success('success')
         } catch (error: any) {
             console.error('error withdraw balance ', error)
             error?.response?.data.message ? toast.error(error.response.data.message) : toast.error('somethign went wrong')
@@ -42,7 +42,7 @@ const Wallet: React.FC<Props> = ({ balance, onBalanceChange }) => {
     return (
         <div className='border border-gray-500 w-fit h-fit  py-6 pl-5 pr-20 rounded-md shadow-sm '>
             <h5 className='mb-4'>Account Balance</h5>
-            <div className='flex gap-3 mb-3'>
+            <div className='flex items-center gap-3 mb-3'>
                 <span>$</span>
                 <span>{showBalance ? balance.toFixed(2) : '*****'}</span>
                 <div onClick={toggleBalance} className="cursor-pointer">
@@ -54,7 +54,7 @@ const Wallet: React.FC<Props> = ({ balance, onBalanceChange }) => {
             </div>
 
             <div>
-                <button disabled={withdrawing} onClick={handleWithdrawBalance} className='flex items-center bg-accent2 text-seconday font-medium px-8 py-1 rounded-sm cursor-pointer'>
+                <button disabled={withdrawing} onClick={handleWithdrawBalance} className='flex items-center justify-center bg-accent2 text-seconday font-medium  w-40 py-1 rounded-sm cursor-pointer'>
                     {withdrawing ? <ButtonSpinner/>: <><Rocket className='w-4 h-4 mr-2' /><span>Withdraw</span></> }
                    
                     </button>

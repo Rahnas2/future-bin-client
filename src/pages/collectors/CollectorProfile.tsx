@@ -17,6 +17,7 @@ import toast from 'react-hot-toast'
 import { editProfileApi } from '../../api/userService'
 import ChangePasswordModal from '../../components/common/ChangePasswordModal'
 import RegisterationStatus from '@/components/collectors/RegisterationStatus'
+import ComponentSpinner from '@/components/common/ComponentSpinner'
 
 type Props = {}
 
@@ -39,7 +40,7 @@ function CollectorProfile({ }: Props) {
         fetchUser()
     }, [dispatch])
 
-    
+
     const [isEdit, setIsEdit] = useState(false)
 
     const [data, setData] = useState({
@@ -55,15 +56,15 @@ function CollectorProfile({ }: Props) {
 
     const [errors, setErrors] = useState<Partial<editProfileType>>({})
 
-     //for change password modal
-     const [isOpen, setIsOpen] = useState(false)
-     const handleOpen = () => {
-         setIsOpen(true)
-     }
- 
-     const handleClose = () => {
-         setIsOpen(false)
-     }
+    //for change password modal
+    const [isOpen, setIsOpen] = useState(false)
+    const handleOpen = () => {
+        setIsOpen(true)
+    }
+
+    const handleClose = () => {
+        setIsOpen(false)
+    }
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -106,19 +107,19 @@ function CollectorProfile({ }: Props) {
 
             const formData = new FormData();
             // Append text fields to FormData
-            if(data.firstName !== collector?.firstName){
+            if (data.firstName !== collector?.firstName) {
                 formData.append('firstName', data.firstName);
             }
-            if(data.lastName !== collector?.lastName){
+            if (data.lastName !== collector?.lastName) {
                 formData.append('lastName', data.lastName);
             }
-            if(data.email !== collector?.email){
+            if (data.email !== collector?.email) {
                 formData.append('email', data.email);
             }
-            if(data.mobile !== collector?.mobile){
+            if (data.mobile !== collector?.mobile) {
                 formData.append('mobile', data.mobile);
             }
-            
+
             // Append the image file if it exists
             if (selectedImage) {
                 formData.append('profileImage', selectedImage);
@@ -126,8 +127,8 @@ function CollectorProfile({ }: Props) {
 
             const formDataLen = Array.from(formData.entries()).length;
 
-            if(!formDataLen){
-                toast('you are not updated any data', {icon: '⚠️'})
+            if (!formDataLen) {
+                toast('you are not updated any data', { icon: '⚠️' })
                 return
             }
 
@@ -155,93 +156,91 @@ function CollectorProfile({ }: Props) {
         }
     }
 
-    if (isLoading) {
-        return <div>loading...</div>
-    }
-
     return (
-        <div className='flex'>
-            <div className="bg-primary my-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
+        <div className='flex min-h-lvh'>
+            <div className="bg-primary mt-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
+                {isLoading ? <ComponentSpinner /> :
+                    <>
+                        {collector?.details?.approvalStatus !== 'approved' || !collector.details.isStripeEnabled ?
+                            <RegisterationStatus status={collector?.details?.approvalStatus!} stripeAccountId={collector?.details?.stripeAccountId!} /> : <></>}
 
-                { collector?.details?.approvalStatus !== 'approved' || !collector.details.isStripeEnabled  ? 
-                <RegisterationStatus status={collector?.details?.approvalStatus!} stripeAccountId={collector?.details?.stripeAccountId!}/> : <></>}
+                        <ProfileCard isEdit={isEdit} image={collector?.image} firstName={data.firstName} lastName={data.lastName} email={data.email} mobile={data.mobile} selectedImage={selectedImage} setSelectedImage={handleSelectedImage} imgValError={errors.profileImage} />
 
-                <ProfileCard isEdit={isEdit} image={collector?.image} firstName={data.firstName} lastName={data.lastName} email={data.email} mobile={data.mobile} selectedImage={selectedImage} setSelectedImage={handleSelectedImage} imgValError={errors.profileImage} />
+                        {/* personal infromation */}
+                        <div className="mt-8">
+                            <div className="font-bold">Personal Information</div>
+                            <div onClick={() => setIsEdit(!isEdit)} aria-disabled={isEdit} className={`flex justify-end items-center gap-2 mb-10 cursor-pointer ${isEdit ? 'opacity-100' : 'opacity-50'}`}>
+                                <FaEdit className=" inline text-lg" />
+                                <span >Edit Profile</span>
+                            </div>
 
-                {/* personal infromation */}
-                <div className="mt-8">
-                    <div className="font-bold">Personal Information</div>
-                    <div onClick={() => setIsEdit(!isEdit)} aria-disabled={isEdit} className={`flex justify-end items-center gap-2 mb-10 cursor-pointer ${isEdit ? 'opacity-100' : 'opacity-50'}`}>
-                        <FaEdit className=" inline text-lg" />
-                        <span >Edit Profile</span>
-                    </div>
+                            <ThemeProvider theme={Input}>
+                                <Box
+                                    className='grid grid-cols-2 gap-x-20 gap-y-10 pr-5 '
+                                    sx={{ my: 3, }}
+                                >
+                                    <TextField id="outlined-basic"
+                                        label="First name"
+                                        variant="outlined"
+                                        name="firstName"
+                                        value={data.firstName}
+                                        onChange={isEdit ? handleChange : undefined}
+                                        error={!!errors.firstName}
+                                        helperText={errors.firstName}
+                                    />
 
-                    <ThemeProvider theme={Input}>
-                        <Box
-                            className='grid grid-cols-2 gap-x-20 gap-y-10 pr-5 '
-                            sx={{ my: 3, }}
-                        >
-                            <TextField id="outlined-basic"
-                                label="First name"
-                                variant="outlined"
-                                name="firstName"
-                                value={data.firstName}
-                                onChange={isEdit ? handleChange : undefined}
-                                error={!!errors.firstName}
-                                helperText={errors.firstName}
-                            />
+                                    <TextField id="outlined-basic"
+                                        label="Last name"
+                                        variant="outlined"
+                                        name='lastName'
+                                        value={data.lastName}
+                                        onChange={isEdit ? handleChange : undefined}
+                                        error={!!errors.lastName}
+                                        helperText={errors.lastName}
+                                    />
 
-                            <TextField id="outlined-basic"
-                                label="Last name"
-                                variant="outlined"
-                                name='lastName'
-                                value={data.lastName}
-                                onChange={isEdit ? handleChange : undefined}
-                                error={!!errors.lastName}
-                                helperText={errors.lastName}
-                            />
+                                    <TextField id="outlined-basic"
+                                        label="Email"
+                                        variant="outlined"
+                                        name="email"
+                                        value={data.email}
+                                        onChange={isEdit ? handleChange : undefined}
+                                        error={!!errors.email}
+                                        helperText={errors.email}
+                                    />
 
-                            <TextField id="outlined-basic"
-                                label="Email"
-                                variant="outlined"
-                                name="email"
-                                value={data.email}
-                                onChange={isEdit ? handleChange : undefined}
-                                error={!!errors.email}
-                                helperText={errors.email}
-                            />
+                                    <TextField id="outlined-basic"
+                                        label="Mobile"
+                                        variant="outlined"
+                                        name='mobile'
+                                        value={data.mobile}
+                                        onChange={isEdit ? handleChange : undefined}
+                                        error={!!errors.mobile}
+                                        helperText={errors.mobile}
+                                    />
+                                </Box>
 
-                            <TextField id="outlined-basic"
-                                label="Mobile"
-                                variant="outlined"
-                                name='mobile'
-                                value={data.mobile}
-                                onChange={isEdit ? handleChange : undefined}
-                                error={!!errors.mobile}
-                                helperText={errors.mobile}
-                            />
-                        </Box>
+                            </ ThemeProvider>
 
-                    </ ThemeProvider>
+                            <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
 
-                    <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
+                            {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
 
-                    {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
+                            {/* change password modal */}
+                            {isOpen && <ChangePasswordModal onClose={handleClose} />}
 
-                     {/* change password modal */}
-                     {isOpen && <ChangePasswordModal onClose={handleClose} />}
+                        </div>
 
-                </div>
-                
-                {/* id card images */}
-                <IDCard front={collector?.details?.idCard.front} back={collector?.details?.idCard.back} />
+                        {/* id card images */}
+                        <IDCard front={collector?.details?.idCard.front} back={collector?.details?.idCard.back} />
 
-                {/* address detals */}
-                <Address2 street={collector?.address?.street} houseNo={collector?.address?.houseNo} district={collector?.address?.district} city={collector?.address?.city} pincode={collector?.address?.pincode}/>
+                        {/* address detals */}
+                        <Address2 street={collector?.address?.street} houseNo={collector?.address?.houseNo} district={collector?.address?.district} city={collector?.address?.city} pincode={collector?.address?.pincode} />
 
-                {/* vehicle details */}
-                <VehicleDetails model={collector?.details?.vehicleDetails.model} licensePlate={collector?.details?.vehicleDetails.licensePlate} image={collector?.details?.vehicleDetails.image}/>
-
+                        {/* vehicle details */}
+                        <VehicleDetails model={collector?.details?.vehicleDetails.model} licensePlate={collector?.details?.vehicleDetails.licensePlate} image={collector?.details?.vehicleDetails.image} />
+                    </>
+                }
             </div>
         </div>
     )

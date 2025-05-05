@@ -5,7 +5,7 @@ type Props = {}
 
 const CollectorDash = (props: Props) => {
   return (
-    <div className='flex'>
+    <div className='flex min-h-lvh'>
        <CollectorDashComp />  
     </div>
   )

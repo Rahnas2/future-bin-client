@@ -12,6 +12,7 @@ import { editSubscriptionDto } from '../../../types/editSubscriptionTypeDto'
 import { subscriptionSchema } from '../../../validations/addSubscription'
 import { ValidationError } from 'yup'
 import { data } from 'react-router-dom'
+import ComponentSpinner from '@/components/common/ComponentSpinner'
 
 type Props = {
     subscriptions: subscriptionType[];
@@ -33,24 +34,6 @@ const AdminSubCard = (props: Props) => {
     //validation errors
     const [errors, setErrors] = useState<Partial<subscriptionType>>({})
 
-    //toggle edit status
-    // const toggleEdit = async (id: string) => {
-    //     setEditStatus(prev => {
-    //         const newStatus = { [id]: !prev[id] }
-
-    //         if (newStatus[id]) {
-    //             const data = props.subscriptions.find(d => d._id === id)
-    //             if (data) {
-    //                 setEditData(data)
-    //             }
-    //         } else {
-    //             setEditData(undefined)
-    //         }
-    //         return newStatus
-    //     })
-    // }
-
-    //handle delete 
     const handleDelete = async (id: string) => {
         try {
             const result = await deleteSubscriptionApi(id)
@@ -110,67 +93,9 @@ const AdminSubCard = (props: Props) => {
         setEditData({ ...editData, features: updatedFeature })
     }
 
-    //submit edited data
-    // const handleSubmit = async (id: string) => {
-    //     try {
-
-    //         //not edited anytihing
-    //         if (!editData) return toast.error('no change')
-    //         const subscription = props.subscriptions.find(s => s._id === id)
-    //         if (!subscription) return toast.error('someting went wrong')
-    //         if (editData == subscription) return toast.error('no change')
-
-
-    //         //validation 
-    //         await subscriptionSchema.validate(editData, { abortEarly: false })
-    //         setErrors({})
-
-
-    //         //handle basic data's eg(name, price, description)
-    //         let updatedData: Partial<typeof subscription> = {};
-    //         Object.entries(editData || {}).forEach(([key, value]) => {
-    //             if (key !== 'features' && value !== subscription[key as keyof typeof subscription]) {
-    //                 updatedData[key as keyof typeof subscription] = value;
-    //             }
-    //         })
-
-    //         const data: editSubscriptionDto = {
-    //             id: subscription._id as string
-    //         }
-    //         if (Object.keys(updatedData).length > 0) {
-    //             data['updatedData'] = updatedData
-    //         }
-    //         data['features'] = editData.features.filter(val => val !== "")
-
-    //         //if features is empty
-    //         if (!data.features.length) return toast.error('plase add atlease one feature')
-
-    //         const result = await editSubscriptionApi(data)
-    //         toast.success(result.message)
-
-    //         console.log('edited data', editData)
-    //     } catch (error: any) {
-
-    //         //validation errors
-    //         if (error instanceof ValidationError) {
-    //             const ValidationErrors: { [key: string]: string } = {
-    //                 _id: id
-    //             }
-    //             error.inner.forEach(err => {
-    //                 if (err.path) {
-    //                     ValidationErrors[err.path] = err.message
-    //                 }
-    //             })
-    //             setErrors(ValidationErrors)
-    //             return
-    //         }
-    //         toast.error(error?.response?.data?.message || 'somthing went wrong')
-    //         console.log('error edit subscription ', error)
-    //     }
-    // }
 
     if (props.loading) {
-        return <div className='animate-spin'></div>
+        return <ComponentSpinner />
     }
 
     return (

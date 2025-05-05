@@ -38,7 +38,7 @@ const PaymentStatus = (props: Props) => {
             <div className='w-md '>{successAnimation.View}</div> :
             <div className='w-md'>{failedAnimation.View}</div>
         }
-        <button onClick={() => navigate('/')} className='bg-accent shadow-2xl px-4 py-1 rounded-sm cursor-pointer'>continue</button>  
+        <button onClick={() => navigate('/', {replace: true})} className='bg-accent shadow-2xl px-4 py-1 rounded-sm cursor-pointer'>continue</button>  
     </div>
   )
 }

@@ -68,9 +68,9 @@ const CollectorRequests = (props: Props) => {
   }, [socket])
 
   return (
-    <div className='flex min-h-screen'>
+    <div className='flex min-h-lvh'>
       {/* <SideBar role='collector' /> */}
-      <div className="bg-primary my-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
+      <div className="bg-primary mt-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
 
         {/* collector requests nav */}
         <div className='flex gap-10 justify-center mt-6'>

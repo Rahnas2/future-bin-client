@@ -32,8 +32,7 @@ const SideBarLayout = () => {
             >
                 <SideBar
                     role={role as roleType}
-                    isExpanded={isSidebarOpen}
-                    onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+                    // onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
                 />
             </div>
 

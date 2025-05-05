@@ -62,10 +62,10 @@ const CollectorDashComp = (props: Props) => {
         try {
             //fetch all paginated data for reach state
             const [allResult, pendingResult, completedResult, cancelledResult] = await Promise.all([
-                fetchPickupRequestHistoryApi('all', allPagination.currentPage, 2),
-                fetchPickupRequestHistoryApi('confirmed', pendingPagination.currentPage, 2),
-                fetchPickupRequestHistoryApi('completed', completedPagination.currentPage, 2),
-                fetchPickupRequestHistoryApi('cancelled', cancelledPagination.currentPage, 2),
+                fetchPickupRequestHistoryApi('all', allPagination.currentPage, 10),
+                fetchPickupRequestHistoryApi('confirmed', pendingPagination.currentPage, 10),
+                fetchPickupRequestHistoryApi('completed', completedPagination.currentPage, 10),
+                fetchPickupRequestHistoryApi('cancelled', cancelledPagination.currentPage, 10),
             ]);
 
             // Update collections
@@ -130,115 +130,116 @@ const CollectorDashComp = (props: Props) => {
         }
         fetchAreaData()
     }, [])
-    if (isLoading) {
-        return <div>loading..</div>
-    }
+
+
     return (
-        <div className="bg-primary my-10 mr-4 rounded-t-2xl px-4 py-4 flex-1 ">
-
-            <WorkStatus status={collector?.details?.status ? collector.details.status as 'active' | 'in-active' : 'in-active'} />
-
-            <div className="mb-5">
-                <label htmlFor="">Today</label>
-                <input type="text" />
-            </div>
-
-            <WorkSummary
-                totalCollectionCount={workSummary.totalCollection}
-                totalPendingWorkCount={workSummary.pendingWorks}
-                totalCompletedWorkCount={workSummary.completedWorks}
-                totalCacelWorkCount={workSummary.cancelledWorks}
-            />
-
-            {/* toatal collections */}
-            <div className="mt-15">
-                <div className="mb-8">Total Collections</div>
-
-                {
-                    allCollection.length ?
-                        <div className="flex items-center justify-between">
-                            <CollectorRequestHistoryTable
-                                collectionHistory={allCollection}
-                                type="all"
-                                pagination={allPagination}
-                                setPagination={setAllPagination}
-                            />
-                            <div className="">
-                            {loadingAreaData ? <ComponentSpinner/> :<AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.total }))} total={workSummary.totalCollection} />}
-                            </div>
-                        </div> :
-                        <EmptyCollections type="all" />
-                }
-
-            </div>
-
-            {allCollection.length !== 0 &&
+        <div className="bg-primary mt-10 mr-4 rounded-t-2xl px-4 py-4 flex-1 ">
+            {isLoading ? <ComponentSpinner /> :
                 <>
-                    {/* // /* pending collections */}
-                    < div className="mt-8">
-                        <div className="mb-8">Pending Works</div>
+                    <WorkStatus status={collector?.details?.status ? collector.details.status as 'active' | 'in-active' : 'in-active'} />
 
-                        {pendingCollections.length ?
-                            <div className="flex items-center justify-between">
-                                <CollectorRequestHistoryTable
-                                    collectionHistory={pendingCollections}
-                                    type="pending"
-                                    pagination={pendingPagination}
-                                    setPagination={setPendingPagination}
-                                />
-                               {loadingAreaData ? <ComponentSpinner/> : <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.pending }))} total={workSummary.pendingWorks} />} 
-                            </div> :
-                            <EmptyCollections type="pending" />
-                        }
+                    <div className="mb-5">
+                        <label htmlFor="">Today</label>
+                        <input type="text" />
                     </div>
 
+                    <WorkSummary
+                        totalCollectionCount={workSummary.totalCollection}
+                        totalPendingWorkCount={workSummary.pendingWorks}
+                        totalCompletedWorkCount={workSummary.completedWorks}
+                        totalCacelWorkCount={workSummary.cancelledWorks}
+                    />
 
-                    {/* /* completed collections */}
-                    <div className="mt-8">
-                        <div className="mb-8">Completed Works</div>
-                        {completedCollections.length ?
-                            <div className="flex items-center justify-between">
-                                <div>
+                    {/* toatal collections */}
+                    <div className="mt-15">
+                        <div className="mb-8">Total Collections</div>
+
+                        {
+                            allCollection.length ?
+                                <div className="flex items-center justify-between">
                                     <CollectorRequestHistoryTable
-                                        collectionHistory={completedCollections}
-                                        type="completed"
-                                        pagination={completedPagination}
-                                        setPagination={setCompletedPagination}
+                                        collectionHistory={allCollection}
+                                        type="all"
+                                        pagination={allPagination}
+                                        setPagination={setAllPagination}
                                     />
-                                </div>
-                                <div>
-                                {loadingAreaData ? <ComponentSpinner/> :<AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.completed }))} total={workSummary.completedWorks} />}
-                                </div>
-                            </div> :
-                            <EmptyCollections type="completed" />
+                                    <div className="">
+                                        {loadingAreaData ? <ComponentSpinner /> : <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.total }))} total={workSummary.totalCollection} />}
+                                    </div>
+                                </div> :
+                                <EmptyCollections type="all" />
                         }
 
                     </div>
 
-                    {/* //  cancelled collections */}
-                    <div className="mt-8">
-                        <div className="mb-8">Canelled Works</div>
-                        {cancelledCollections.length ?
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <CollectorRequestHistoryTable
-                                        collectionHistory={cancelledCollections}
-                                        type="cancelled"
-                                        pagination={cancelledPagination}
-                                        setPagination={setCancelledPagination}
-                                    />
-                                </div>
-                                <div>
-                                {loadingAreaData ? <ComponentSpinner/> :<AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.cancelled }))} total={workSummary.cancelledWorks} />}
-                                </div>
-                            </div> :
-                            <EmptyCollections type="cancelled" />
-                        }
+                    {allCollection.length !== 0 &&
+                        <>
+                            {/* // /* pending collections */}
+                            < div className="mt-8">
+                                <div className="mb-8">Pending Works</div>
 
-                    </div>
+                                {pendingCollections.length ?
+                                    <div className="flex items-center justify-between">
+                                        <CollectorRequestHistoryTable
+                                            collectionHistory={pendingCollections}
+                                            type="pending"
+                                            pagination={pendingPagination}
+                                            setPagination={setPendingPagination}
+                                        />
+                                        {loadingAreaData ? <ComponentSpinner /> : <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.pending }))} total={workSummary.pendingWorks} />}
+                                    </div> :
+                                    <EmptyCollections type="pending" />
+                                }
+                            </div>
+
+
+                            {/* /* completed collections */}
+                            <div className="mt-8">
+                                <div className="mb-8">Completed Works</div>
+                                {completedCollections.length ?
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <CollectorRequestHistoryTable
+                                                collectionHistory={completedCollections}
+                                                type="completed"
+                                                pagination={completedPagination}
+                                                setPagination={setCompletedPagination}
+                                            />
+                                        </div>
+                                        <div>
+                                            {loadingAreaData ? <ComponentSpinner /> : <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.completed }))} total={workSummary.completedWorks} />}
+                                        </div>
+                                    </div> :
+                                    <EmptyCollections type="completed" />
+                                }
+
+                            </div>
+
+                            {/* //  cancelled collections */}
+                            <div className="mt-8">
+                                <div className="mb-8">Canelled Works</div>
+                                {cancelledCollections.length ?
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <CollectorRequestHistoryTable
+                                                collectionHistory={cancelledCollections}
+                                                type="cancelled"
+                                                pagination={cancelledPagination}
+                                                setPagination={setCancelledPagination}
+                                            />
+                                        </div>
+                                        <div>
+                                            {loadingAreaData ? <ComponentSpinner /> : <AreaChart data={areaChartData.map(data => ({ city: data.city, count: data.cancelled }))} total={workSummary.cancelledWorks} />}
+                                        </div>
+                                    </div> :
+                                    <EmptyCollections type="cancelled" />
+                                }
+
+                            </div>
+                        </>
+                    }
                 </>
             }
-
         </div >
 
     )

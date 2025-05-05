@@ -1,10 +1,10 @@
 export interface TransactionType {
     paymentId: string,
-    pickupRequestId: string,
+    pickupRequestId?: string,
     userId: string,
     amount: number,
     currency: string,
-    type: 'credit' | 'debit',
-    paymentStatus: 'succeeded' | 'failed',
+    type: 'credited' | 'refunded' | 'transfered' | 'withdrawal',
+    paymentStatus: 'pending' | 'succeeded' | 'failed',
     createdAt: string
 }

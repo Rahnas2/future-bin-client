@@ -13,7 +13,7 @@ function SideNav() {
     const handleLogOut = async () => {
         try {
             await dispatch(logOut()).unwrap()
-            navigate('/login')
+            navigate('/')
         } catch (error) {
             console.log('log out errror ', error)
         }

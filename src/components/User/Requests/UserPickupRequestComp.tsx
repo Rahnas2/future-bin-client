@@ -5,12 +5,14 @@ import { fetchPickupRequestHistoryApi } from '../../../api/userService'
 import UserRequestHistoryTabs from './UserRequestHistoryTabs'
 import UserRequestHistoryTable from './UserRequestHistoryTable'
 import { pickupRequestStatusType } from '@/types/pickupRequestStatus'
+import ComponentSpinner from '@/components/common/ComponentSpinner'
+import Pagination from '@/components/common/Pagination'
 
 type Props = {}
 
 const UserPickupRequestComp = (props: Props) => {
 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [tab, setTab] = useState<'all' | pickupRequestStatusType>('all')
 
     const [requests, setRequests] = useState<pickupRequestType[] | []>([])
@@ -21,17 +23,18 @@ const UserPickupRequestComp = (props: Props) => {
     useEffect(() => {
         const fetchRequestHistory = async () => {
             try {
+                setIsLoading(true)
                 const result = await fetchPickupRequestHistoryApi(tab, currentPage, 10)
                 setRequests(result.requests)
-                // setFilterredRequest(result.requests)
-                setIsLoading(false)
+                setTotalPages(result.totalPages)
             } catch (error) {
+                console.error('error fetching request history', error)
+            } finally {
                 setIsLoading(false)
-                console.log('error fetching request history')
             }
         }
         fetchRequestHistory()
-    }, [tab])
+    }, [tab, currentPage])
 
 
 
@@ -49,18 +52,14 @@ const UserPickupRequestComp = (props: Props) => {
             />
 
             {
-                isLoading ? <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent2"></div>
-                </div> : requests.length === 0 ? <div className="flex justify-center items-center h-64 text-gray-500">
-                    <p>No requests found</p>
-                </div> :
-                    <>
-                        <UserRequestHistoryTable
-                            loading={isLoading}
-                            reqeustHistory={requests}
-                        />
-                    </>
-
+                isLoading ? <ComponentSpinner /> :
+                    requests.length === 0 ? <div className="flex justify-center items-center h-64 text-gray-500">
+                        <p>No requests found</p>
+                    </div> :
+                        <div className='flex flex-col gap-5'>
+                            <UserRequestHistoryTable reqeustHistory={requests} />
+                            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                        </div>
             }
         </div>
     )

@@ -4,7 +4,6 @@ import { pickupRequestType } from '@/types/PickupRequest'
 import { useNavigate } from 'react-router-dom'
 
 type Props = {
-    loading: boolean
     reqeustHistory: pickupRequestType[]
 }
 
@@ -17,15 +16,6 @@ const UserRequestHistoryTable = (props: Props) => {
     }
 
 
-    if (props.loading) return (
-        <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent2"></div>
-        </div>
-    )
-
-    if (!props.reqeustHistory.length) return (
-        <div>No History</div>
-    )
 
     return (
         <>

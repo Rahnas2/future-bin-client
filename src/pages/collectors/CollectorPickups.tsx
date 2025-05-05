@@ -9,10 +9,10 @@ const CollectorPickups = (props: Props) => {
     const [tab, setTab] = useState<'on-demand' | 'subscription'>('on-demand')
 
     return (
-        <div className='flex min-h-screen'>
+        <div className='flex min-h-lvh'>
             {/* <SideBar role='collector' /> */}
 
-            <div className="bg-primary my-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
+            <div className="bg-primary mt-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
 
                 {/* pickups nav  */}
                 <div className='flex gap-10 justify-center my-6'>

@@ -21,12 +21,13 @@ const SubscriptionManagemnt = (props: Props) => {
 
     const fetchSubscriptions = async () => {
         try {
+            setLoading(true)
             const result = await fetchAllSubscriptionsApi();
             setSubscriptions(result.subscriptions);
-            setLoading(false);
         } catch (error) {
             console.log('error ', error);
-            setLoading(false);
+        } finally {
+            setLoading(false)
         }
     };
 

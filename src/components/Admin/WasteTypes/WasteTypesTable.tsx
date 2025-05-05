@@ -38,7 +38,7 @@ const WasteTypesTable = (props: Props) => {
         <table className="w-full ">
             <thead>
                 <tr className="">
-                    <th className="p-2 border-b  text-left">ID</th>
+                    <th className="pl-5 p-2 border-b  text-left">ID</th>
                     <th className="p-2 border-b text-left">Name</th>
                     <th className="p-2 border-b text-left">Price</th>
                     <th className="p-2 border-b text-center">Actions</th>
@@ -47,7 +47,7 @@ const WasteTypesTable = (props: Props) => {
             <tbody>
                 {props.wasteTypes.map((wasteType) => (
                     <tr key={wasteType._id} className="">
-                        <td className="p-2 border-b">{wasteType._id}</td>
+                        <td className="pl-5 p-2 border-b">{wasteType._id}</td>
                         <td className="p-2 border-b">{wasteType.name}</td>
                         <td className="p-2 border-b">₹ {wasteType.price}</td>
                         <td className="p-2 border-b text-center">

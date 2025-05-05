@@ -11,6 +11,7 @@ import TopAreas from './TopAreas'
 import { fetchPickupRequestAnalyticsApi, fetchPickupRequestSummaryApi } from '@/api/adminServices'
 import { pickupRequestSummaryType } from '@/types/pickupRequestSummaryType'
 import { pickupRequestAnalyticsType } from '@/types/pickupRequestAnalyticsType'
+import ComponentSpinner from '@/components/common/ComponentSpinner'
 
 type Props = {}
 
@@ -24,7 +25,7 @@ const AdminDashComp = (props: Props) => {
             navigate('/admin/login')
         } catch (error) {
             console.log('log out errror ', error)
-        }
+        } 
     }
 
     const [summary, setSummary] = useState<pickupRequestSummaryType>()
@@ -35,15 +36,20 @@ const AdminDashComp = (props: Props) => {
     const [fromDate, setFromDate] = useState<Date>(new Date())
     const [toDate, setToDate] = useState<Date>(new Date())
 
+    const [loading, setIsLoading] = useState(false)
+
 
 
     useEffect(() => {
         const fetchSummary = async () => {
             try {
+                setIsLoading(true)
                 const result = await fetchPickupRequestSummaryApi()
                 setSummary(result.summary)
             } catch (error) {
-
+                console.log('error fetching request summary ', error)
+            } finally {
+                setIsLoading(false)
             }
         }
         fetchSummary()
@@ -83,6 +89,8 @@ const AdminDashComp = (props: Props) => {
         }
         fetchAnalytics()
     }, [timeRange])
+
+    if(loading) return <ComponentSpinner/>
     return (
         <div className='flex flex-col gap-10 '>
 

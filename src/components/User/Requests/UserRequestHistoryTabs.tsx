@@ -15,12 +15,13 @@ const UserRequestHistoryTabs = (props: Props) => {
     }
     
     return (
-        <div className='flex md:gap-5 w-fit  bg-primary rounded-2xl text-sm  [&>*]:rounded-2xl [&>*]:px-4 [&>*]:md:px-6 [&>*]:py-3 [&>*]:cursor-pointer'>
-            <span onClick={() => handleTab('all')} className={`${props.currentTab === 'all' && 'bg-accent'} `}>All</span>
-            <span onClick={() => handleTab('pending')} className={`${props.currentTab === 'pending' && 'bg-accent'} `}>Pending</span>
-            <span onClick={() => handleTab('accepted')} className={`${props.currentTab === 'accepted' && 'bg-accent'} `}>In Progress</span>
-            <span onClick={() => handleTab('cancelled')} className={`${props.currentTab === 'cancelled' && 'bg-accent'} `}>Cacelled</span>
-            <span onClick={() => handleTab('completed')} className={`${props.currentTab === 'completed' && 'bg-accent'} `}>Completed</span>
+        <div className='flex justify-between md:gap-5 md:w-fit bg-primary rounded-2xl text-sm  [&>*]:md:rounded-2xl  [&>*]:md:px-6 [&>*]:py-2 [&>*]:md:py-3 [&>*]:cursor-pointer'>
+            <span onClick={() => handleTab('all')} className={`${props.currentTab === 'all' ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2': 'hover:text-accent2'} `}>All</span>
+            <span onClick={() => handleTab('pending')} className={` ${props.currentTab === 'pending' ?  'md:bg-accent  md:border-b-0 border-b border-b-accent2': 'hover:text-accent2'} `}>Pending</span>
+            <span onClick={() => handleTab('accepted')} className={` ${props.currentTab === 'accepted' ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2': 'hover:text-accent2'} `}>Accepted</span>
+            <span onClick={() => handleTab('confirmed')} className={` ${props.currentTab === 'confirmed'  ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2': 'hover:text-accent2'} `}>In Progress</span>
+            <span onClick={() => handleTab('cancelled')} className={`${props.currentTab === 'cancelled' ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2': 'hover:text-accent2'} `}>Cacelled</span>
+            <span onClick={() => handleTab('completed')} className={`${props.currentTab === 'completed' ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2': 'hover:text-accent2'}`}>Completed</span>
         </div>
     )
 }

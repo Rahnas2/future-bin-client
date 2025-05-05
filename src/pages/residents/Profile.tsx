@@ -170,7 +170,7 @@ function Profile() {
 
     return (
         <>
-            <div className="md:bg-seconday flex-1 md:py-15 px-4 md:px-8  rounded-md">
+            <div className="md:bg-seconday flex-1 md:py-15 px-4 md:px-8 rounded-md">
 
                 <ProfileCard isEdit={isEdit} image={user?.image} firstName={data.firstName} lastName={data.lastName} email={data.email} mobile={data.mobile} selectedImage={selectedImage} setSelectedImage={handleSelectedImage} imgValError={errors.profileImage} />
 
