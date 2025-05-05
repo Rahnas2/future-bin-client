@@ -45,7 +45,7 @@ const ChatUser = (props: Props) => {
       setChatList(prev => {
         const updatedList = prev.map(chat =>
           chat._id === updatedChat._id ? updatedChat : chat
-        );
+        )
         return updatedList.some(chat => chat._id === updatedChat._id)
           ? updatedList
           : [...updatedList, updatedChat];
@@ -83,7 +83,7 @@ const ChatUser = (props: Props) => {
       </div>
 
       {/* Chat Window */}
-      <div className={` ${showChatWindowOnMobile ? 'block' : 'hidden'} md:block flex  bg-seconday flex-1 rounded-lg h-[650px]`}>
+      <div className={` ${showChatWindowOnMobile ? 'block' : 'hidden'} md:block flex  bg-seconday flex-1 rounded-lg`}>
         <ChatWindow
           selectedChat={selectedChat as chatListType}
           onBack={handleBackToList}

@@ -154,7 +154,7 @@ const ChatWindow = (props: Props) => {
 
 
   return (
-    <div className='flex flex-col flex-1 h-[650px]'>
+    <div className='flex flex-col flex-1 h-full'>
       {/* <div className='flex gap-5 justify-center border-b border-b-gray-500 items-center py-2'>
         {props.onBack && (
           <div className='justify-start p-2'>
