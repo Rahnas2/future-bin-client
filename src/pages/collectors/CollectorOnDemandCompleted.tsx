@@ -7,11 +7,9 @@ import RequestActionPersonalInfo from '@/components/collectors/RequestAction/Com
 import BackBtn from '@/components/common/BackBtn'
 import Loader from '@/components/common/Loader'
 import { OnDemandCompleteProvider } from '@/context/OnDemandCompleteContex'
-import { onDemandWasteType } from '@/types/onDemandWasteType'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
 import { Scale } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 type Props = {}

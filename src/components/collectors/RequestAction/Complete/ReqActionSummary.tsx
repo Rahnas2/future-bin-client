@@ -29,12 +29,12 @@ const ReqActionSummary = (props: Props) => {
 
         <div className="flex justify-between items-center py-3">
           <span className="opacity-50">Total Amount</span>
-          <span className="font-medium">₹{pickupRequest.totalAmount}</span>
+          <span className="font-medium">${pickupRequest.totalAmount}</span>
         </div>
 
         <div className="flex justify-between items-center py-3 ">
           <span className="opacity-50">Amount Paid</span>
-          <span className="font-medium text-green-600">₹{pickupRequest.paidAmount}</span>
+          <span className="font-medium text-green-600">${pickupRequest.paidAmount}</span>
         </div>
 
         {balanceAmount !== 0 && (
@@ -53,7 +53,7 @@ const ReqActionSummary = (props: Props) => {
                 </>
               )}
             </span>
-            <span className="font-medium">₹{Math.abs(balanceAmount)}</span>
+            <span className="font-medium">${Math.abs(balanceAmount)}</span>
           </div>
         )}
       </div>

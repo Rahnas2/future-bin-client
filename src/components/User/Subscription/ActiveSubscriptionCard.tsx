@@ -15,7 +15,7 @@ type Props = {
 
 const ActiveSubscriptionCard: React.FC<Props> = ({ requestId, subscription, price, setPickupRequest }) => {
 
-    const [progress, setProgress] = useState(subscription.completedPickups)
+    const [progress, setProgress] = useState(0)
 
     const [cancelModal, setCancelModal] = useState(false)
 
@@ -31,10 +31,15 @@ const ActiveSubscriptionCard: React.FC<Props> = ({ requestId, subscription, pric
         setPickupRequest(null)
     }
 
+    // useEffect(() => {
+    //     const timer = setTimeout(() => setProgress(progress), 500)
+    //     return () => clearTimeout(timer)
+    // }, [])
+
     useEffect(() => {
-        const timer = setTimeout(() => setProgress(progress), 500)
-        return () => clearTimeout(timer)
-    }, [])
+        const percentage = (subscription.completedPickups / subscription.totalPickups) * 100
+        setProgress(percentage)
+    }, [subscription.completedPickups])
 
     return (
         <>

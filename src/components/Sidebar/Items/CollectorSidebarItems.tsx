@@ -70,7 +70,7 @@ const CollectorSidebarItems = () => {
             socket.off('new-notification');
             socket.off('new-chat');
         };
-    }, [socket, dispatch]);
+    }, [dispatch]);
 
 
     return (

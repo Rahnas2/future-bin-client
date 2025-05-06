@@ -2,21 +2,45 @@
 import { wasteType } from "@/types/wasteTyp";
 import { subscriptionType } from "../types/SubscriptionType";
 import axiosInstance from "./axiosInstance";
-import axios from "axios";
 
 
+// Fetch All Users
 export const fetchUsersApi = async (page: number, limit: number, search: string) => {
     const response = await axiosInstance.get(`/admin/fetch-users?page=${page}&limit=${limit}&search=${search}`)
     return response.data
 }
 
+// Fetch Single User By User Id
 export const fetchSingleUserApi = async (userId: string) => {
     const response = await axiosInstance.get(`/admin/user/view-detail?userId=${userId}`)
     return response.data
 }
-   
+
+// Fetch All Collectors 
 export const fetchCollectorsApi = async (status: string, page: number, limit: number, search: string) => {
     const response = await axiosInstance.get(`/admin/collectors?approvedStatus=${status}&page=${page}&limit=${limit}&search=${search}`)
+    return response.data
+}
+
+// Fetch Collector By UserId
+export const fetchSingleCollectorApi = async(userId: string) => {
+    const response = await axiosInstance.get(`/admin/collector/view-detail?userId=${userId}`)
+    return response.data
+}
+
+// Block & Unblock (User & Collector)
+export const blockUserApi = async (userId: string) => {
+    const response = await axiosInstance.patch('/admin/user/status', { userId: userId})
+    return response.data
+}
+
+export const acceptRegisterationReqeustApi = async(collectorId: string, name: string, email: string) => {
+    const response = await axiosInstance.patch('/admin/collector/request/approve', {collectorId, name, email})
+    return response.data
+}
+
+export const rejectRegisterationRequestApi = async(collectorId: string, name: string, email: string) => {
+    const response = await axiosInstance.patch('/admin/collector/request/reject', {collectorId, name, email})
     return response.data
 }
 

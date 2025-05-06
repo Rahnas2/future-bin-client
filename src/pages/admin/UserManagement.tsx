@@ -14,6 +14,7 @@ import AdminSearch from "@/components/Admin/AdminSearch"
 import { fetchSingleUserApi } from "@/api/adminServices"
 import EmptyUsers from "@/components/Admin/UserManagement.tsx/EmptyUsers"
 import { Users } from "lucide-react"
+import { pickupRequestSubscriptionObjType } from "@/types/pickupRequestSubscriptionObjType"
 
 
 const UserManagement = () => {
@@ -21,11 +22,16 @@ const UserManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [searchTerm, setSerachTerm] = useState("")
   const [debouncedTerm, setDebouncedTerm] = useState("");
+
+  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+
+  // Active Subscription Details Of Selected User 
+  const [activeSubscription, setActiveSubscription] = useState<pickupRequestSubscriptionObjType | null>(null)
+  const [totalOnDemandPickupsCount, setTotalOnDemandPickupsCount] = useState(0)
 
 
   const dispatch = useDispatch<AppDispatch>()
@@ -53,7 +59,10 @@ const UserManagement = () => {
   const getUserDetail = async (userId: string) => {
     try {
       const result = await fetchSingleUserApi(userId)
+
       setSelectedUser(result.user);
+      setActiveSubscription(result.activeSubscription)
+      setTotalOnDemandPickupsCount(result.totalOnDemandPickupsCount)
       setIsModalOpen(true);
     } catch (error) {
       console.log('error fetching single user  ', error)
@@ -73,27 +82,30 @@ const UserManagement = () => {
   return (
     <div className="flex min-h-lvh">
 
-      <div className="bg-primary mt-10 mr-10 rounded-t-2xl px-4 py-4 flex-1 ">
+      <div className="bg-primary mt-10 md:mr-10 rounded-t-2xl md:px-4 py-4 flex-1 ">
 
-        <div className="bg-seconday py-6 rounded-xl">
+        <div className="md:bg-seconday py-6 rounded-xl">
 
           <div className="font-medium text-lg mb-8 px-6">All User</div>
           {totalPages === 0 ? <EmptyUsers Icon={Users} text='No Users' /> :
             <>
               <AdminSearch onSearch={handleSearch} />
 
-              <div>
+              <div className="overflow-x-auto">
                 <table className="w-full table">
-                  <thead className="">
+                  <thead className="text-sm ">
                     <tr className="border-b opacity-50">
                       <th className="pl-6 p-3 text-left">#</th>
                       <th className="p-3 text-left">Profile</th>
-                      <th className="p-3 text-left">Full Name</th>
+                      <th className="p-3 text-left">
+                        <span className="hidden md:inline">Full Name</span>
+                        <span className="md:hidden">Name</span>
+                      </th>
                       <th className="p-3 text-left">Mobile</th>
                       <th className="p-3 text-left">Email</th>
                       <th className="p-3 text-left">District</th>
                       <th className="p-3 text-left">Area</th>
-                      <th className="pl-4 py-3 text-left"></th>
+                      <th className="md:pl-4 py-3 text-left"></th>
                     </tr>
                   </thead>
                   <UsersData role="resident" getUserDetail={getUserDetail} status={false} />
@@ -105,7 +117,7 @@ const UserManagement = () => {
         </div>
       </div>
       {isModalOpen && (
-        <UserDetailModal user={selectedUser} onClose={closeModal} />
+        <UserDetailModal user={selectedUser} onClose={closeModal} activeSubscription={activeSubscription} totalOnDemandPickupsCount={totalOnDemandPickupsCount} />
       )}
     </div>
   )

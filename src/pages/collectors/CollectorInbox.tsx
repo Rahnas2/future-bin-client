@@ -4,7 +4,6 @@ import ChatUserList from "@/components/common/Chat/ChatUserList"
 import ChatWindow from "@/components/common/Chat/ChatWindow"
 import EmptyChatList from "@/components/common/Chat/EmptyChatList"
 import ComponentSpinner from "@/components/common/ComponentSpinner"
-import Loader from "@/components/common/Loader"
 import { getSocket } from "@/services/socket"
 import { chatListType } from "@/types/ChatListType"
 import { useEffect, useState } from "react"
@@ -84,7 +83,7 @@ const CollectorInbox = (props: Props) => {
             <ChatWindow
               selectedChat={selectedChat as chatListType}
               onBack={handleBackToList}
-              role="resident"
+              role="collector"
             />
           </div>
 

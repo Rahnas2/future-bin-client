@@ -12,6 +12,9 @@ import toast from 'react-hot-toast'
 
 import { IoMdCheckmarkCircleOutline, IoMdCloseCircleOutline } from "react-icons/io";
 import { FaUserCircle } from 'react-icons/fa'
+import { acceptRegisterationReqeustApi, blockUserApi, fetchSingleCollectorApi, rejectRegisterationRequestApi } from '@/api/adminServices'
+import ButtonSpinner from '@/components/common/ButtonSpinner'
+
 
 type Props = {}
 
@@ -19,6 +22,8 @@ function CollectorDetails({ }: Props) {
 
     const location = useLocation()
     const navigate = useNavigate()
+
+    const [action, setAction] = useState<'accepting' | 'rejecting' | null>(null)
 
     const { userId, type } = location.state
 
@@ -56,8 +61,8 @@ function CollectorDetails({ }: Props) {
     useEffect(() => {
         const fetchCollectorDetails = async () => {
             try {
-                const response = await axiosInstance.get(`/admin/collector/view-detail?userId=${userId}`)
-                const collector = response.data.collector
+                const response = await fetchSingleCollectorApi(userId)
+                const collector = response.collector
                 console.log('collector ', collector)
                 setData(collector)
             } catch (error) {
@@ -73,7 +78,8 @@ function CollectorDetails({ }: Props) {
 
     const toggleCollectorStatus = async () => {
         try {
-            await axiosInstance.patch('/admin/user/status', { userId: data._id })
+            // await axiosInstance.patch('/admin/user/status', { userId: data._id })
+            await blockUserApi(data._id)
             const message = data.isBlock ? 'ublocked' : 'blocked'
             setData({ ...data, isBlock: !data.isBlock })
             toast.success('collector ' + message + ' successfully')
@@ -83,25 +89,33 @@ function CollectorDetails({ }: Props) {
     }
 
     const collectorId = data.details._id
-    const handleAccept = async() => {
+    const handleAccept = async () => {
         try {
-            const response = await axiosInstance.patch('/admin/collector/request/approve', {collectorId, name: data.firstName + ' ' + data.lastName, email: data.email})
-            toast.success(response.data.message)
+            setAction('accepting')
+            // const response = await axiosInstance.patch('/admin/collector/request/approve', {collectorId, name: data.firstName + ' ' + data.lastName, email: data.email})
+            const response = await acceptRegisterationReqeustApi(collectorId, data.firstName + ' ' + data.lastName, data.email)
+            toast.success(response.message)
             navigate(-1)
         } catch (error) {
             console.log('error ', error)
             toast.error('something went wrong please try again')
+        } finally {
+            setAction(null)
         }
     }
 
-    const handleReject = async() => {
+    const handleReject = async () => {
         try {
-            const response = await axiosInstance.patch('/admin/collector/request/reject', {collectorId, name: data.firstName + ' ' + data.lastName, email: data.email})
-            toast.success(response.data.message)
+            setAction('rejecting')
+            // const response = await axiosInstance.patch('/admin/collector/request/reject', {collectorId, name: data.firstName + ' ' + data.lastName, email: data.email})
+            const response = await rejectRegisterationRequestApi(collectorId, data.firstName + ' ' + data.lastName, data.email)
+            toast.success(response.message)
             navigate(-1)
         } catch (error) {
             console.log('error ', error)
             toast.error('someting went wrong please try again')
+        } finally {
+            setAction(null)
         }
     }
 
@@ -116,7 +130,7 @@ function CollectorDetails({ }: Props) {
                 {/* top */}
                 <div className="flex gap-12 items-center justify-center mt-10 mb-10">
                     <div className="">
-                    {!data.image ? <FaUserCircle className='w-42 h-42' />: <img className='w-42 h-42 rounded-full' src={data.image} alt="" />}
+                        {!data.image ? <FaUserCircle className='w-42 h-42' /> : <img className='w-42 h-42 rounded-full' src={data.image} alt="" />}
                     </div>
 
                     <div>
@@ -189,14 +203,20 @@ function CollectorDetails({ }: Props) {
                 <div className='flex justify-end gap-15 [&>*]:cursor-pointer font-bold'>
                     {type === 'request' ?
                         <>
-                            <div onClick={handleAccept} className='flex items-center gap-3 bg-accent px-8 py-2 rounded-xl'>
-                                <span><IoMdCheckmarkCircleOutline className='inline text-2xl' /></span>
-                                <span>Accept</span>
-                            </div>
-                            <div onClick={handleReject} className='flex items-center gap-3 bg-red-700 px-8 py-2 rounded-xl'>
-                                <span><IoMdCloseCircleOutline className='inline text-2xl' /></span>
-                                <span>Reject</span>
-                            </div>
+                            <button disabled={action === 'accepting'} onClick={handleAccept} className='flex w-40 items-center justify-center gap-3 bg-accent py-2 rounded-xl'>
+                                {action === 'accepting' ? <ButtonSpinner /> :
+                                    <>
+                                        <span><IoMdCheckmarkCircleOutline className='inline text-2xl' /></span>
+                                        <span>Accept</span>
+                                    </>}
+                            </button>
+                            <button disabled={action === 'rejecting'} onClick={handleReject} className='flex w-40 items-center justify-center gap-3 bg-red-700 py-2 rounded-xl'>
+                                {action === 'rejecting' ? <ButtonSpinner /> :
+                                    <>
+                                        <span><IoMdCloseCircleOutline className='inline text-2xl' /></span>
+                                        <span>Reject</span>
+                                    </>}
+                            </button>
                         </>
                         :
                         <button onClick={toggleCollectorStatus} className={` px-8 py-2 rounded-xl ${data.isBlock ? 'bg-yellow-300 text-primary' : 'bg-red-700'}`}>{data.isBlock ? 'Unblock' : 'Block'}</button>
