@@ -55,7 +55,7 @@ export const editSubscriptionApi = async (data: Partial<subscriptionType>) => {
 }
 
 export const deleteSubscriptionApi = async (id: string) => {
-    const response = await axiosInstance.delete(`/admin/subscription/delete?id=${id}`,)
+    const response = await axiosInstance.delete(`/admin/subscription?id=${id}`)
     return response.data
 }
 

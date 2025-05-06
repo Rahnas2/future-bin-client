@@ -61,6 +61,7 @@ const NotificationList = (props: Props) => {
         socket.on('payment_success', handleNotification);
         socket.on('payment_failed', handleNotification);
         socket.on('pickup_cancelled', handleNotification);
+        socket.on('pickup_completed', handleNotification);
         socket.on('registeration_accepted', handleNotification);
         socket.on('registeration_rejected', handleNotification);
 
@@ -70,6 +71,7 @@ const NotificationList = (props: Props) => {
             socket.off('payment_success');
             socket.off('payment_failed');
             socket.off('pickup_cancelled');
+            socket.off('pickup_completed');
             socket.off('registeration_accepted');
             socket.off('registeration_rejected');
         };

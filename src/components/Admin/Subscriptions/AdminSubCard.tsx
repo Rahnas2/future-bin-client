@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { FaRegEdit } from 'react-icons/fa'
 import { MdAdd, MdDeleteForever } from 'react-icons/md'
 import { TiTick } from 'react-icons/ti'
-import { fetchAllSubscriptionsApi } from '../../../api/userService'
 import { subscriptionType } from '../../../types/SubscriptionType'
-import { deleteSubscriptionApi, editSubscriptionApi } from '../../../api/adminServices'
+import { deleteSubscriptionApi } from '../../../api/adminServices'
 import toast from 'react-hot-toast'
 import { FaPlus } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
-import { editSubscriptionDto } from '../../../types/editSubscriptionTypeDto'
 import { subscriptionSchema } from '../../../validations/addSubscription'
 import { ValidationError } from 'yup'
-import { data } from 'react-router-dom'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 
 type Props = {
@@ -131,17 +128,18 @@ const AdminSubCard = (props: Props) => {
                                     style={{ width: `${currentData.price.toString().length + 1}ch` }}
                                     readOnly={!isEditing}
                                 />
-                                <span className='text-primary ml-2 shrink-0'>Per Month</span>
+                                <span className='text-primary ml-2 shrink-0'>Only</span>
                             </div>
                             <div className={` text-sm ${errors.price && errors._id === data._id ? 'text-red-500' : 'hidden'}`}>{errors.price}</div>
 
-                            <textarea className={`outline-none w-full ${errors.description && errors._id === data._id ? 'text-red-600' : 'text-primary mb-6'}`}
+                            {/* <input className={`outline-none w-full ${errors.description && errors._id === data._id ? 'text-red-600' : 'text-primary mb-6'}`}
                                 name='description'
                                 value={currentData.description}
                                 onChange={isEditing ? handleDataChange : undefined}
-                                title={currentData.description} 
+                                title={currentData.description}
                                 readOnly={!isEditing}
-                                />
+                            /> */}
+                            <div className='text-primary mb-6'>{currentData.description}</div>
                             <div className={` text-sm ${errors.description && errors._id === data._id ? 'text-red-500' : 'hidden'}`}>{errors.description}</div>
 
                             <div className='flex justify-between items-center mb-5'><span className='uppercase font-bold '>Features</span>
@@ -150,9 +148,9 @@ const AdminSubCard = (props: Props) => {
                                 {currentData.features.map((feature, index) => (
                                     <div key={index}>
                                         <span><TiTick className='inline text-primary' /></span>
-                                        <textarea className='outline-none w-full' value={feature} onChange={(e) => handleFeatureChange(index, e.target.value)} 
+                                        <textarea className='outline-none w-full' value={feature} onChange={(e) => handleFeatureChange(index, e.target.value)}
                                             readOnly={!isEditing}
-                                            />
+                                        />
                                         {isEditing && <span onClick={() => removeFeature(index)} className='opacity'><TiDelete className='inline' /></span>}
                                     </div>
                                 ))}
@@ -171,7 +169,7 @@ const AdminSubCard = (props: Props) => {
         </div>
     )
 
-  
+
 }
 
 export default AdminSubCard

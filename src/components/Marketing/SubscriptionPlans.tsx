@@ -65,7 +65,7 @@ const SubscriptionPlans = (props: Props) => {
                                 <div className='text-xl '>
                                     <span className='font-bold text-2xl mr-3'>$ {data.price}</span>
                                     {/* <span className=' p-0 m-0 w-8 font-bold text-2xl '>{data.price}</span> */}
-                                    <span className={` ${index === 1 ? 'text-primary' : 'opacity-50'} `}>Per Month</span>
+                                    <span className={` ${index === 1 ? 'text-primary' : 'opacity-50'} `}>Only</span>
                                 </div>
 
                                 <div className={`${index === 1 ? 'text-primary' : 'opacity-50'} text-sm mb-6 w-full`}>{data.description}</div>

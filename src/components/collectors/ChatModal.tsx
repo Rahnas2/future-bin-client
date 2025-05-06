@@ -2,8 +2,6 @@ import { getSocket } from '@/services/socket'
 import { messageType } from '@/types/messageType'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
-import { GrEmoji } from 'react-icons/gr'
-import Loader from '../common/Loader'
 import { useSelector } from 'react-redux'
 import { IRootState } from '@/redux/slices'
 import { fetchMessagesBetweenTwoUserApi } from '@/api/collectorServices'
@@ -68,11 +66,11 @@ const ChatModal = (props: Props) => {
 
         const senderId = role === 'collector' ? collector?._id : user?._id
         console.log('sender id ', senderId)
-        if(!senderId) return 
+        if (!senderId) return
 
         setMessages((prev) => [...prev, { senderId, message, isImage: false, createdAt: new Date().toISOString() }])
 
-        const newMessage = { receiverId: props.participant, message };
+        const newMessage = { receiverId: props.participant, message, isImage: false };
         socket.emit("send message", newMessage);
         setMessage("");
     };
@@ -91,7 +89,13 @@ const ChatModal = (props: Props) => {
                             }`}
                     >
                         <small className="opacity-50 text">{new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</small>
-                        <p className={`px-4 py-1 text-text ${message.senderId === props.participant ? 'bg-primary' : 'bg-seconday'}`}>{message.message}</p>
+                        {/* <p className={`px-4 py-1 text-text ${message.senderId === props.participant ? 'bg-primary' : 'bg-seconday'}`}>{message.message}</p> */}
+                        {message.isImage ? <img
+                            src={message.message}
+                            alt="Sent image"
+                            className={`object-cover rounded-lg ${message.senderId === props.participant ? 'self-end' : 'self-start'}`}
+                        /> :
+                            <p className={`px-4 py-1 text-text ${message.senderId === props.participant ? 'bg-gray-600' : 'bg-primary'}`}>{message.message}</p>}
 
 
                     </div>

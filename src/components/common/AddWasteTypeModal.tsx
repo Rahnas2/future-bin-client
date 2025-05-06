@@ -127,8 +127,8 @@ const AddWasteTypeModal = (props: Props) => {
                                 <MenuItem value="" disabled>
                                     Select a weight
                                 </MenuItem>
-                                {weights.length && weights.map((weight) => (
-                                    <MenuItem key={weight} value={weight}>{weight}</MenuItem>
+                                {weights.length && weights.map((weight, index) => (
+                                    <MenuItem key={index} value={weight}>{weight}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -144,8 +144,8 @@ const AddWasteTypeModal = (props: Props) => {
 
                 <div>
                     <h1 className='mb-5'>Added Wastes</h1>
-                    {addedWasteTypes.map(waste => (
-                        <div className='flex gap-5 bg-seconday border-1 border-gray-700 rounded-md p-3 m-2'>
+                    {addedWasteTypes.map((waste, index) => (
+                        <div key={index} className='flex gap-5 bg-seconday border-1 border-gray-700 rounded-md p-3 m-2'>
                             <span>{waste.name}</span>
                             <span>$ {waste.price}</span>
                             <span>{waste.weight} (Kg)</span>

@@ -82,6 +82,7 @@ const ChatWindow = (props: Props) => {
   //received messages via socket
   useEffect(() => {
     socket.on("receive message", (newMessage: messageType) => {
+      console.log('receive message here ', newMessage)
       if (newMessage.senderId === props.selectedChat.participanId) {
         setMessages((prev) => [...prev, newMessage]);
       }
@@ -181,7 +182,7 @@ const ChatWindow = (props: Props) => {
 
         {/* Centered Profile Info */}
         <div className="flex items-center gap-3">
-          {!props.selectedChat.image ? (
+          {props.selectedChat.image === '' ? (
             <FaUserCircle className="w-10 h-10 text-white" />
           ) : (
             <img className="w-10 h-10 rounded-full" src={props.selectedChat.image} alt="" />

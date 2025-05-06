@@ -40,7 +40,7 @@ const ChatUser = (props: Props) => {
 
   useEffect(() => {
     socket.on('chat update', (updatedChat: chatListType) => {
-      
+      console.log('chat update here ', updatedChat)
       setChatList(prev => {
         const updatedList = prev.map(chat =>
           chat._id === updatedChat._id ? updatedChat : chat
@@ -49,6 +49,9 @@ const ChatUser = (props: Props) => {
           ? updatedList
           : [...updatedList, updatedChat];
       })
+      if (!selectedChat) {
+        setSelectedChat(updatedChat)
+      }
     });
 
     return () => {
@@ -77,19 +80,19 @@ const ChatUser = (props: Props) => {
           <ChatWindow selectedChat={selectedChat as chatListType} role='resident' /> */}
 
           {/* Chat List */}
-      <div className={` ${showChatWindowOnMobile ? 'hidden' : 'block' } md:block bg-seconday w-xs py-8 rounded-lg`}>
-        <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
-      </div>
+          <div className={` ${showChatWindowOnMobile ? 'hidden' : 'block'} md:block bg-seconday w-xs py-8 rounded-lg`}>
+            <ChatUserList chatList={chatList} handleSelectedChat={handleSelectedChat} />
+          </div>
 
-      {/* Chat Window */}
-      <div className={` ${showChatWindowOnMobile ? 'block' : 'hidden'} md:block flex  bg-seconday flex-1 rounded-lg`}>
-        <ChatWindow
-          selectedChat={selectedChat as chatListType}
-          onBack={handleBackToList}
-          role="resident"
-        />
-      </div>
-      
+          {/* Chat Window */}
+          <div className={` ${showChatWindowOnMobile ? 'block' : 'hidden'} md:block flex  bg-seconday flex-1 rounded-lg`}>
+            <ChatWindow
+              selectedChat={selectedChat as chatListType}
+              onBack={handleBackToList}
+              role="resident"
+            />
+          </div>
+
         </div>
       }
 
