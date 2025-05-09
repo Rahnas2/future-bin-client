@@ -87,8 +87,11 @@ const RequestChart: React.FC<Props> = ({
     let currentDate = new Date(fromDate);
     currentDate.setHours(0, 0, 0, 0);
 
-    const endDate = new Date(toDate);
-    endDate.setHours(0, 0, 0, 0);
+    // const endDate = new Date(toDate);
+    // endDate.setHours(0, 0, 0, 0);
+    const endDate = new Date();
+    endDate.setHours(23, 59, 59, 999);
+
 
     console.log('current date here  ', currentDate)
     console.log('end date here ', endDate)
@@ -98,7 +101,6 @@ const RequestChart: React.FC<Props> = ({
       console.log('end date iso ', endDate)
 
       const dateStr = currentDate.toLocaleDateString('en-CA')
-      console.log('date str ', dateStr)
       filledData.push(
         dataMap.get(dateStr) || {
           date: dateStr,
@@ -139,20 +141,30 @@ const RequestChart: React.FC<Props> = ({
       const monthSet = new Set<string>();
       processedData.forEach(item => {
         const date = new Date(item.date);
-        const monthYear = `${date.getFullYear()}-${date.getMonth()}`;
-        if (!monthSet.has(monthYear)) {
-          monthSet.add(monthYear);
-          // Use the first day of the month for the tick
-          ticks.push(new Date(date.getFullYear(), date.getMonth(), 1).toISOString().split('T')[0]);
+        // const monthYear = `${date.getFullYear()}-${date.getMonth()}`;
+        // if (!monthSet.has(monthYear)) {
+        //   monthSet.add(monthYear);
+        //   // Use the first day of the month for the tick
+        //   ticks.push(new Date(date.getFullYear(), date.getMonth(), 1).toISOString().split('T')[0]);
+        // }
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        if (!monthSet.has(monthKey)) {
+          monthSet.add(monthKey);
+          console.log('date here ', date)
+          const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+          console.log('first date of motnh ', firstDayOfMonth)
+          console.log('firs dat of month after change ', firstDayOfMonth.toISOString())
+          ticks.push(firstDayOfMonth.toLocaleDateString('en-CA'));
         }
       });
     }
-
+    console.log('tics ', ticks)
     return ticks;
   }, [processedData, timeRange]);
 
   // Format the date string based on the time range
   const formatDate = (dateStr: string) => {
+    console.log('date str ', dateStr)
     const date = new Date(dateStr);
     if (timeRange === '7d') {
       return date.toLocaleDateString("en-US", { weekday: "short" });

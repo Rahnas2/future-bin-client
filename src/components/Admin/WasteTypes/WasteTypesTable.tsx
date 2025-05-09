@@ -31,7 +31,8 @@ const WasteTypesTable = (props: Props) => {
             props.handleDeleteWasteType(id)
             toast.success('deleted')
         } catch (error) {
-            console.error('error delete subscription')
+            console.error('error delete subscription', error)
+            toast.error('something went wrong please try again')
         }
     }
     return (

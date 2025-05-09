@@ -19,6 +19,7 @@ import { string, ValidationError } from "yup";
 import { editProfileApi } from "../../api/userService";
 import toast from "react-hot-toast";
 import ChangePasswordModal from "../../components/common/ChangePasswordModal";
+import ButtonSpinner from "@/components/common/ButtonSpinner";
 
 
 function Profile() {
@@ -32,13 +33,19 @@ function Profile() {
         mobile: ''
     })
 
-    const [isEdit, setIsEdit] = useState(false)
+
 
     const { user } = useSelector((state: IRootState) => state.user)
 
     const dispatch = useDispatch<AppDispatch>()
 
     const [errors, setErrors] = useState<Partial<editProfileType>>({})
+
+    // Mode (eidt or normal)
+    const [isEdit, setIsEdit] = useState(false)
+
+    // Show loading for Edit Api request
+    const [isEditing, setIsEditing] = useState(false)
 
     //for change password modal
     const [isOpen, setIsOpen] = useState(false)
@@ -110,7 +117,6 @@ function Profile() {
 
     const handleSubmit = async () => {
         try {
-            console.log('selected image ', selectedImage)
             await editProfileSchema.validate({ ...data, profileImage: selectedImage }, { abortEarly: false })
 
             const formData = new FormData();
@@ -142,10 +148,11 @@ function Profile() {
 
             console.log('from data from submitted ', ...formData)
 
+            setIsEditing(true)
             await editProfileApi(formData)
             toast.success('updated profile')
 
-        } catch (error) {
+        } catch (error: any) {
             if (error instanceof ValidationError) {
 
                 const ValidationErrors: { [key: string]: string } = {}
@@ -160,7 +167,10 @@ function Profile() {
                 setErrors(ValidationErrors)
             } else {
                 console.error('error edit proifle ', error)
+                error.response.data.message ? toast.error(error.response.data.message) : toast.error('something went wrong')
             }
+        } finally {
+            setIsEditing(false)
         }
     }
 
@@ -235,7 +245,10 @@ function Profile() {
 
                     <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
 
-                    {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
+                    {isEdit && <div className="flex justify-center my-5 "><button disabled={isEditing} onClick={handleSubmit} className="flex w-30 justify-center py-2 bg-accent rounded-lg cursor-pointer">
+                        {isEditing ? <ButtonSpinner/> : <span>Submit</span>}   
+                    </button>
+                    </div>}
                 </div>
 
                 {/* address informaiton */}

@@ -19,7 +19,7 @@ const PaymentQrModal = (props: Props) => {
                     includeMargin={true}
                 />
                 <div className="mt-4 space-y-2">
-                    <p className="">Amount: ${props.amount}</p>
+                    <p className="">Amount: ₹{props.amount}</p>
                 </div>
                 <button
                     onClick={props.onClose}

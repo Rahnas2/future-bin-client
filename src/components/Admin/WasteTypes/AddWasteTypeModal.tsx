@@ -59,7 +59,7 @@ const AddWasteTypeModal = (props: Props) => {
                 
 
             props.onClose()
-        } catch (error) {
+        } catch (error: any) {
 
             //validation errors 
             if (error instanceof ValidationError) {
@@ -73,9 +73,12 @@ const AddWasteTypeModal = (props: Props) => {
 
                 setErrors(ValidationErrors)
                 return
+            }else {
+                toast.error(error)
             }
 
             console.error('error adding waste type ', error)
+            
         }
     }
 

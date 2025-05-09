@@ -6,7 +6,6 @@ import { AppDispatch } from '@/redux/store'
 import { fetchCollectors } from '@/redux/slices/adminSlice'
 import UsersData from '../UsersData'
 import Pagination from '@/components/common/Pagination'
-import { fetchCollectorsApi } from '@/api/adminServices'
 import EmptyUsers from '../EmptyUsers'
 import { GitPullRequest } from 'lucide-react'
 
@@ -46,7 +45,7 @@ const ApprovalRequests = (props: Props) => {
 
             <div className="font-medium text-lg mb-8 px-6">All Requests</div>
 
-            {totalPages === 0 ? <EmptyUsers Icon={GitPullRequest} text='No Approval Requests' /> : 
+            {totalPages === 0 && !searchTerm ? <EmptyUsers Icon={GitPullRequest} text='No Approval Requests' /> : 
             <>
             <AdminSearch onSearch={handleSearch}/>
 

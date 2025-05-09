@@ -18,6 +18,7 @@ import { editProfileApi } from '../../api/userService'
 import ChangePasswordModal from '../../components/common/ChangePasswordModal'
 import RegisterationStatus from '@/components/collectors/RegisterationStatus'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
+import ButtonSpinner from '@/components/common/ButtonSpinner'
 
 type Props = {}
 
@@ -42,6 +43,9 @@ function CollectorProfile({ }: Props) {
 
 
     const [isEdit, setIsEdit] = useState(false)
+
+    // Show loading for Edit Api request
+    const [isEditing, setIsEditing] = useState(false)
 
     const [data, setData] = useState({
         firstName: '',
@@ -134,10 +138,11 @@ function CollectorProfile({ }: Props) {
 
             console.log('from data from submitted ', ...formData)
 
+            setIsEditing(true)
             await editProfileApi(formData)
             toast.success('updated profile')
 
-        } catch (error) {
+        } catch (error: any) {
             if (error instanceof ValidationError) {
 
                 const ValidationErrors: { [key: string]: string } = {}
@@ -152,7 +157,10 @@ function CollectorProfile({ }: Props) {
                 setErrors(ValidationErrors)
             } else {
                 console.error('error edit proifle ', error)
+                error.response.data.message ? toast.error(error.response.data.message) : toast.error('something went wrong')
             }
+        } finally {
+            setIsEditing(false)
         }
     }
 
@@ -224,7 +232,10 @@ function CollectorProfile({ }: Props) {
 
                             <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
 
-                            {isEdit && <div className="flex justify-center my-5 "><span onClick={handleSubmit} className="px-8 py-2 bg-accent rounded-xl cursor-pointer">Submit</span></div>}
+                            {isEdit && <div className="flex justify-center my-5 "><button disabled={isEditing} onClick={handleSubmit} className="flex w-30 justify-center py-2 bg-accent rounded-xl cursor-pointer">
+                            {isEditing ? <ButtonSpinner/> : <span>Submit</span>}   
+                            </button>
+                            </div>}
 
                             {/* change password modal */}
                             {isOpen && <ChangePasswordModal onClose={handleClose} />}
