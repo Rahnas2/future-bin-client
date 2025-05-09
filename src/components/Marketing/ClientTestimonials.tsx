@@ -16,9 +16,7 @@ import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import ComponentSpinner from "../common/ComponentSpinner";
 
-type Props = {}
-
-const ClientTestimonials = (props: Props) => {
+const ClientTestimonials = () => {
 
   const [reviews, setReviews] = useState<ClientTestimonialsType[]>([]);
 

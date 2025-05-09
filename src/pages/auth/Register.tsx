@@ -8,20 +8,17 @@ import Input from '../../themes/input';
 import { useState, ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { basicInfo, sendOtp } from '../../redux/slices/authSlice';
+import { basicInfo } from '../../redux/slices/authSlice';
 import { AppDispatch } from '../../redux/store';
 
-import { string, ValidationError } from 'yup';
+import { ValidationError } from 'yup';
 import { basicInfoSchema } from '../../validations/validation';
 import { basicInfoSchemaType } from '../../validations/validation';
 import Banner from '../../components/common/Banner';
 import OAuth from '../../components/OAuth';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import toast from 'react-hot-toast';
 import PasswordField from '../../components/common/PasswordField';
-import { FacebookProvider } from 'react-facebook';
 import { IRootState } from '@/redux/slices';
-import { spawn } from 'child_process';
 import ButtonSpinner from '@/components/common/ButtonSpinner';
 
 

@@ -1,11 +1,10 @@
-import React from 'react'
+
 import { MdLoop } from 'react-icons/md'
 import { TiTick } from 'react-icons/ti'
 import img from '../../assets/brand-img-.jpeg'
 
-type Props = {}
 
-const AboutUs = (props: Props) => {
+const AboutUs = () => {
     return (
         <div className='px-5'>
             <div className='uppercase text-center text-xl font-bold mb-5 lg-mb-0'>About future bin</div>

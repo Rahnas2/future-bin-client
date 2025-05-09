@@ -1,7 +1,7 @@
-import React, { useRef, useState, KeyboardEvent, useEffect } from 'react'
+import { useRef, useState, KeyboardEvent, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 
-import { replace, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../../redux/store';
 import { sendOtp, verifyOtp } from '../../redux/slices/authSlice';
 import toast from 'react-hot-toast';

@@ -1,4 +1,4 @@
-import { object, string, ref, mixed, ValidationError } from 'yup'
+import { object, string, ref, mixed } from 'yup'
 
 export interface basicInfoSchemaType {
     firstName?: string,
