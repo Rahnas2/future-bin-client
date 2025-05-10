@@ -1,14 +1,13 @@
 import { getUserReviewAboutAppApi } from '@/api/reviewService'
 import { reviewType } from '@/types/reviewType'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import FeedBackAddEditModal from './FeedBackAddEditModal'
 import { Rating } from '@mui/material'
 import { ThemeProvider } from '@emotion/react'
 import themeRating from '@/themes/rating'
 
-type Props = {}
 
-const UserServiceFeedback = (props: Props) => {
+const UserServiceFeedback = () => {
 
     const [userReview, setUserReview] = useState<reviewType | null>(null)
     const [isLoadingReview, setIsLoadingReview] = useState(true)

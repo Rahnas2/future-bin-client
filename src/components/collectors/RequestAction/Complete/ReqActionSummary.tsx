@@ -2,11 +2,8 @@ import { useOnDemandComplete } from "@/context/OnDemandCompleteContex"
 import { ArrowDown, ArrowUp, CreditCard } from "lucide-react"
 
 
-type Props = {
 
-}
-
-const ReqActionSummary = (props: Props) => {
+const ReqActionSummary = () => {
 
   const { pickupRequest } = useOnDemandComplete()
 

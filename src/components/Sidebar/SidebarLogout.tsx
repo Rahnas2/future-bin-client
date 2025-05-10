@@ -1,12 +1,8 @@
 import { logOut } from "@/redux/slices/authSlice"
 import { AppDispatch } from "@/redux/store"
 import { LogOut } from "lucide-react"
-import React from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-
-type Props = {
-}
 
 const LogoutButton = () => {
     const dispatch = useDispatch<AppDispatch>()

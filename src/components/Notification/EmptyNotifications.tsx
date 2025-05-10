@@ -1,9 +1,6 @@
 import { BellOff } from 'lucide-react'
-import React from 'react'
 
-type Props = {}
-
-const EmptyNotifications = (props: Props) => {
+const EmptyNotifications = () => {
     return (
         <div className='flex flex-col items-center justify-center py-12 px-4 text-center'>
             <div className=" p-4 rounded-full mb-4">

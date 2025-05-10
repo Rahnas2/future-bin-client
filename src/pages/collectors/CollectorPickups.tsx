@@ -1,10 +1,9 @@
 import OnDemandPickups from '@/components/collectors/On-demand/OnDemandPickups'
 import CollectorActiveSubscriptions from '@/components/collectors/Subscription/CollectorActiveSubscriptions'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-type Props = {}
 
-const CollectorPickups = (props: Props) => {
+const CollectorPickups = () => {
 
     const [tab, setTab] = useState<'on-demand' | 'subscription'>('on-demand')
 

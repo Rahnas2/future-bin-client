@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { OnDemandPickupRequestType, pickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
+import { useEffect, useState } from 'react'
+import { pickupRequestType } from '../../types/PickupRequest'
 import { CiLocationArrow1 } from 'react-icons/ci'
 import { GiPathDistance } from 'react-icons/gi'
 import { IoMdCheckmarkCircleOutline, IoMdCloseCircleOutline } from 'react-icons/io'

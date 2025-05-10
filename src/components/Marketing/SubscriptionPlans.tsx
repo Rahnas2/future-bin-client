@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { fetchAllSubscriptionsApi } from '../../api/userService'
 import { subscriptionType } from '../../types/SubscriptionType'
 import { TiTick } from 'react-icons/ti'
@@ -7,12 +7,8 @@ import { IRootState } from '../../redux/slices'
 import toast from 'react-hot-toast'
 import SubscriptionRequestModal from '../User/SubscriptionRequestModal'
 import ComponentSpinner from '../common/ComponentSpinner'
-import ChangeAddressModal from '../common/PickupRequest.ts/ChangeAddressModal'
 
-
-type Props = {}
-
-const SubscriptionPlans = (props: Props) => {
+const SubscriptionPlans = () => {
 
     const [isLoading, setIsloading] = useState(true)
     const [subscriptions, setSubscriptions] = useState<subscriptionType[]>([])

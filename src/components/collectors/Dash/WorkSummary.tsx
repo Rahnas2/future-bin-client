@@ -1,4 +1,3 @@
-import React from 'react'
 import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5'
 import { MdCancel, MdPending } from 'react-icons/md'
 import { SiVirustotal } from 'react-icons/si'

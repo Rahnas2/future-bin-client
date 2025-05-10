@@ -1,9 +1,7 @@
 import MyEarningsComponent from '@/components/collectors/MyEarnings/MyEarningsComponent'
 
 
-type Props = {}
-
-const MyEarnings = (props: Props) => {
+const MyEarnings = () => {
     return (
         <div className='flex min-h-lvh'>
             <div className="bg-primary mt-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">

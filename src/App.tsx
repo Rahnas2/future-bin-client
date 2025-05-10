@@ -13,13 +13,13 @@ const appearance = {
     theme: 'stripe' as 'stripe',
 };
 const loader = 'auto';
-type Props = {}
 
-const App = (props: Props) => {
+
+const App = () => {
     return (
         <Router>
-            <FacebookProvider appId='1634568927450402'>
-                <GoogleOAuthProvider clientId="3144012594-6hqsjqjc8gf3880dkp3n7vqsicml2as1.apps.googleusercontent.com" >
+            <FacebookProvider appId={import.meta.env.VITE_FACEBOOK_APP_ID}>
+                <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID} >
                     <Elements options={{ appearance, loader }} stripe={stripePromise} >
                         <AppRoutes />
                         <Toaster />

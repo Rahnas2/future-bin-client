@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FaRegEdit } from 'react-icons/fa'
-import { MdAdd, MdDeleteForever } from 'react-icons/md'
+import { MdDeleteForever } from 'react-icons/md'
 import { TiTick } from 'react-icons/ti'
 import { subscriptionType } from '../../../types/SubscriptionType'
 import { deleteSubscriptionApi } from '../../../api/adminServices'
@@ -25,7 +25,7 @@ interface editStatus {
 const AdminSubCard = (props: Props) => {
 
     //edit subscription
-    const [editStatus, setEditStatus] = useState<editStatus>({})
+    const [editStatus] = useState<editStatus>({})
     const [editData, setEditData] = useState<subscriptionType>()
 
     //validation errors
@@ -132,13 +132,6 @@ const AdminSubCard = (props: Props) => {
                             </div>
                             <div className={` text-sm ${errors.price && errors._id === data._id ? 'text-red-500' : 'hidden'}`}>{errors.price}</div>
 
-                            {/* <input className={`outline-none w-full ${errors.description && errors._id === data._id ? 'text-red-600' : 'text-primary mb-6'}`}
-                                name='description'
-                                value={currentData.description}
-                                onChange={isEditing ? handleDataChange : undefined}
-                                title={currentData.description}
-                                readOnly={!isEditing}
-                            /> */}
                             <div className='text-primary mb-6'>{currentData.description}</div>
                             <div className={` text-sm ${errors.description && errors._id === data._id ? 'text-red-500' : 'hidden'}`}>{errors.description}</div>
 
@@ -157,11 +150,6 @@ const AdminSubCard = (props: Props) => {
                             </div>
 
                         </div>
-
-                        {/* submit */}
-                        {/* {isEditing && <div className='flex justify-center pt-4'>
-                            <span onClick={() => handleSubmit(data._id as string)} className='bg-primary rounded-lg px-6 py-1 cursor-pointer'>Submit</span>
-                        </div>} */}
 
                     </div>
                 )

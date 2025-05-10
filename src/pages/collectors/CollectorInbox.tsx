@@ -9,9 +9,7 @@ import { chatListType } from "@/types/ChatListType"
 import { useEffect, useState } from "react"
 
 
-type Props = {}
-
-const CollectorInbox = (props: Props) => {
+const CollectorInbox = () => {
 
   const socket = getSocket()
   const [isLoading, setIsLoading] = useState(true)

@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from 'react';
-import { onDemandWasteType } from '@/types/onDemandWasteType';
 import { OnDemandPickupRequestType } from '@/types/PickupRequest';
 
 const OnDemandCompleteContext = createContext<{

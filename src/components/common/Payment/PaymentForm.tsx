@@ -30,7 +30,6 @@ const PaymentForm = (props: Props) => {
                 elements,
                 confirmParams: {
                     return_url: window.location.origin + '/payment-status',
-                    // return_url: navigate('/payment-status'),
                 },
                 redirect: 'if_required',
             });

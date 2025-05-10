@@ -10,7 +10,6 @@ import { getClientSecretApi } from '@/api/paymentService';
 import ComponentSpinner from '@/components/common/ComponentSpinner';
 import NotificationItem from '@/components/Notification/NotificationItem';
 import EmptyNotifications from '@/components/Notification/EmptyNotifications';
-import { useDispatch } from 'react-redux';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const appearance = {
@@ -18,11 +17,8 @@ const appearance = {
 };
 const loader = 'auto';
 
-type Props = {}
+const NotificationList = () => {
 
-const NotificationList = (props: Props) => {
-
-    const dispatch = useDispatch()
 
     const socket = getSocket();
     const [notifications, setNotifications] = useState<notificationType[]>([]);

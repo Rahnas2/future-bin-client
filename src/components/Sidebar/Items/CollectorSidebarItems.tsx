@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import SidebarItem from '../SidebarItem';
 import {
     User,
@@ -7,39 +7,24 @@ import {
     Layers,
     TrendingUp,
     MessageSquare,
-    Bell,
-    LogOut
+    Bell
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { useNavigate } from 'react-router-dom';
-import { logOut } from '@/redux/slices/authSlice';
 import { getSocket } from '@/services/socket';
 import { incrementChat, incrementNotification, setCounts } from '@/redux/slices/countSlice';
 import { fetchOverviewCountsApi } from '@/api/overviewService';
 import { Badge } from '@mui/material';
 import { IRootState } from '@/redux/slices';
 
-type Props = {
-}
-
 const CollectorSidebarItems = () => {
 
     const socket = getSocket()
 
     const dispatch = useDispatch<AppDispatch>()
-    const navigate = useNavigate()
 
     const { unreadNotificationCount, unreadChatCount } = useSelector((state: IRootState) => state.overview);
 
-    const handleLogOut = async () => {
-        try {
-            await dispatch(logOut()).unwrap()
-            navigate('/login')
-        } catch (error) {
-            console.log('log out errror ', error)
-        }
-    }
 
     // Fetch notification counts
     useEffect(() => {
@@ -110,7 +95,6 @@ const CollectorSidebarItems = () => {
                 icon={<Badge badgeContent={unreadChatCount} color="error">
                     <MessageSquare size={20} /> 
                 </Badge>}
-                // icon={<MessageSquare size={20} />}
                 label="Inbox"
             />
 
@@ -125,7 +109,6 @@ const CollectorSidebarItems = () => {
                 icon={<Badge badgeContent={unreadNotificationCount} color="error">
                    <Bell size={20} />
                 </Badge>}
-                // icon={<Bell size={20} />}
                 label="Notifications"
             />
         </>

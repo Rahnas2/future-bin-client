@@ -1,9 +1,8 @@
-import { deleteReviewApi, getAllAppReviewApi } from '@/api/reviewService'
+import { deleteReviewApi } from '@/api/reviewService'
 import themeRating from '@/themes/rating'
 import { ClientTestimonialsType } from '@/types/ClientTestimonialsType'
 import { Rating, ThemeProvider } from '@mui/material'
-import { UserIcon } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { FaUserCircle } from 'react-icons/fa'
 

@@ -12,9 +12,8 @@ import toast from 'react-hot-toast'
 import { MdAdd } from 'react-icons/md'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-type Props = {}
 
-const CollectorCacelRequest = (props: Props) => {
+const CollectorCacelRequest = () => {
 
     const location = useLocation()
     const navigate = useNavigate()

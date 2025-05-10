@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchPickupRequestHistoryApi } from "@/api/userService";
-import { BasePickupRequestType, pickupRequestType } from "@/types/PickupRequest";
+import { pickupRequestType } from "@/types/PickupRequest";
 import { useSelector } from "react-redux";
 import { IRootState } from "@/redux/slices";
 import WorkSummary from "./WorkSummary";
@@ -13,9 +13,8 @@ import WorkStatus from "./WorkStatus";
 import { fetchAreaDataForCollectorApi } from "@/api/pickupRequest";
 import ComponentSpinner from "@/components/common/ComponentSpinner";
 
-type Props = {}
 
-const CollectorDashComp = (props: Props) => {
+const CollectorDashComp = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 

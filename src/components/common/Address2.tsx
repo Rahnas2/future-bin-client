@@ -1,7 +1,5 @@
 import { Box, TextField, ThemeProvider } from "@mui/material"
 import Input from "../../themes/input"
-import { AddressType } from "../../types/Address"
-
 
 type props = {
     street: string | undefined,

@@ -1,5 +1,4 @@
 import { roleType } from '@/types/roleType';
-import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
 import React from 'react'
 import SidebarLogo from './SidebarLogo';
 import CollectorSidebarItems from './Items/CollectorSidebarItems';

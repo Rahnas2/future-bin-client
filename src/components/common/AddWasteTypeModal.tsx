@@ -4,7 +4,7 @@ import Input from '@/themes/input'
 import { onDemandWasteType } from '@/types/onDemandWasteType'
 import { wasteType } from '@/types/wasteTyp'
 import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, ThemeProvider } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { IoMdClose } from 'react-icons/io'
 

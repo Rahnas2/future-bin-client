@@ -1,5 +1,3 @@
-import { addWasteTypeApi, editWasteTypeApi } from '@/api/adminServices'
-import axiosInstance from '@/api/axiosInstance'
 import { addWasteType, editWasteType } from '@/redux/slices/wasteTypesSlice'
 import { AppDispatch } from '@/redux/store'
 import Input from '@/themes/input'

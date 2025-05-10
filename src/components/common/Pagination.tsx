@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 type Props = {

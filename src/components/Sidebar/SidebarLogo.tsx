@@ -1,8 +1,6 @@
 
 import brand from '../../assets/logo (1).png'
 
-type Props = {}
-
 const SidebarLogo = () => {
   return (
     <div>

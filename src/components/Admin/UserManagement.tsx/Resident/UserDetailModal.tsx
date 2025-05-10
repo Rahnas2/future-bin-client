@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { UserDetailModalProps } from "@/types/UserDetailModalProps";
 
 import { IoMdClose } from "react-icons/io";

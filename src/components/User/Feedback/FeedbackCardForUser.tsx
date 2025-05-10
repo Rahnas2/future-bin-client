@@ -1,8 +1,6 @@
 import themeRating from '@/themes/rating'
 import { ClientTestimonialsType } from '@/types/ClientTestimonialsType'
-import { reviewType } from '@/types/reviewType'
 import { Rating, ThemeProvider } from '@mui/material'
-import { UserIcon } from 'lucide-react'
 import React from 'react'
 import { FaUserCircle } from 'react-icons/fa'
 

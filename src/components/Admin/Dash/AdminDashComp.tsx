@@ -1,6 +1,6 @@
 import { logOut } from '@/redux/slices/authSlice'
 import { AppDispatch } from '@/redux/store'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import RequestSummary from './RequestSummary'
@@ -13,9 +13,8 @@ import { pickupRequestSummaryType } from '@/types/pickupRequestSummaryType'
 import { pickupRequestAnalyticsType } from '@/types/pickupRequestAnalyticsType'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 
-type Props = {}
 
-const AdminDashComp = (props: Props) => {
+const AdminDashComp = () => {
 
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()

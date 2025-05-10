@@ -2,7 +2,7 @@ import { sendOtpService } from '@/api/authService'
 import { fetchScheduledPickupsByRequestIdApi } from '@/api/scheduledPickups'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 import { scheduledPickupType } from '@/types/scheduledPickup'
-import { Calendar, CheckCircle, CheckSquare, Component, X, XCircle } from 'lucide-react'
+import { Calendar, CheckCircle, CheckSquare, X, XCircle } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 

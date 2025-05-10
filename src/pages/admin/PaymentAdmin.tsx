@@ -5,11 +5,10 @@ import PaymentSummaryCard from '@/components/common/Payment/PaymentSummaryCard'
 import Transactions from '@/components/common/Payment/Transactions'
 import { revenueSummaryType } from '@/types/revenueSummaryType'
 import { Banknote, RotateCcw, Send, Wallet } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-type Props = {}
 
-const PaymentAdmin = (props: Props) => {
+const PaymentAdmin = () => {
 
   const [summary, setSummary] = useState({
     credited: 0,

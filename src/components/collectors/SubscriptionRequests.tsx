@@ -1,5 +1,5 @@
-import React, { SetStateAction } from 'react'
-import { OnDemandPickupRequestType, pickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
+import { SetStateAction } from 'react'
+import { SubscriptionPickupRequestType } from '../../types/PickupRequest'
 import PickupReqeustCard from './PickupReqeustCard'
 
 type Props = {

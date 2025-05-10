@@ -6,12 +6,10 @@ import EmptyChatList from '@/components/common/Chat/EmptyChatList'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 import { getSocket } from '@/services/socket'
 import { chatListType } from '@/types/ChatListType'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
-type Props = {}
-
-const ChatUser = (props: Props) => {
+const ChatUser = () => {
 
   const socket = getSocket()
 

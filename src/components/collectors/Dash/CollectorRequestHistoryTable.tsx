@@ -1,7 +1,6 @@
 import { pickupRequestType } from '@/types/PickupRequest'
-import React, { useState } from 'react'
+import React from 'react'
 import { MdLocationOn } from 'react-icons/md'
-import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import Pagination from '@/components/common/Pagination';
 import { PaginationState } from '@/types/PaginationState';
@@ -16,26 +15,6 @@ type Props = {
 const CollectorRequestHistoryTable = (props: Props) => {
 
     const navigate = useNavigate()
-
-    const [activeActionId, setActiveActionId] = useState<string | null>(null);
-
-    // Toggle the action menu for a specific request
-    const toggleActionMenu = (requestId: string) => {
-        if (activeActionId === requestId) {
-            setActiveActionId(null);
-        } else {
-            setActiveActionId(requestId);
-        }
-    };
-
-    const handleRequestAction = (id: string, action: 'completed' | 'cancel', requestId?: string) => {
-        if (action === 'completed') {
-            navigate('/collector/request/on-demand/complete', { state: { requestId } })
-            return
-        } else {
-            navigate('/collector/request/cancel', { state: { id: id } })
-        }
-    }
 
     //navigate to map page
     const navigateMap = (coordinates: [number, number]) => {
@@ -81,30 +60,6 @@ const CollectorRequestHistoryTable = (props: Props) => {
                                     </button>
                                 </div>
                             </td>
-                            {/* {props.type === 'pending' &&
-                                <td className='p-2 flex justify-center relative '>
-                                    <button onClick={() => toggleActionMenu(req._id as string)} className='flex items-center justify-between bg-accent px-5 py-1 rounded-lg font-bold cursor-pointer'>
-                                        <span className=''>Action</span>
-                                        <IoIosArrowDown className='inline' />
-                                    </button>
-
-                                    {activeActionId === req._id && (
-                                        <div className="absolute z-10 top-12 w-full bg-white shadow-lg rounded-md border border-gray-500">
-                                            <button
-                                                onClick={() => handleRequestAction(req._id as string, 'completed', req._id)}
-                                                className="w-full text-left px-4 py-2 hover:bg-gray-100 font-medium text-green-600 rounded-t-md"
-                                            >
-                                                Complete
-                                            </button>
-                                            <button
-                                                onClick={() => handleRequestAction(req._id as string, 'cancel')}
-                                                className="w-full text-left px-4 py-2 hover:bg-gray-100 font-medium text-red-600 rounded-b-md"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    )}
-                                </td>} */}
                         </tr>
                     ))}
                 </tbody>

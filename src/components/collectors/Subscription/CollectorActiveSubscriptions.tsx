@@ -4,13 +4,12 @@ import { SubscriptionPickupRequestType } from "@/types/PickupRequest"
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
 import { useEffect, useState } from "react"
 import ScheduledPickupModal from "./ScheduledPickupModal"
-import { pickupRequestApi } from "@/api/userService"
+
 import { useNavigate } from "react-router-dom"
 import ChatModal from "../ChatModal"
 
-type Props = {}
 
-const CollectorActiveSubscriptions = (props: Props) => {
+const CollectorActiveSubscriptions = () => {
 
     const navigate = useNavigate()
 

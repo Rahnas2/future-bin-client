@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import { pickupRequestType } from '@/types/PickupRequest'
 import { useNavigate } from 'react-router-dom'
 

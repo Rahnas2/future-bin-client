@@ -1,11 +1,9 @@
-import SideNav from "../../components/UserDash/SideNav"
-import UserNav from "../../components/UserNav"
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { ThemeProvider } from '@mui/material/styles'
 import Input from '../../themes/input';
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { IRootState } from "../../redux/slices";
@@ -14,7 +12,7 @@ import ProfileCard from "../../components/ProfileCard";
 
 import { FaEdit } from "react-icons/fa";
 import { editProfileSchema, editProfileType } from "../../validations/validation";
-import { string, ValidationError } from "yup";
+import { ValidationError } from "yup";
 
 import { editProfileApi } from "../../api/userService";
 import toast from "react-hot-toast";

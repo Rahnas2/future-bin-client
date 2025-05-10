@@ -1,6 +1,5 @@
 import themeRating from '@/themes/rating'
 import { ClientTestimonialsType } from '@/types/ClientTestimonialsType'
-import { reviewType } from '@/types/reviewType'
 import { Rating, ThemeProvider } from '@mui/material'
 import React from 'react'
 import { FaUserCircle } from 'react-icons/fa'

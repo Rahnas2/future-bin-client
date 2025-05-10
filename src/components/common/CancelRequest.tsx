@@ -1,10 +1,7 @@
 import Input from '@/themes/input'
 import { FormControl, InputLabel, Select, ThemeProvider } from '@mui/material'
-import React from 'react'
 
-type Props = {}
-
-const CancelRequest = (props: Props) => {
+const CancelRequest = () => {
     return (
         <div className='flex flex-col'>
             <div>

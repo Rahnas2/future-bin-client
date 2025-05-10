@@ -18,9 +18,6 @@ const PasswordField = (props: props) => {
         setShowPassword(!showPassword);
     };
 
-    // const handleMouseDownPassword = (e) => {
-    //     e.preventDefault();
-    // };
 
     return (
         <TextField

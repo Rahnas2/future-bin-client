@@ -13,7 +13,7 @@ type Props = {
     setPickupRequest: React.Dispatch<React.SetStateAction<SubscriptionPickupRequestType | null>>
 }
 
-const ActiveSubscriptionCard: React.FC<Props> = ({ requestId, subscription, price, setPickupRequest }) => {
+const ActiveSubscriptionCard: React.FC<Props> = ({ requestId, subscription, setPickupRequest }) => {
 
     const [progress, setProgress] = useState(0)
 
@@ -30,11 +30,6 @@ const ActiveSubscriptionCard: React.FC<Props> = ({ requestId, subscription, pric
     const handleSubscriptionCancelled = (cancellationData: requestCancellationType) => {
         setPickupRequest(null)
     }
-
-    // useEffect(() => {
-    //     const timer = setTimeout(() => setProgress(progress), 500)
-    //     return () => clearTimeout(timer)
-    // }, [])
 
     useEffect(() => {
         const percentage = (subscription.completedPickups / subscription.totalPickups) * 100

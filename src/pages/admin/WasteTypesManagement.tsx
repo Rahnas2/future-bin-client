@@ -1,5 +1,4 @@
-import { fetchAllWasteTypesApi } from '@/api/adminServices'
-import AdminNav from '@/components/Admin/AdminNav'
+
 import AdminSearch from '@/components/Admin/AdminSearch'
 import AddWasteTypeModal from '@/components/Admin/WasteTypes/AddWasteTypeModal'
 import WasteTypesTable from '@/components/Admin/WasteTypes/WasteTypesTable'
@@ -8,12 +7,11 @@ import Pagination from '@/components/common/Pagination'
 import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
 import { AppDispatch } from '@/redux/store'
 import { wasteType } from '@/types/wasteTyp'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-type Props = {}
 
-const WasteTypesManagement = (props: Props) => {
+const WasteTypesManagement = () => {
 
   const dispatch = useDispatch<AppDispatch>()
 

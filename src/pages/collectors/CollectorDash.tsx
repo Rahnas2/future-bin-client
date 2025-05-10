@@ -1,9 +1,8 @@
 
 import CollectorDashComp from '@/components/collectors/Dash/CollectorDashComp'
 
-type Props = {}
 
-const CollectorDash = (props: Props) => {
+const CollectorDash = () => {
   return (
     <div className='flex min-h-lvh'>
        <CollectorDashComp />  

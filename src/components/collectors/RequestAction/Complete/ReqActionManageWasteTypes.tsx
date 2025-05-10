@@ -1,6 +1,3 @@
-
-
-import { onDemandWasteType } from '@/types/onDemandWasteType'
 import ManageWasteTypes from '@/components/common/ManageWasteTypes'
 import { useState } from 'react'
 import AddWasteTypeModal from '@/components/common/AddWasteTypeModal'
@@ -8,13 +5,12 @@ import { useOnDemandComplete } from '@/context/OnDemandCompleteContex'
 import { updatePickupRequestApi } from '@/api/userService'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
 import ButtonSpinner from '@/components/common/ButtonSpinner'
-import { Plus, SaveIcon, Scale } from 'lucide-react'
-import { Save } from 'react-facebook'
+import { Plus, SaveIcon } from 'lucide-react'
 
-type Props = {
-}
 
-const ReqActionManageWasteTypes = (props: Props) => {
+
+
+const ReqActionManageWasteTypes = () => {
 
     const { pickupRequest, setPickupRequest } = useOnDemandComplete()
 

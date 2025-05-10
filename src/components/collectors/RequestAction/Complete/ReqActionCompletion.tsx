@@ -2,14 +2,13 @@ import { createPaymentSessionApi } from '@/api/collectorServices'
 import { completePickupRequestApi } from '@/api/pickupRequest'
 import PaymentQrModal from '@/components/common/Payment/PaymentQrModal'
 import { useOnDemandComplete } from '@/context/OnDemandCompleteContex'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { getSocket } from '@/services/socket';
 import { useNavigate } from 'react-router-dom'
 
-type Props = {}
 
-const ReqActionCompletion = (props: Props) => {
+const ReqActionCompletion = () => {
 
     const socket = getSocket();
     const navigate = useNavigate()

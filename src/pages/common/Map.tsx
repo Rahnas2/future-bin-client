@@ -1,12 +1,11 @@
 import BackBtn from '@/components/common/BackBtn'
 import { getPosition } from '@/utils/getCurrentPosition'
 import LocationMap from '@/components/common/Map/LocationMap'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-type Props = {}
 
-const Map = (props: Props) => {
+const Map = () => {
 
     const location = useLocation()
 

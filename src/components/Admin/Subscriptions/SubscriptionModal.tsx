@@ -1,4 +1,4 @@
-import { IoIosAdd, IoMdClose } from "react-icons/io"
+import { IoMdClose } from "react-icons/io"
 import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, ThemeProvider } from "@mui/material"
 import Input from "../../../themes/input"
 import { useState } from "react"
@@ -7,9 +7,7 @@ import toast from "react-hot-toast"
 import { subscriptionSchema, subscriptionSchemaType } from "../../../validations/addSubscription"
 import { ValidationError } from "yup"
 import { subscriptionType } from "../../../types/SubscriptionType"
-import { cancelReasons } from "@/utils/cancelResons"
 import { subscriptionFrequencies } from "@/utils/subscriptionFrequencies"
-import { error } from "console"
 
 
 

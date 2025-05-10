@@ -1,11 +1,9 @@
 import { addReviewApi, updateReviewApi } from '@/api/reviewService'
-import Input from '@/themes/input'
 import themeRating from '@/themes/rating'
 import { reviewType } from '@/types/reviewType'
 import { Rating, TextField, ThemeProvider } from '@mui/material'
-import { SyntheticEvent, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { IoMdClose } from 'react-icons/io'
 
 type Props = {
     onClose: () => void

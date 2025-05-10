@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@emotion/react'
 import { Box, TextField } from '@mui/material'
-import React from 'react'
 import Input from '../../themes/input'
 
 type Props = {

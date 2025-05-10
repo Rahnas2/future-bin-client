@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { pickupRequestType } from '../../../types/PickupRequest'
 import { fetchPickupRequestHistoryApi } from '../../../api/userService'
 
@@ -8,9 +8,8 @@ import { pickupRequestStatusType } from '@/types/pickupRequestStatus'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 import Pagination from '@/components/common/Pagination'
 
-type Props = {}
 
-const UserPickupRequestComp = (props: Props) => {
+const UserPickupRequestComp = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [tab, setTab] = useState<'all' | pickupRequestStatusType>('all')

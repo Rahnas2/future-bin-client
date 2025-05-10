@@ -9,12 +9,11 @@ import Loader from '@/components/common/Loader'
 import { OnDemandCompleteProvider } from '@/context/OnDemandCompleteContex'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
 import { Scale } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-type Props = {}
 
-const CollectorOnDemandCompleted = (props: Props) => {
+const CollectorOnDemandCompleted = () => {
 
     const location = useLocation()
     const navigate = useNavigate()

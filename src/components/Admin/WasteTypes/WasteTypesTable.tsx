@@ -1,6 +1,6 @@
-import { deleteWasteTypeApi, fetchAllWasteTypesApi } from '@/api/adminServices'
+import { deleteWasteTypeApi } from '@/api/adminServices'
 import { wasteType } from '@/types/wasteTyp'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { PiPencilBold } from "react-icons/pi";
 import { FaTrashCan } from "react-icons/fa6";

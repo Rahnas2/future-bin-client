@@ -1,6 +1,6 @@
 import { roleType } from '@/types/roleType';
 import { Menu } from 'lucide-react';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import SideBar from '../Sidebar/SideBar';
 import { useSelector } from 'react-redux';

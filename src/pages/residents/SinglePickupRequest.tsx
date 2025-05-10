@@ -3,9 +3,9 @@ import SinglePickupRequestComp from '@/components/common/PickupRequest.ts/Single
 import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 
-type Props = {}
 
-const SinglePickupRequest = (props: Props) => {
+
+const SinglePickupRequest = () => {
 
     const { id } = useParams() 
     const navigate = useNavigate()

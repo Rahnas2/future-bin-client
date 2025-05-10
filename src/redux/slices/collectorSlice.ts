@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { CollectorType } from "../../types/CollectorType";
 import { fetchCollectorProfileApi } from "../../api/collectorServices";
-import { stat } from "fs";
 
 export const fetchCollectorProfile = createAsyncThunk('/collector/fetchCollectorProfile', async(_, {rejectWithValue}) => {
     try {

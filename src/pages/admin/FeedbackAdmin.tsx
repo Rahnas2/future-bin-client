@@ -2,11 +2,9 @@ import { getAllAppReviewApi } from '@/api/reviewService';
 import FeedbackCardForAdmin from '@/components/Admin/Feedback/FeedbackCardForAdmin';
 import ComponentSpinner from '@/components/common/ComponentSpinner';
 import { ClientTestimonialsType } from '@/types/ClientTestimonialsType';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import  { useEffect, useRef, useState, useCallback } from 'react';
 
-type Props = {};
-
-const FeedbackAdmin = (props: Props) => {
+const FeedbackAdmin = () => {
   const [reviews, setReviews] = useState<ClientTestimonialsType[]>([]);
   const [isLoadingReviews, setIsLoadingReviews] = useState(false);
   const [hasMore, setHasMore] = useState(true);

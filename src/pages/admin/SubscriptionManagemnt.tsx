@@ -1,5 +1,4 @@
 
-import AdminNav from '../../components/Admin/AdminNav'
 import AddSubscription from '../../components/Admin/Subscriptions/AddSubscription';
 import AdminSubCard from '../../components/Admin//Subscriptions/AdminSubCard';
 import SubscriptionModal from '../../components/Admin/Subscriptions/SubscriptionModal';
@@ -8,9 +7,7 @@ import { subscriptionType } from '../../types/SubscriptionType';
 import { fetchAllSubscriptionsApi } from '../../api/userService';
 
 
-type Props = {}
-
-const SubscriptionManagemnt = (props: Props) => {
+const SubscriptionManagemnt = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [subscriptions, setSubscriptions] = useState<subscriptionType[]>([]);

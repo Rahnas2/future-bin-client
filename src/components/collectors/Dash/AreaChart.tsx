@@ -20,8 +20,6 @@ type Props = {
     data: { city: string, count: number }[]
     total: number
 }
-
-
 const colorMap = [
     "#62B2FD",
     "#9BDFC4",

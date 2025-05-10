@@ -8,9 +8,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import PasswordField from '../../components/common/PasswordField'
 
-type Props = {}
 
-const ResetPassword = (props: Props) => {
+const ResetPassword = () => {
 
     const location = useLocation()
     const navigate = useNavigate()

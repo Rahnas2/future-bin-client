@@ -1,12 +1,7 @@
-import React from 'react'
 import SidebarItem from '../SidebarItem'
 import { Banknote, BarChart, Layers, LayoutDashboard, MessageSquare, Truck, Users } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/utils/cn'
-
-type Props = {
-
-}
 
 const AdminSidebaritems = () => {
     return (

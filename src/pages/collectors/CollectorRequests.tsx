@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import CollectorNav from '../../components/collectors/CollectorNav'
 import { getSocket } from '../../services/socket'
 import toast from 'react-hot-toast'
 import { OnDemandPickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
@@ -9,15 +8,12 @@ import { fetchNearbyRequestsApi } from '../../api/collectorServices'
 import OnDemandRequests from '../../components/collectors/OnDemandRequests'
 import SubscriptionRequests from '../../components/collectors/SubscriptionRequests'
 import { fetchPickupRequestById } from '@/api/pickupRequest'
-import SideBar from '@/components/Sidebar/SideBar'
 import { useSelector } from 'react-redux'
 import { IRootState } from '@/redux/slices'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 
 
-type Props = {}
-
-const CollectorRequests = (props: Props) => {
+const CollectorRequests = () => {
 
   const [tab, setTab] = useState<'on-demand' | 'subscription'>('on-demand')
 

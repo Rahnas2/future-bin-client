@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ArrowDownLeft, HandCoins, Podcast, Truck } from 'lucide-react'
 import Wallet from './Wallet'
@@ -8,9 +8,8 @@ import { fetchCollectorEarningsSummaryApi } from '@/api/collectorServices'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 import PaymentSummaryCard from '@/components/common/Payment/PaymentSummaryCard'
 
-type Props = {}
 
-const MyEarningsComponent = (props: Props) => {
+const MyEarningsComponent = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [summary, setSummary] = useState<collectorEarningsSummary | null>(null)
 

@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react"
-import AdminNav from "../../components/Admin/AdminNav"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../redux/store"
 import { fetchUsers } from "../../redux/slices/adminSlice"
 
-import axiosInstance from "../../api/axiosInstance"
 import UserDetailModal from "@/components/Admin/UserManagement.tsx/Resident/UserDetailModal"
 import { UserType } from "../../types/UserType"
-import { IoIosSearch } from "react-icons/io";
 import UsersData from "@/components/Admin/UserManagement.tsx/UsersData"
 import Pagination from "@/components/common/Pagination"
 import AdminSearch from "@/components/Admin/AdminSearch"

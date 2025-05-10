@@ -5,10 +5,9 @@ import { ThemeProvider } from '@emotion/react'
 import { Checkbox, FormControlLabel, TextField } from '@mui/material'
 import React from 'react'
 
-type Props = {
-}
 
-const ManageWasteTypes = (props: Props) => {
+
+const ManageWasteTypes = () => {
 
     const { pickupRequest, setPickupRequest } = useOnDemandComplete();
 

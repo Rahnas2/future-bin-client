@@ -1,5 +1,4 @@
 
-
 type Props = {
     front: string | undefined,
     back: string | undefined

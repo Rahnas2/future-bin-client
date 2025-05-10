@@ -1,16 +1,9 @@
 import Address from '@/components/Address'
-import Address2 from '@/components/common/Address2'
 import { useOnDemandComplete } from '@/context/OnDemandCompleteContex'
 import Input from '@/themes/input'
-import { AddressType } from '@/types/Address'
-import { pickupRequestType } from '@/types/PickupRequest'
 import { TextField, ThemeProvider } from '@mui/material'
-import React from 'react'
 
-type Props = {
-}
-
-const RequestActionPersonalInfo = (props: Props) => {
+const RequestActionPersonalInfo = () => {
 
     const { pickupRequest } = useOnDemandComplete();
 

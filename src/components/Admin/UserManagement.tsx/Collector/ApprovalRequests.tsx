@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import AdminSearch from '@/components/Admin/AdminSearch'
 import TableHead from '../TableHead'
@@ -9,9 +9,8 @@ import Pagination from '@/components/common/Pagination'
 import EmptyUsers from '../EmptyUsers'
 import { GitPullRequest } from 'lucide-react'
 
-type Props = {}
 
-const ApprovalRequests = (props: Props) => {
+const ApprovalRequests = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);

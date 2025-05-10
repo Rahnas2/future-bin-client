@@ -2,9 +2,7 @@
 import CollectorActiveSubscriptions from '@/components/collectors/Subscription/CollectorActiveSubscriptions'
 
 
-type Props = {}
-
-const CollectorSubscriptions = (props: Props) => {
+const CollectorSubscriptions = () => {
   return (
     <div className='flex min-h-screen'>
       {/* <SideBar role='collector' /> */}

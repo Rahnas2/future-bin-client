@@ -1,7 +1,7 @@
 import { getAddressFromCoordinates, getAddressSuggestions, getCoordinatesFromSuggestion } from '@/api/geocoding'
 import Input from '@/themes/input'
 import { AddressType } from '@/types/Address'
-import { BasePickupRequestType, pickupRequestType } from '@/types/PickupRequest'
+import { BasePickupRequestType } from '@/types/PickupRequest'
 import { getPosition } from '@/utils/getCurrentPosition'
 import { changeAddressSchema } from '@/validations/changeAddress'
 

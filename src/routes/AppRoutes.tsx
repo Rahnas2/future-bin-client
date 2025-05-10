@@ -14,6 +14,7 @@ import Register from '../pages/auth/Register'
 import SelectRole from '../pages/auth/SelectRole'
 import CompleteProfile from '../pages/auth/CompleteProfile'
 import OtpVerfication from '../pages/auth/OtpVerfication'
+import ResetPassword from '../pages/auth/ResetPassword'
 
 //user pages
 import LandingPage from '../pages/residents/LandingPage'
@@ -21,6 +22,11 @@ import Profile from '../pages/residents/Profile'
 import AboutUs from '../components/Marketing/AboutUs'
 import SubscriptionPlans from '../components/Marketing/SubscriptionPlans'
 import UserPickupRequestHsitory from '../pages/residents/UserPickupRequestHsitory'
+import SubscriptionManagementUser from '@/pages/residents/SubscriptionManagementUser'
+import NotificationUser from '@/pages/residents/NotificationUser'
+import UserFeedback from '@/pages/residents/UserFeedback'
+import SinglePickupRequest from '@/pages/residents/SinglePickupRequest'
+import UserPayments from '@/pages/residents/UserPayments'
 
 //Admin pages
 import SignIn from '../pages/admin/SignIn'
@@ -31,38 +37,38 @@ import ApprovalRequests from '@/components/Admin/UserManagement.tsx/Collector/Ap
 import CollectorManagement from '../pages/admin/CollectorManagement'
 import CollectorDetails from '../pages/admin/CollectorDetails'
 import WasteTypesManagement from '@/pages/admin/WasteTypesManagement'
+import ChatUser from '@/pages/residents/ChatUser'
+import SubscriptionManagemnt from '../pages/admin/SubscriptionManagemnt'
+import PaymentAdmin from '@/pages/admin/PaymentAdmin'
+import FeedbackAdmin from '@/pages/admin/FeedbackAdmin'
 
-
+//Collector Pages
 import CollectorDash from '../pages/collectors/CollectorDash'
 import CollectorProfile from '../pages/collectors/CollectorProfile'
-import SubscriptionManagemnt from '../pages/admin/SubscriptionManagemnt'
-import ResetPassword from '../pages/auth/ResetPassword'
-import NotFound from '../pages/NotFound'
-
-import CollectorRequests from '../pages/collectors/CollectorRequests'
-import {initiateSocket } from '../services/socket'
-
-import Loader from '@/components/common/Loader'
-import SubscriptionManagementUser from '@/pages/residents/SubscriptionManagementUser'
-import NotificationUser from '@/pages/residents/NotificationUser'
-import PaymentStatus from '@/components/common/Payment/PaymentStatus'
-import ChatUser from '@/pages/residents/ChatUser'
-import CollectorInbox from '@/pages/collectors/CollectorInbox'
-import Map from '@/pages/common/Map'
 import CollectorCacelRequest from '@/pages/collectors/CollectorCacelRequest'
 import CollectorOnDemandCompleted from '@/pages/collectors/CollectorOnDemandCompleted'
-import UserFeedback from '@/pages/residents/UserFeedback'
-import SinglePickupRequest from '@/pages/residents/SinglePickupRequest'
-import UserPayments from '@/pages/residents/UserPayments'
-import SideBarLayout from '@/components/Layout/SideBarLayout'
 import CollectorNotifications from '@/pages/collectors/CollectorNotifications'
 import CollectorPickups from '@/pages/collectors/CollectorPickups'
 import MyEarnings from '@/pages/collectors/MyEarnings'
-import PaymentAdmin from '@/pages/admin/PaymentAdmin'
+import CollectorRequests from '../pages/collectors/CollectorRequests'
 import CollectorFeedback from '@/pages/collectors/CollectorFeedback'
-import FeedbackAdmin from '@/pages/admin/FeedbackAdmin'
+import CollectorInbox from '@/pages/collectors/CollectorInbox'
+
+//Common Pages
+import PaymentStatus from '@/components/common/Payment/PaymentStatus'
+import Map from '@/pages/common/Map'
+import NotFound from '../pages/NotFound'
+
+
+// Layouts 
+import SideBarLayout from '@/components/Layout/SideBarLayout'
 import ResidentNavLayout from '@/components/Layout/ResidentNavLayout'
 
+//Loader 
+import Loader from '@/components/common/Loader'
+
+
+import { initiateSocket } from '../services/socket'
 
 
 const AppRoutes = () => {
@@ -117,13 +123,13 @@ const AppRoutes = () => {
 
   useEffect(() => {
     const initAuth = async () => {
-      
+
       console.log('initializing auth ')
       await initializeAuth(); // Wait for token refresh
       await initiateSocket(); // Mark auth as initialized
-      setIsAuthInitialized(true); 
+      setIsAuthInitialized(true);
       console.log('inizilized auth  completed ')
-      
+
     };
     initAuth();
   }, [location.pathname]);

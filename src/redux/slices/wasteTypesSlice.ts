@@ -36,7 +36,7 @@ export const editWasteType = createAsyncThunk("wasteTypes/edit", async (data: Pa
 
 export const deleteWasteType = createAsyncThunk("wasteTypes/delete", async (id: string, { rejectWithValue }) => {
     try {
-        const response = await deleteWasteTypeApi(id)
+        await deleteWasteTypeApi(id)
         return id;
     } catch (error: any) {
         return rejectWithValue(error?.response?.data.message || 'something went wrong')

@@ -3,14 +3,12 @@ import { fetchPickupRequestsByTypeAndStatus } from '@/api/pickupRequest'
 import ComponentSpinner from '@/components/common/ComponentSpinner'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { IoChatbox } from 'react-icons/io5'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ChatModal from '../ChatModal'
 
-type Props = {}
 
-const OnDemandPickups = (props: Props) => {
+const OnDemandPickups = () => {
 
     const navigate = useNavigate()
 

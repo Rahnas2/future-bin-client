@@ -5,10 +5,7 @@ import SuccessAnimation from '../../../animations/payment-success-animation.json
 import FaildAnimation from '../../../animations/payment-faild-animation.json'
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
-type Props = {}
-
-const PaymentStatus = (props: Props) => {
+const PaymentStatus = () => {
 
     const navigate = useNavigate()
 

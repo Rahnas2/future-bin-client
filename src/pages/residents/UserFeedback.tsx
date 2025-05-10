@@ -2,13 +2,11 @@ import { getUserReviewsAboutCollectorsApi } from '@/api/reviewService';
 import ComponentSpinner from '@/components/common/ComponentSpinner';
 import CollectorReviewHistory from '@/components/common/Feedback/CollectorReviewHistory';
 import UserServiceFeedback from '@/components/User/Feedback/UserServiceFeedback';
-import SideNav from '@/components/UserDash/SideNav';
 import { ClientTestimonialsType } from '@/types/ClientTestimonialsType';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
-type Props = {};
 
-const UserFeedback = (props: Props) => {
+const UserFeedback = () => {
   const [collectorsReviews, setCollectorsReviews] = useState<ClientTestimonialsType[]>([]);
   const [isLoadingCollectorsReviews, setIsLoadingCollectorsReviews] = useState(false);
   const [hasMore, setHasMore] = useState(true);

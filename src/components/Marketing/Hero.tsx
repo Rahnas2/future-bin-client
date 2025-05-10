@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import img1 from '../../assets/hero-img-1.jpg'
 import img2 from '../../assets/hero-img-2.jpg'
 import OnDemandRequestModal from '../User/OnDemandRequestModal'
@@ -6,9 +6,7 @@ import { useSelector } from 'react-redux'
 import { IRootState } from '@/redux/slices'
 import toast from 'react-hot-toast'
 
-type Props = {}
-
-const Hero = (props: Props) => {
+const Hero = () => {
 
     const {accessToken} = useSelector((state: IRootState) => state.auth)
     // handle on-demand request modal 

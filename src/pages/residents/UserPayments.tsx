@@ -1,8 +1,7 @@
 import Transactions from '@/components/common/Payment/Transactions'
 
-type Props = {}
 
-const UserPayments = (props: Props) => {
+const UserPayments = () => {
     return (
             <div className="flex-1 md:py-15 md:px-8 md:bg-seconday rounded-lg shadow-sm">
 

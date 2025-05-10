@@ -1,8 +1,7 @@
 import { IRootState } from '@/redux/slices'
 import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
 import { AppDispatch } from '@/redux/store'
-import { wasteType } from '@/types/wasteTyp'
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 
