@@ -7,10 +7,7 @@ import ActiveSubscriptionFeatures from "./ActiveSubscriptionFeatures"
 import ComponentSpinner from "@/components/common/ComponentSpinner"
 import { Link } from "react-router-dom"
 
-
-type Props = {}
-
-const UserSubscriptionComp = (props: Props) => {
+const UserSubscriptionComp = () => {
 
 
     const [pickupRequest, setPickupRequest] = useState<SubscriptionPickupRequestType | null>(null)

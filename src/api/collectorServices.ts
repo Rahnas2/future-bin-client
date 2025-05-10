@@ -1,5 +1,3 @@
-
-import { CollectorType } from "@/types/CollectorType";
 import axiosInstance from "./axiosInstance";
 import { CollectorDocType } from "@/types/CollectorDocType";
 

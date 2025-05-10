@@ -1,12 +1,11 @@
-import { Checkbox, FormControlLabel, FormGroup, TextField, ThemeProvider } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Checkbox, FormControlLabel, TextField, ThemeProvider } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { IoMdClose, IoMdAdd } from 'react-icons/io'
 import Input from '../../themes/input'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../redux/slices'
 import { pickupRequestApi } from '../../api/userService'
-import { BasePickupRequestType, OnDemandPickupRequestType, pickupRequestType } from '../../types/PickupRequest'
-// import { wasteTypes } from '../../utils/availableWasteTypes'
+import { BasePickupRequestType, OnDemandPickupRequestType } from '../../types/PickupRequest'
 import toast from 'react-hot-toast'
 import { AppDispatch } from '@/redux/store'
 import { fetchWasteTypes } from '@/redux/slices/wasteTypesSlice'
@@ -37,7 +36,7 @@ const OnDemandRequestModal = (props: Props) => {
         const findWasteTypes = async () => {
             try {
                 setFetchingWasteTypes(true)
-                const result = await dispatch(fetchWasteTypes({ page: 1, limit: 10, search: '' })).unwrap()
+                await dispatch(fetchWasteTypes({ page: 1, limit: 10, search: '' })).unwrap()
             } catch (error) {
                 console.log('erro fetching waste types..', error)
             } finally {
@@ -236,47 +235,51 @@ const OnDemandRequestModal = (props: Props) => {
                             <div>
                                 <div className='font-medium mb-4'>Select Waste Types</div>
                                 <div className='space-y-4'>
-                                    {wasteTypes?.map((waste, index) => (
-                                        <div key={index} className='flex items-center justify-between'>
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={checkedState[index]}
-                                                        onChange={() => handleCheckBoxChange(index)}
-                                                        sx={{
-                                                            color: "hsl(0, 0%, 50%)",
-                                                            "&.Mui-checked": { color: "#009E4F" },
-                                                        }}
+                                    {fetchingWasteTypes ? <ComponentSpinner /> :
+                                        <>
+                                            {wasteTypes?.map((waste, index) => (
+                                                <div key={index} className='flex items-center justify-between'>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                checked={checkedState[index]}
+                                                                onChange={() => handleCheckBoxChange(index)}
+                                                                sx={{
+                                                                    color: "hsl(0, 0%, 50%)",
+                                                                    "&.Mui-checked": { color: "#009E4F" },
+                                                                }}
+                                                            />
+                                                        }
+                                                        label={
+                                                            <div className='flex items-center'>
+                                                                <span>{waste.name}</span>
+                                                                <span className='text-gray-500 ml-2 text-sm'>
+                                                                    (₹{waste.price}/kg)
+                                                                </span>
+                                                            </div>
+                                                        }
                                                     />
-                                                }
-                                                label={
-                                                    <div className='flex items-center'>
-                                                        <span>{waste.name}</span>
-                                                        <span className='text-gray-500 ml-2 text-sm'>
-                                                            (₹{waste.price}/kg)
-                                                        </span>
-                                                    </div>
-                                                }
-                                            />
-                                            {checkedState[index] && (
-                                                <ThemeProvider theme={Input}>
-                                                    <TextField
-                                                        type="number"
-                                                        label="Weight (kg)"
-                                                        variant="outlined"
-                                                        size="small"
-                                                        value={selectedWasteTypes.find(w => w.name === waste.name)?.weight || ''}
-                                                        onChange={(e) => {
-                                                            const newWeight = Number(e.target.value);
-                                                            handleWeightChange(waste.name, newWeight);
-                                                        }}
-                                                        inputProps={{ min: 1, step: 1 }}
-                                                        sx={{ width: '100px' }}
-                                                    />
-                                                </ThemeProvider>
-                                            )}
-                                        </div>
-                                    ))}
+                                                    {checkedState[index] && (
+                                                        <ThemeProvider theme={Input}>
+                                                            <TextField
+                                                                type="number"
+                                                                label="Weight (kg)"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                value={selectedWasteTypes.find(w => w.name === waste.name)?.weight || ''}
+                                                                onChange={(e) => {
+                                                                    const newWeight = Number(e.target.value);
+                                                                    handleWeightChange(waste.name, newWeight);
+                                                                }}
+                                                                inputProps={{ min: 1, step: 1 }}
+                                                                sx={{ width: '100px' }}
+                                                            />
+                                                        </ThemeProvider>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -301,7 +304,7 @@ const OnDemandRequestModal = (props: Props) => {
                                 <div className='flex justify-between  text-lg'>
                                     <span>Total Price</span>
                                     <span className=''>
-                                    ₹ {data.totalAmount}
+                                        ₹ {data.totalAmount}
                                     </span>
                                 </div>
                             </div>
@@ -313,8 +316,8 @@ const OnDemandRequestModal = (props: Props) => {
                                 onClick={handleSubmit}
                                 className='bg-accent px-6 py-2 flex justify-center rounded-lg text-white hover:bg-opacity-90 transition-colors cursor-pointer  w-40'
                             >
-                                {isRequestingPickup ? <ButtonSpinner />: 'Request Pickup'}
-                                
+                                {isRequestingPickup ? <ButtonSpinner /> : 'Request Pickup'}
+
                             </button>
                         </div>
                     </>

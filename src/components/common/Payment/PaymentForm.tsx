@@ -6,13 +6,7 @@ import { handlePaymentError } from '@/utils/handlePaymentError';
 import { useNavigate } from 'react-router-dom';
 
 
-type Props = {
-    notificationId?: string,
-    removeNotification?: (id: string) => void,
-    requestId?: string
-};
-
-const PaymentForm = (props: Props) => {
+const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
 

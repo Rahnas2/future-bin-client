@@ -2,7 +2,6 @@ import CancelPickupRequestModal from "@/components/common/PickupRequest.ts/Cance
 import { Progress } from "@/components/ui/progress"
 import { SubscriptionPickupRequestType } from "@/types/PickupRequest"
 import { pickupRequestSubscriptionObjType } from "@/types/pickupRequestSubscriptionObjType"
-import { requestCancellationType } from "@/types/requestCancellation"
 import { Trash2 } from "lucide-react"
 import React, { useEffect, useState } from "react"
 
@@ -27,7 +26,7 @@ const ActiveSubscriptionCard: React.FC<Props> = ({ requestId, subscription, setP
         setCancelModal(false)
     }
 
-    const handleSubscriptionCancelled = (cancellationData: requestCancellationType) => {
+    const handleSubscriptionCancelled = () => {
         setPickupRequest(null)
     }
 

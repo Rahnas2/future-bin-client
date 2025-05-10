@@ -1,8 +1,6 @@
 import { onDemandWasteType } from "./onDemandWasteType"
 import { refundType } from "./refundType"
 import { requestCancellationType } from "./requestCancellation"
-import { subscriptionType } from "./SubscriptionType"
-
 export interface BasePickupRequestType  {
     _id?: string,
     userId?: string,

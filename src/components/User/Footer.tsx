@@ -2,8 +2,6 @@ import {  Mail, Phone } from 'lucide-react'
 import brand from '../../assets/logo (1).png'
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 
-type Props = {}
-
 const Footer = () => {
   return (
     <div className="bg-seconday  flex flex-col -mx-8">

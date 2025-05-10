@@ -1,7 +1,6 @@
 
 import axiosInstance from "./axiosInstance";
 import { pickupRequestType } from "../types/PickupRequest";
-import axios from "axios";
 import { requestCancellationType } from "@/types/requestCancellation";
 import { pickupRequestStatusType } from "@/types/pickupRequestStatus";
 

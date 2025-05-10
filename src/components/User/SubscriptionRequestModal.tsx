@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { subscriptionType } from '../../types/SubscriptionType'
-import { BasePickupRequestType, pickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
+import { BasePickupRequestType, SubscriptionPickupRequestType } from '../../types/PickupRequest'
 import { IRootState } from '../../redux/slices'
 import { useSelector } from 'react-redux'
 import { IoMdAdd, IoMdClose } from 'react-icons/io'

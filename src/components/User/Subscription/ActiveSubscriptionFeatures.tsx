@@ -1,6 +1,3 @@
-import { subscriptionType } from '@/types/SubscriptionType'
-import { features } from 'process'
-import React from 'react'
 import { TiTick } from 'react-icons/ti'
 
 type Props = {

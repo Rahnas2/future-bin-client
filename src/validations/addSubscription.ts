@@ -1,4 +1,4 @@
-import { object, string, ref, mixed, array, number } from 'yup'
+import { object, string, number } from 'yup'
 
 export interface subscriptionSchemaType {
     name: string,

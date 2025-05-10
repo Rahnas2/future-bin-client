@@ -1,9 +1,6 @@
-import React from 'react'
 import { TiTick } from 'react-icons/ti'
 
-type Props = {}
-
-const SubCard = (props: Props) => {
+const SubCard = () => {
     return (
         <div className='px-6 py-8 w-sm bg-linear-to-br from-accent from-20% via-[#0D7247] via-43% to-[#06753E] to-74% rounded-3xl'>
             <div className='font-bold text-2xl mb-10 uppercase'>Monthly Plan</div>

@@ -1,11 +1,6 @@
-import React from 'react'
-
-
 import SyncLoader from "react-spinners/SyncLoader";
 
-type Props = {}
-
-const Loader = (props: Props) => {
+const Loader = () => {
   return (
     <div className='h-lvh flex items-center justify-center'>
     <SyncLoader
