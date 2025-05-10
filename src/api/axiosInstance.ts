@@ -4,9 +4,10 @@ import axios from 'axios'
 import { store } from '../redux/store'
 import { logOut, refreshToken } from '../redux/slices/authSlice'
 
+const baseURL = import.meta.env.VITE_BACKEND_URI
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL,
   timeout: 15000,
   withCredentials: true
 })
