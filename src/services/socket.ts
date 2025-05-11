@@ -13,20 +13,22 @@ export const initiateSocket = (): void => {
         const id = getUserId(accessToken)
 
         socket = io(SOCKET_URL, {
+            transports: ["websocket", "polling"],
             auth: {
                 _id: id
             }
         });
-
         console.log('socket ', socket)
-        
         socket.on("connect", () => {
             console.log("Connected to Socket.IO server");
         });
 
-
         socket.on("disconnect", () => {
             console.log("Disconnected from Socket.IO server");
+        });
+
+        socket.on("connect_error", (err) => {
+            console.error("Socket connection error:", err.message);
         });
     }
 
