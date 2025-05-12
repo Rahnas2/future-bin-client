@@ -456,7 +456,6 @@ const CompleteProfile = () => {
 
     }
 
-    console.log('from error array', error)
 
     return (
         <>

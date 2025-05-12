@@ -8,7 +8,7 @@ const baseURL = import.meta.env.VITE_BACKEND_URI
 
 const axiosInstance = axios.create({
   baseURL,
-  timeout: 15000,
+  timeout: 30000,
   withCredentials: true
 })
 
