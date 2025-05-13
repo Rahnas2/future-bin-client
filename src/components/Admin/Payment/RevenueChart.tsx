@@ -232,13 +232,13 @@ function RevenueChart() {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) => `₹${value}`}
               />
               <ChartTooltip
                 content={
                   <ChartTooltipContent
                     className="w-[150px] text-seconday"
-                    formatter={(value) => `$${value}`}
+                    formatter={(value) => `₹${value}`}
                   />
                 }
               />

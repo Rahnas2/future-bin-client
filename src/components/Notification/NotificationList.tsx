@@ -108,8 +108,8 @@ const NotificationList = () => {
                 )))
             }
             {paymentForm && clientSecret && (
-                <div className='fixed inset-0  bg-opacity-50 backdrop-blur-xs flex justify-center items-center'>
-                    <div className="bg-white p-6 rounded-lg">
+                <div className='fixed inset-0  bg-opacity-50 backdrop-blur-xs flex justify-center items-center overflow-hidden'>
+                    <div className="bg-white p-6 rounded-lg max-h-[90vh] overflow-y-auto">
                         <Elements options={{ clientSecret: clientSecret!, appearance, loader }} stripe={stripePromise} >
                             <PaymentForm />
                         </Elements>

@@ -247,9 +247,9 @@ const AppRoutes = () => {
 
 
       <Route path='/payment-status' element={
-        <ProtectedRoute allowedRole="resident">
+        <PublicRoute>
           <PaymentStatus />
-        </ProtectedRoute >
+        </PublicRoute>
       } />
 
       <Route path='/chat' element={

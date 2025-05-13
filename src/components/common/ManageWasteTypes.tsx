@@ -47,7 +47,7 @@ const ManageWasteTypes = () => {
                                 <div className='flex items-center'>
                                     <span>{waste.name}</span>
                                     <span className='text-gray-500 ml-2 text-sm'>
-                                        (${waste.price}/kg)
+                                        (₹{waste.price}/kg)
                                     </span>
                                 </div>
                             }

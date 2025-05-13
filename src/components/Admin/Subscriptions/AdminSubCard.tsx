@@ -119,7 +119,7 @@ const AdminSubCard = (props: Props) => {
                             <div className={` text-sm ${errors.name && errors._id === data._id ? 'text-red-500' : 'hidden'}`}>{errors.name}</div>
 
                             <div className={`flex items-center text-xl ${errors.price && errors._id === data._id ? '' : 'mb-3'}`}>
-                                <span className='font-bold text-2xl mr-1 shrink-0'>$ </span>
+                                <span className='font-bold text-2xl mr-1 shrink-0'>₹ </span>
                                 <input
                                     className={`outline-none w-auto inline-block whitespace-nowrap p-0 m-0 font-bold text-2xl min-w-0 flex-shrink ${errors.price && errors._id === data._id ? 'text-red-600' : ''}`}
                                     name='price'

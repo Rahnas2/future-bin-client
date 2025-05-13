@@ -147,7 +147,7 @@ const AddWasteTypeModal = (props: Props) => {
                     {addedWasteTypes.map((waste, index) => (
                         <div key={index} className='flex gap-5 bg-seconday border-1 border-gray-700 rounded-md p-3 m-2'>
                             <span>{waste.name}</span>
-                            <span>$ {waste.price}</span>
+                            <span>₹ {waste.price}</span>
                             <span>{waste.weight} (Kg)</span>
                         </div>
                     ))}

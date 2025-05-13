@@ -6,6 +6,7 @@ import { updatePickupRequestApi } from '@/api/userService'
 import { OnDemandPickupRequestType } from '@/types/PickupRequest'
 import ButtonSpinner from '@/components/common/ButtonSpinner'
 import { Plus, SaveIcon } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 
 
@@ -42,6 +43,8 @@ const ReqActionManageWasteTypes = () => {
                 totalAmount += w.weight * w.price;
                 totalWeight += w.weight;
             });
+
+            if(totalWeight < 1) return toast.error('Weight must be at least 1 kg.')
 
             if (totalAmount !== pickupRequest.totalAmount) {
                 updatedData.totalAmount = totalAmount;

@@ -52,10 +52,10 @@ const PaymentAdmin = () => {
 
             {/* Revenue summary */}
             <div className='flex gap-5 justify-between '>
-              <PaymentSummaryCard Icon={Banknote} text1='Gross Revenue' text2={`$ ${summary.credited}`} />
-              <PaymentSummaryCard Icon={Send} text1='Total Payouts' text2={`$ ${summary.transfered}`} />
-              <PaymentSummaryCard Icon={RotateCcw} text1='Total Refunds' text2={`$ ${summary.refunded}`} />
-              <PaymentSummaryCard Icon={Wallet} text1='Net Revenue' text2={`$ ${summary.credited - (summary.refunded + summary.transfered)}`} />
+              <PaymentSummaryCard Icon={Banknote} text1='Gross Revenue' text2={`₹ ${summary.credited.toFixed(2)}`} />
+              <PaymentSummaryCard Icon={Send} text1='Total Payouts' text2={`₹ ${summary.transfered.toFixed(2)}`} />
+              <PaymentSummaryCard Icon={RotateCcw} text1='Total Refunds' text2={`₹ ${summary.refunded.toFixed(2)}`} />
+              <PaymentSummaryCard Icon={Wallet} text1='Net Revenue' text2={`₹ ${(summary.credited - (summary.refunded + summary.transfered)).toFixed(2)}`} />    
             </div>
 
             <RevenueChart />
