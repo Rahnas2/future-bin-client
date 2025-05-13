@@ -42,9 +42,9 @@ const MyEarningsComponent = () => {
 
             {/* Earnings summary */}
             <div className='md:flex gap-5  justify-between mb-20'>
-                <PaymentSummaryCard Icon={HandCoins} text1='Total Earnings' text2={'$ ' + summary?.totalEarnings || '0'} />
-                <PaymentSummaryCard Icon={Truck} text1='On-demand Earnings' text2={'$ ' + summary?.onDemandEarnings || '0'} />
-                <PaymentSummaryCard Icon={Podcast} text1='Subscription Earnings' text2={'$ ' + summary?.subscriptionEarnings || '0'} />
+                <PaymentSummaryCard Icon={HandCoins} text1='Total Earnings' text2={'₹ ' + summary?.totalEarnings || '0'} />
+                <PaymentSummaryCard Icon={Truck} text1='On-demand Earnings' text2={'₹ ' + summary?.onDemandEarnings || '0'} />
+                <PaymentSummaryCard Icon={Podcast} text1='Subscription Earnings' text2={'₹ ' + summary?.subscriptionEarnings || '0'} />
                 <PaymentSummaryCard Icon={ArrowDownLeft} text1='Last Payment Received' text2={summary?.totalEarnings ? new Date(summary.totalEarnings).toDateString() : '--'} />
             </div>
 

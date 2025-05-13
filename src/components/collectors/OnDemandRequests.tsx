@@ -23,20 +23,28 @@ const OnDemandRequests = (props: Props) => {
         });
     }
 
+    if (!props.requests.length) {
+        return (
+            <div className="text-center py-12">
+                <div className="text-gray-400 text-lg">No on-demand Pickup Reqeusts Found</div>
+            </div>
+        )
+    }
+
     return (
         <div className='flex gap-3 flex-wrap mt-8'>
             {
                 props.requests.map(request => (
-                    <PickupReqeustCard  key={request._id} 
-                    request={request}
-                    onAction={handleRequestActions}
-                    onDecline={handleDecline}
+                    <PickupReqeustCard key={request._id}
+                        request={request}
+                        onAction={handleRequestActions}
+                        onDecline={handleDecline}
                     />
                 ))
             }
         </div>
     )
-         
+
 }
 
 export default OnDemandRequests

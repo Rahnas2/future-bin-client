@@ -16,12 +16,14 @@ import { incrementChat, incrementNotification, setCounts } from '@/redux/slices/
 import { fetchOverviewCountsApi } from '@/api/overviewService';
 import { Badge } from '@mui/material';
 import { IRootState } from '@/redux/slices';
+import { useLocation } from 'react-router-dom';
 
 const CollectorSidebarItems = () => {
 
     const socket = getSocket()
 
     const dispatch = useDispatch<AppDispatch>()
+    const location = useLocation()
 
     const { unreadNotificationCount, unreadChatCount } = useSelector((state: IRootState) => state.overview);
 
@@ -29,6 +31,7 @@ const CollectorSidebarItems = () => {
     // Fetch notification counts
     useEffect(() => {
         const fetchCounts = async () => {
+            console.log('hello here ')
             try {
                 const result = await fetchOverviewCountsApi();
                 dispatch(setCounts({
@@ -40,7 +43,7 @@ const CollectorSidebarItems = () => {
             }
         };
         fetchCounts();
-    }, [dispatch]);
+    }, [location.pathname]);
 
     useEffect(() => {
         socket.on('new-notification', () => {

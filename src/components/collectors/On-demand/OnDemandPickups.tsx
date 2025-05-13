@@ -6,6 +6,8 @@ import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ChatModal from '../ChatModal'
+import toast from 'react-hot-toast'
+import ButtonSpinner from '@/components/common/ButtonSpinner'
 
 
 const OnDemandPickups = () => {
@@ -15,6 +17,8 @@ const OnDemandPickups = () => {
     const [OnDemandPickups, setOnDemandPickups] = useState<OnDemandPickupRequestType[] | null>(null)
     // const [selectedPickupRequest, setSelectedPickupRequest] = useState({id: '', email: ''})
     const [isLoading, setIsLoading] = useState(false)
+
+    const [isSendingOtp, setIsSendingOtp] = useState(false)
 
 
     const [activeChatId, setActiveChatId] = useState<string | null>(null)
@@ -37,9 +41,18 @@ const OnDemandPickups = () => {
 
     const handleRequestAction = async (id: string, action: 'completed' | 'cancel', email?: string) => {
         if (action === 'completed') {
-            await sendOtpService(email!)
+
+            try {
+                setIsSendingOtp(true)
+                await sendOtpService(email!)
+            } catch (error) {
+                console.error('error sending otp', error)
+                return toast.error('something went wrong please try again')
+            } finally {
+                setIsSendingOtp(false)
+            }
+
             navigate('/otp-verification', { state: { email: email, mode: 'on-demand-completed', id: id } })
-            // navigate('/collector/request/on-demand/complete', { state: { requestId } })
             return
         } else {
             navigate('/collector/request/cancel', { state: { id: id } })
@@ -113,7 +126,11 @@ const OnDemandPickups = () => {
                         <div className="flex justify-between">
                             <div className="md:flex-1"><span className="opacity-50">Waste Types</span> <br /> {req.wasteTypes.map(w => (<span className="font-medium capitalize block md:inline">{w.name + ' '}</span>))}</div>
                             <div className="md:flex-1"><span className="opacity-50">Total Weight</span> <br /> <span className="font-medium">{req.totalWeight}</span></div>
-                            <div className="md:text-end"><button onClick={() => handleRequestAction(req._id as string, 'completed', req.email)} className="px-3 py-2 border border-gray-500 cursor-pointer rounded-md w-40 md:w-xs shadow-lg">Completed Pickup</button></div>
+                            <div className="md:text-end">
+                                <button disabled={isSendingOtp} onClick={() => handleRequestAction(req._id as string, 'completed', req.email)} className="w-40 md:w-xs py-2 flex justify-center border border-gray-500 cursor-pointer rounded-md  shadow-lg">
+                                    {isSendingOtp ? <ButtonSpinner /> : <>Completed Pickup</>}
+                                </button>
+                            </div>
                         </div>
 
                         <div className="flex justify-between">

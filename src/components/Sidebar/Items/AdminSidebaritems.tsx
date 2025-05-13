@@ -59,14 +59,12 @@ const AdminSidebaritems = () => {
                 to="/admin/payments"
                 icon={<Banknote size={20} />}
                 label="Payments"
-                disabled={true}
             />
 
             <SidebarItem
                 to="/admin/feedbacks"
                 icon={<MessageSquare size={20} />}
                 label="Feedback"
-                disabled={true}
             />
         </>
     )

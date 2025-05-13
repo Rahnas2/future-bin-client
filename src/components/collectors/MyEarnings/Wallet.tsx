@@ -43,7 +43,7 @@ const Wallet: React.FC<Props> = ({ balance, onBalanceChange }) => {
         <div className='border border-gray-500 w-fit h-fit  py-6 pl-5 pr-20 rounded-md shadow-sm '>
             <h5 className='mb-4'>Account Balance</h5>
             <div className='flex items-center gap-3 mb-3'>
-                <span>$</span>
+                <span>₹</span>
                 <span>{showBalance ? balance.toFixed(2) : '*****'}</span>
                 <div onClick={toggleBalance} className="cursor-pointer">
                     {showBalance ?

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { getSocket } from '@/services/socket';
 import { useNavigate } from 'react-router-dom'
+import ButtonSpinner from '@/components/common/ButtonSpinner'
 
 
 const ReqActionCompletion = () => {
@@ -20,6 +21,9 @@ const ReqActionCompletion = () => {
         url: '',
         amount: 0
     });
+
+    // Loading For Complete Pickup 
+    const [isCompleting, setIsCompleting] = useState(false)
 
     useEffect(() => {
         if (!socket || !pickupRequest) return
@@ -64,23 +68,25 @@ const ReqActionCompletion = () => {
     //handle complete request 
     const handleCompleteRequest = async () => {
         try {
-
+            setIsCompleting(true)
             await completePickupRequestApi(pickupRequest._id!)
             toast.success('success')
             navigate(-1)
 
         } catch (error) {
             console.log('error for complete request ', error)
+        } finally {
+            setIsCompleting(false)
         }
 
     }
 
     return (
-        <div className="flex gap-3 items-center justify-center">
+        <div className="flex gap-3 items-center justify-center ">
             <button
                 disabled={pickupRequest.totalAmount <= (pickupRequest.paidAmount as number)}
                 onClick={handleCompletePayment}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors
+                className={`px-4 py-2 rounded-md  transition-colors
                     ${pickupRequest.totalAmount <= (pickupRequest.paidAmount as number)
                         ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                         : 'bg-blue-500 text-white hover:bg-blue-600 cursor-pointer'}`}
@@ -89,14 +95,14 @@ const ReqActionCompletion = () => {
             </button>
 
             <button
-                disabled={pickupRequest.totalAmount > (pickupRequest.paidAmount as number)}
+                disabled={pickupRequest.totalAmount > (pickupRequest.paidAmount as number) || isCompleting}
                 onClick={handleCompleteRequest}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors
+                className={`flex justify-center px-4 py-2 rounded-md  transition-colors
                     ${pickupRequest.totalAmount > (pickupRequest.paidAmount as number)
                         ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                         : 'bg-accent text-white hover:bg-green-600 cursor-pointer'}`}
             >
-                Done
+                {isCompleting ? <ButtonSpinner/> : <>Done</>}
             </button>
 
             {showPaymentQr && <PaymentQrModal paymentUrl={paymentSessionResponse.url} amount={paymentSessionResponse.amount / 100} onClose={handleClose} />}
