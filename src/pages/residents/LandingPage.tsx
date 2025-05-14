@@ -6,6 +6,7 @@ import ClientTestimonials from '@/components/Marketing/ClientTestimonials';
 import Footer from '@/components/User/Footer';
 
 
+
 const LandingPage = () => {
 
     return (
@@ -14,7 +15,7 @@ const LandingPage = () => {
                 <Hero />
                 <AboutUs />
                 <SubscriptionPlans />
-                <ClientTestimonials />  
+                <ClientTestimonials />
             </div>
             <Footer />
         </>

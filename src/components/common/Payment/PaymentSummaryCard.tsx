@@ -10,7 +10,7 @@ type Props = {
 
 const PaymentSummaryCard: React.FC<Props> = ({Icon, text1, text2}) => {
     return (
-        <div className="shadow-lg bg-seconday flex flex-col  items-center rounded-md px-8 py-5 w-full">
+        <div className="shadow-lg bg-seconday flex flex-col  items-center rounded-md px-8 py-5 w-full transform duration-300 ease-in-out hover:scale-105">
 
             <div className="flex items-center ">
                 <Icon className="text-accent2 " />

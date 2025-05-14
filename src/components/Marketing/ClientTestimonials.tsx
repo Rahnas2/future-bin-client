@@ -58,7 +58,7 @@ const ClientTestimonials = () => {
                   key={index} 
                   className={`md:basis-1/2 lg:basis-1/3 ${reviews.length === 1 ? 'mx-auto' : ''}`}
                 >
-                  <Card className="bg-seconday border-0 rounded-md shadow-2xl h-full">
+                  <Card className="bg-seconday border-0 rounded-md shadow-2xl h-full transform duration-300 ease-in-out hover:scale-105">
                     <CardContent className="flex flex-col justify-center p-6">
                       <div className="flex gap-4 items-center">
                         <div className="flex-shrink-0">

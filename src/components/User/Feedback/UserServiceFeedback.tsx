@@ -46,7 +46,7 @@ const UserServiceFeedback = () => {
 
     if (!userReview)
         return (
-            <div className="rounded-lg p-6 border border-gray-500 shadow-2xl">
+            <div className="rounded-lg p-6 border border-gray-500 shadow-2xl ">
                 <h2 className="text-xl font-semibold mb-4">Your Review About Our Service</h2>
                 <div className="text-center py-8">
                     <p className="text-gray-600 mb-4">You haven't added a review about our service yet</p>
@@ -62,9 +62,9 @@ const UserServiceFeedback = () => {
         );
 
     return (
-        <div className="rounded-lg p-6 border border-gray-500 shadow-2xl">
+        <div className="rounded-lg p-6 border border-gray-500 shadow-2xl transform duration-300 ease-in-out hover:scale-102">
             <h2 className="text-xl font-semibold mb-4">Your Review About Our Service</h2>
-            <div className="rounded-lg p-4 shadow-sm">
+            <div className="rounded-lg p-4 ">
                 <ThemeProvider theme={themeRating}>
                     <Rating
                         name="read-only"
@@ -77,7 +77,7 @@ const UserServiceFeedback = () => {
                 <div className="text-right">
                     <button
                         onClick={handleAddEditModalOpen}
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-200"
+                        className="bg-gray-100 hover:bg-gray-500 text-gray-800 hover:text-white cursor-pointer font-medium py-2 px-4 rounded-md transition duration-200"
                     >
                         Update Review
                     </button>

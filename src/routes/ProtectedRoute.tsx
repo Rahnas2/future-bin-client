@@ -2,6 +2,7 @@ import { JSX } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { IRootState } from "../redux/slices";
+import PageWrapper from "@/components/common/PageWrapper";
 
 const ProtectedRoute = ({ children, allowedRole }: { children: JSX.Element, allowedRole: string }) => {
   const { accessToken, role } = useSelector((state: IRootState) => state.auth);
@@ -23,7 +24,7 @@ const ProtectedRoute = ({ children, allowedRole }: { children: JSX.Element, allo
 
   }
 
-  return children
+  return <PageWrapper>{children}</PageWrapper>
 
 };
 
