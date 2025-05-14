@@ -94,7 +94,7 @@ const AdminDashComp = () => {
         <div className='flex flex-col gap-10 '>
 
             {/* logout */}
-            <div className="w-full flex justify-end"><button onClick={handleLogOut} className="text-end px-6 py-1 bg-accent rounded-sm cursor-pointer">Logout</button></div>
+            <div className="w-full flex justify-end"><button onClick={handleLogOut} className="text-end px-6 py-1 bg-accent rounded-sm cursor-pointer transform duration-300 ease-in-out hover:scale-105">Logout</button></div>
 
             {/* summary */}
             <div className='flex justify-between'>

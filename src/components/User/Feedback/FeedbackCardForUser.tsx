@@ -10,7 +10,7 @@ type Props = {
 
 const FeedbackCardForUser: React.FC<Props> = ({ review }) => {
   return (
-    <div className="rounded-lg p-4 shadow-sm border border-gray-500 hover:shadow-md transition-shadow duration-200">
+    <div className="rounded-lg p-4 shadow-sm border border-gray-500 transform duration-400 ease-out hover:scale-103">
       <div className="flex justify-between items-start mb-3">
         <div className="flex items-center">
           <div className="rounded-full p-2 mr-3">

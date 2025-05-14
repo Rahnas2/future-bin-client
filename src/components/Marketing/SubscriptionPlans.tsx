@@ -55,7 +55,7 @@ const SubscriptionPlans = () => {
                 <div className='flex flex-col lg:flex-row justify-center gap-10 flex-wrap '>
                     {
                         subscriptions.map((data, index) => (
-                            <div key={data._id} className={`${index === 1 ? 'from-accent from-20% via-[#0D7247] via-43% to-[#06753E] to-74%' : 'border border-gray-600'} w-xs bg-linear-to-br rounded-xl px-8 py-8 shadow-xl shadow-accent`}>
+                            <div key={data._id} className={`${index === 1 ? 'from-accent from-20% via-[#0D7247] via-43% to-[#06753E] to-74%' : 'border border-gray-600'} w-xs bg-linear-to-br rounded-xl px-8 py-8 shadow-xl shadow-accent transform-3d duration-300 ease-in-out hover:scale-102`}>
                                 <div className={`${index === 1 ? 'text-primary' : ''} font-bold text-2xl mb-6 uppercase`}>{data.name}</div>
 
                                 <div className='text-xl '>
@@ -67,7 +67,7 @@ const SubscriptionPlans = () => {
                                 <div className={`${index === 1 ? 'text-primary' : 'opacity-50'} text-sm mb-6 w-full`}>{data.description}</div>
 
                                 <div className='flex justify-center mb-8'>
-                                    <span onClick={() => handleOpen(data)} className={`${index === 1 ? 'bg-primary' : 'bg-accent'} text-sm px-10 py-1 rounded-xl cursor-pointer`}>Get Subscription</span>
+                                    <button onClick={() => handleOpen(data)} className={`${index === 1 ? 'bg-primary' : 'bg-accent'} text-sm px-10 py-1 rounded-xl cursor-pointer transform duration-300 ease-in-out hover:scale-105 hover:rounded-lg hover:shadow-2xs`}>Get Subscription</button>
                                 </div>
 
                                 <div className='flex justify-between items-center mb-3'><span className='uppercase font-bold '>Features</span></div>

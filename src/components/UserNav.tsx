@@ -1,94 +1,4 @@
 
-// import { MdOutlineMessage, MdNotificationsNone } from "react-icons/md";
-
-// import brand from '../assets/logo (1).png'
-// import { NavLink } from "react-router-dom";
-// import { Badge } from "@mui/material";
-// import { useState, useEffect } from "react";
-// import { fetchOverviewCountsApi } from "@/api/overviewService";
-// import { useDispatch, useSelector } from "react-redux";
-// import { IRootState } from "@/redux/slices";
-// import { incrementChat, incrementNotification, setCounts } from "@/redux/slices/countSlice";
-// import { getSocket } from "@/services/socket";
-
-// const UserNav = () => {
-
-//   const socket = getSocket()
-
-//   const { unreadNotificationCount, unreadChatCount } = useSelector((state: IRootState) => state.overview)
-//   const dispatch = useDispatch()
-
-//   useEffect(() => {
-//     const fetchCounts = async () => {
-//       try {
-//         const result = await fetchOverviewCountsApi()
-
-//         dispatch(setCounts({
-//           unreadNotificationCount: result.counts.unreadNotifications,
-//           unreadChatCount: result.counts.unreadChats
-//         }))
-
-//       } catch (error) {
-//         console.error('error fetchings unread couts ', error)
-//       }
-//     }
-//     fetchCounts()
-//   },[])
-
-//   useEffect(() => {
-//     socket.on('new-notification', () => {
-//       dispatch(incrementNotification())
-//     }) 
-
-//     socket.on('new-chat', () => {
-//       dispatch(incrementChat())
-//     }) 
-
-
-
-//     return () => { 
-//       socket.off('new-notification')
-//       socket.off('new-chat')
-//     }
-//   })
-
-//   return (
-//     <div className="flex items-center justify-center gap-20 lg:justify-around ">
-//       <div>
-//         <img className="w-35 md:w-40" src={brand} alt="" />
-//       </div>
-
-//       <div className="hidden lg:flex  gap-10 font-medium ">
-//         <NavLink to="/" className={({ isActive }) => isActive ? "border-b border-b-accent2 pb-1" : ""} >
-//           <span>Home</span>
-//         </NavLink>
-
-//         <NavLink to="/profile" className={({ isActive }) => isActive ? "border-b border-b-accent2 pb-1" : ""} >
-//           <span>Dashboard</span>
-//         </NavLink>
-
-//         <NavLink to="/about-us" className={({ isActive }) => isActive ? "border-b border-b-accent2 pb-1" : ""} >
-//           <span>Abount us</span>
-//         </NavLink>
-
-//         <NavLink to="/subscription-plans" className={({ isActive }) => isActive ? "border-b border-b-accent2 pb-1" : ""} >
-//           <span>Subscription plans</span>
-//         </NavLink>
-//       </div>
-
-//       <div className="flex gap-6 lg:gap-8 items-center  text-2xl">
-//         <NavLink to="/chat"><Badge badgeContent={unreadChatCount} color="error" ><MdOutlineMessage className="inline" /></Badge></NavLink>
-//         <NavLink to="/notifications"><Badge badgeContent={unreadNotificationCount} color="error" ><MdNotificationsNone className="inline" /></Badge></NavLink>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default UserNav
-
-
-
-
 // UserNav.jsx - Updated with responsive mobile menu
 import { useState, useEffect } from "react";
 import { MdOutlineMessage, MdNotificationsNone, MdMenu, MdClose } from "react-icons/md";
@@ -265,7 +175,7 @@ const UserNav = () => {
 
         </div> :
           <div>
-            <button onClick={() => navigate('/login')} className="bg-accent2 rounded-sm text-sm font-semibold text-primary px-4 py-1 cursor-pointer">Login</button>
+            <button onClick={() => navigate('/login')} className="bg-accent2 rounded-sm text-sm font-semibold text-primary px-4 py-1 cursor-pointer transform duration-300 ease-in-out hover:scale-105">Login</button>
           </div>
         }
 
