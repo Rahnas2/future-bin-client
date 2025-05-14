@@ -9,7 +9,7 @@ type Props = {
 
 const RequestSummary: React.FC<Props> = ({Icon, text, count}) => {
     return (
-        <div className="shadow-2xl bg-seconday flex flex-col items-center gap-5  rounded-md p-5">
+        <div className="shadow-2xl bg-seconday flex flex-col items-center gap-5  rounded-md p-5 transform duration-300 ease-in-out hover:scale-105 ">
 
             <div className="flex items-center ">
                 <Icon className="text-accent2 " />

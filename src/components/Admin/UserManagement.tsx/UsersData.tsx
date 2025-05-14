@@ -27,7 +27,7 @@ const UsersData = (props: Props) => {
     return (
         <tbody className="">
             {users && users.map((user: any, index: number) => (
-                <tr key={user._id} className="border-b">
+                <tr key={user._id} className="border-b transform duration-300 ease-in-out hover:scale-101">
                     <td className="pl-6 pr-3">{index + 1}</td>
                     <td className="p-3">
                         {user.image ? (

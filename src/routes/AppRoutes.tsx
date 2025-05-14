@@ -69,6 +69,9 @@ import Loader from '@/components/common/Loader'
 
 
 import { initiateSocket } from '../services/socket'
+import PageWrapper from '@/components/common/PageWrapper'
+import { AnimatePresence } from 'motion/react'
+
 
 
 const AppRoutes = () => {
@@ -143,32 +146,33 @@ const AppRoutes = () => {
 
 
   return (
-    <Routes>
-
+    <AnimatePresence mode='wait'>
+    <Routes location={location} key={location.pathname}>
       {/* auth routes */}
       <Route path='/login' element={
         <GuestOnlyRoute>
-          <Login />
+          <PageWrapper><Login /></PageWrapper>
         </GuestOnlyRoute>
       } />
       <Route path='/register' element={
         <GuestOnlyRoute>
-          <Register />
+          <PageWrapper>
+            <Register />
+          </PageWrapper>
         </GuestOnlyRoute>
       } />
 
       <Route path='/otp-verification' element={
-
-        <OtpVerfication />
+        <PageWrapper><OtpVerfication /></PageWrapper>
       } />
       <Route path='/select-role' element={
         <GuestOnlyRoute>
-          <SelectRole />
+          <PageWrapper><SelectRole /></PageWrapper>
         </GuestOnlyRoute>
       } />
       <Route path='/complete-profile' element={
         <GuestOnlyRoute>
-          <CompleteProfile />
+          <PageWrapper><CompleteProfile /></PageWrapper>
         </GuestOnlyRoute>
       } />
 
@@ -183,14 +187,16 @@ const AppRoutes = () => {
 
       <Route path='/' element={
         <PublicRoute>
-          <ResidentNavLayout><LandingPage /></ResidentNavLayout>
+          <PageWrapper><ResidentNavLayout><LandingPage /></ResidentNavLayout></PageWrapper>
         </PublicRoute>
       }
       />
 
       <Route path='/about-us' element={
         <PublicRoute>
-          <ResidentNavLayout><AboutUs /></ResidentNavLayout>
+          <PageWrapper>
+            <ResidentNavLayout><AboutUs /></ResidentNavLayout>
+          </PageWrapper>
         </PublicRoute>
       } />
 
@@ -202,7 +208,7 @@ const AppRoutes = () => {
 
       <Route path='/notifications' element={
         <ProtectedRoute allowedRole="resident">
-          <NotificationUser />
+          <PageWrapper><NotificationUser /></PageWrapper>
         </ProtectedRoute>
       }>
 
@@ -228,7 +234,7 @@ const AppRoutes = () => {
 
       <Route path='/pickup-reqeusts/:id' element={
         <ProtectedRoute allowedRole="resident">
-          <SinglePickupRequest />
+          <PageWrapper><SinglePickupRequest /></PageWrapper>
         </ProtectedRoute>
       } />
 
@@ -254,7 +260,7 @@ const AppRoutes = () => {
 
       <Route path='/chat' element={
         <ProtectedRoute allowedRole="resident">
-          <ChatUser />
+          <PageWrapper><ChatUser /></PageWrapper>
         </ProtectedRoute >
       } />
 
@@ -262,14 +268,14 @@ const AppRoutes = () => {
         {/* colllector routes */}
         <Route path='profile' element={
           <ProtectedRoute allowedRole="collector">
-            <CollectorProfile />
+            <PageWrapper><CollectorProfile /></PageWrapper>
           </ProtectedRoute>
 
         } />
 
         <Route path='dashboard' element={
           <ProtectedRoute allowedRole="collector">
-            <CollectorDash />
+            <PageWrapper><CollectorDash /></PageWrapper>
           </ProtectedRoute>
 
         } />
@@ -277,7 +283,7 @@ const AppRoutes = () => {
 
         <Route path='requests' element={
           <ProtectedRoute allowedRole="collector">
-            <CollectorRequests />
+            <PageWrapper><CollectorRequests /></PageWrapper>
           </ProtectedRoute>
         }
         />
@@ -301,7 +307,7 @@ const AppRoutes = () => {
 
         <Route path='notifications' element={
           <ProtectedRoute allowedRole="collector">
-            <CollectorNotifications />
+            <PageWrapper><CollectorNotifications /></PageWrapper>
           </ProtectedRoute>
         } />
 
@@ -332,7 +338,7 @@ const AppRoutes = () => {
         path="admin/login"
         element={
           <GuestOnlyRoute>
-            <SignIn />
+            <PageWrapper><SignIn /></PageWrapper>
           </GuestOnlyRoute>
         }
       />
@@ -343,7 +349,7 @@ const AppRoutes = () => {
           path="dashboard"
           element={
             <ProtectedRoute allowedRole="admin">
-              <AdmDash />
+              <PageWrapper><AdmDash /></PageWrapper>
             </ProtectedRoute >
           }
         />
@@ -416,6 +422,7 @@ const AppRoutes = () => {
 
       <Route path="*" element={<NotFound />} />
     </Routes >
+    </AnimatePresence>
   )
 }
 

@@ -10,6 +10,7 @@ import { getClientSecretApi } from '@/api/paymentService';
 import ComponentSpinner from '@/components/common/ComponentSpinner';
 import NotificationItem from '@/components/Notification/NotificationItem';
 import EmptyNotifications from '@/components/Notification/EmptyNotifications';
+import { AnimatePresence } from 'motion/react';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const appearance = {
@@ -98,14 +99,16 @@ const NotificationList = () => {
     return (
         <div className='flex flex-col items-center gap-5 mt-8'>
             {notifications.length === 0 ? (<EmptyNotifications />) :
-                (notifications.map((notification) => (
+                <AnimatePresence>
+                {notifications.map((notification) => (
                     <NotificationItem
                         key={notification._id}
                         notification={notification}
                         onRemove={handleRemoveNotification}
                         onClick={() => handlePaymentForm(notification.requestId!)}
                     />
-                )))
+                    ))}
+                </AnimatePresence>
             }
             {paymentForm && clientSecret && (
                 <div className='fixed inset-0  bg-opacity-50 backdrop-blur-xs flex justify-center items-center overflow-hidden'>

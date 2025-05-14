@@ -5,6 +5,8 @@ import SubscriptionPlans from '../../components/Marketing/SubscriptionPlans';
 import ClientTestimonials from '@/components/Marketing/ClientTestimonials';
 import Footer from '@/components/User/Footer';
 
+import { motion } from 'motion/react'
+
 
 const LandingPage = () => {
 
@@ -14,7 +16,7 @@ const LandingPage = () => {
                 <Hero />
                 <AboutUs />
                 <SubscriptionPlans />
-                <ClientTestimonials />  
+                <ClientTestimonials />
             </div>
             <Footer />
         </>

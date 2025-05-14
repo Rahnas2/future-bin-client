@@ -26,7 +26,7 @@ const AboutUs = () => {
             <div className='flex flex-col lg:flex-row items-center gap-10 justify-evenly'>
 
                 {/* left */}
-                <div className='flex flex-col gap-10 [&>*]:lg- [&>*]:w-fit [&>*]:lg:w-md [&>*]:px-8 [&>*]:py-6 [&>*]:bg-accent [&>*]:rounded-md'>
+                <div className='flex flex-col gap-10 [&>*]:lg- [&>*]:w-fit [&>*]:lg:w-md [&>*]:px-8 [&>*]:py-6 [&>*]:bg-accent [&>*]:rounded-md *:transform *:duration-300 ease-in-out *:hover:scale-105'>
 
                     <div>
                         <div className='text-2xl font-bold mb-6'>Smart Waste Collection</div>
@@ -55,7 +55,7 @@ const AboutUs = () => {
                 <div className='text-accent2 text-8xl  '><MdLoop className='inline' /></div>
 
                 {/* right */}
-                <div className='flex flex-col gap-10 [&>*]:lg:h-60 [&>*]:w-fit [&>*]:lg:w-md  [&>*]:flex [&>*]:flex-col [&>*]:justify-items-center [&>*]:px-8 [&>*]:py-6 [&>*]:bg-accent [&>*]:rounded-md'>
+                <div className='flex flex-col gap-10 [&>*]:lg:h-60 [&>*]:w-fit [&>*]:lg:w-md  [&>*]:flex [&>*]:flex-col [&>*]:justify-items-center [&>*]:px-8 [&>*]:py-6 [&>*]:bg-accent [&>*]:rounded-md *:transform *:duration-300 ease-in-out *:hover:scale-105'>
 
                     <div>
                         <div className='text-2xl font-bold mb-6'>Eco-Friendly Processing</div>
