@@ -8,6 +8,7 @@ import Footer from '@/components/User/Footer';
 import { motion } from 'motion/react'
 
 
+
 const LandingPage = () => {
 
     return (
