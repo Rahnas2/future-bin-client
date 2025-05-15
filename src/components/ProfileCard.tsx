@@ -23,8 +23,7 @@ const ProfileCard = (props: Props) => {
 
     console.log('validation erro', props.imgValError)
     return (
-        <div className="flex gap-8 items-center  mb-10">
-
+        <div className="flex gap-4 md:gap-8 items-center mb-10">
             <div className="inline">
                 {props.selectedImage ? <img className="w-22 h-22 md:w-42 md:h-42 rounded-full" src={URL.createObjectURL(props.selectedImage)} />: props.image ? <img className="w-42 h-42 rounded-full" src={props.image} alt="" /> :
                     <FaUserCircle className='inline m-0 w-32 h-32 md:h-42 md:w-42' />

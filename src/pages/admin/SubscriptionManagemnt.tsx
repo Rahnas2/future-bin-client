@@ -66,7 +66,7 @@ const SubscriptionManagemnt = () => {
         <>
             <div className='flex min-h-lvh'>
 
-                <div className="bg-primary mt-6 mr-2 rounded-t-xl px-4 py-4 flex-1 ">
+                <div className="bg-primary md:mt-10 md:px-4 py-4 rounded-t-xl flex-1">
 
                     <AddSubscription onOpen={handleOpenAdd} />
 

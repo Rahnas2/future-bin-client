@@ -76,8 +76,8 @@ function SignIn() {
     
   }
   return (
-    <div className="xl:grid grid-cols-2">
-      <div className="flex flex-col self-center justify-self-center ">
+    <div className="grid grid-cols-1 xl:grid-cols-2 h-screen">
+      <div className="flex flex-col items-center md:items-baseline justify-center h-lvh self-center justify-self-center">
         <h1 className='font-bold text-2xl mb-2'>Login to your account</h1>
         <p className='opacity-50 text-sm font-light mb-8'>Fill in the details to get started</p>
 
