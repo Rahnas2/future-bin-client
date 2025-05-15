@@ -6,7 +6,7 @@ import img from '../../assets/brand-img-.jpeg'
 
 const AboutUs = () => {
     return (
-        <div className='px-5'>
+        <div className='px-5 mb-14'>
             <div className='uppercase text-center text-xl font-bold mb-5 lg-mb-0'>About future bin</div>
 
             <div className='flex flex-col lg:flex-row gap-10 items-center mb-20'>

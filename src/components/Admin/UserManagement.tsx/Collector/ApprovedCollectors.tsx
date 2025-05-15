@@ -45,7 +45,7 @@ const ApprovedCollectors = () => {
   }
 
   return (
-    <div className="bg-seconday py-6 rounded-xl">
+    <div className="md:bg-seconday py-6 rounded-xl">
       <div className="font-medium text-lg mb-8 px-6">All Collectors</div>
 
       {totalPages === 0 && !searchTerm ? <EmptyUsers Icon={Truck } text='No Approval Collectors' /> :

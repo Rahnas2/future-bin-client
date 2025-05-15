@@ -132,7 +132,7 @@ const CollectorDashComp = () => {
 
 
     return (
-        <div className="bg-primary mt-10 mr-4 rounded-t-2xl px-4 py-4 flex-1 ">
+        <div className="bg-primary md:mt-10 md:mr-5 px-4 py-10 md:py-5 rounded-t-2xl flex-1 ">
             {isLoading ? <ComponentSpinner /> :
                 <>
                     <WorkStatus status={collector?.details?.status ? collector.details.status as 'active' | 'in-active' : 'in-active'} />

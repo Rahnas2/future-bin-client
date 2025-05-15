@@ -40,7 +40,7 @@ const ApprovalRequests = () => {
     }
 
     return (
-        <div className="bg-seconday py-6 rounded-xl">
+        <div className="md:bg-seconday py-6 rounded-xl">
 
             <div className="font-medium text-lg mb-8 px-6">All Requests</div>
 

@@ -49,7 +49,7 @@ const SubscriptionPlans = () => {
     if (isLoading) return <ComponentSpinner />
 
     return (
-        <div className='flex justify-center mt-10'>
+        <div className='flex justify-center mb-14'>
             <div>
                 <div className='font-semibold text-xl mb-8 text-center'>Our Subscription Plans</div>
                 <div className='flex flex-col lg:flex-row justify-center gap-10 flex-wrap '>

@@ -17,12 +17,11 @@ const UserRequestHistoryTable = (props: Props) => {
 
 
     return (
-        <>
-            <div className="rounded-md mt-8 shadow-xl border border-gray-700 px-3 py-2">
+            <div className="rounded-md mt-8 shadow-xl border border-gray-700 md:px-3 py-2 overflow-x-auto">
                 <Table className=''>
-                    <TableHeader className='h-15 font-bold '>
+                    <TableHeader className='h-15 font-bold '> 
                         <TableRow className='hover:bg-transparent '>
-                            <TableHead>ReqeustId</TableHead>
+                            <TableHead><span className="hidden md:inline">Request Id</span> <span className="md:hidden">Id</span></TableHead>
                             <TableHead>Service Type</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Payment</TableHead>
@@ -48,7 +47,6 @@ const UserRequestHistoryTable = (props: Props) => {
                 </Table>
 
             </div>
-        </>
     )
 }
 

@@ -166,7 +166,7 @@ function CollectorProfile({ }: Props) {
 
     return (
         <div className='flex min-h-lvh'>
-            <div className="bg-primary mt-10 mr-5 rounded-t-2xl px-4 py-4 flex-1 ">
+            <div className="bg-primary md:mt-10 md:mr-5 px-4 py-10 md:py-5 rounded-t-2xl  flex-1 ">
                 {isLoading ? <ComponentSpinner /> :
                     <>
                         {collector?.details?.approvalStatus !== 'approved' || !collector.details.isStripeEnabled ?
@@ -184,7 +184,7 @@ function CollectorProfile({ }: Props) {
 
                             <ThemeProvider theme={Input}>
                                 <Box
-                                    className='grid grid-cols-2 gap-x-20 gap-y-10 pr-5 '
+                                    className='grid md:grid-cols-2 gap-x-5 md:gap-x-20 gap-y-6 md:gap-y-10 md:pr-5 '
                                     sx={{ my: 3, }}
                                 >
                                     <TextField id="outlined-basic"

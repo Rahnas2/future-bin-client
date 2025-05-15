@@ -13,10 +13,10 @@ type props = {
 const Address2= (props: props) => {
     return (
         <div className="my-8" >
-            <div className="mb-6 font-bold">Address Information</div>
+            <div className="mb-6 font-medium">Address Information</div>
             <ThemeProvider theme={Input}>
                 <Box
-                    className='grid grid-cols-2 gap-x-20 gap-y-8 pr-5 '
+                    className='grid md:grid-cols-2 gap-x-20 gap-y-8 md:pr-5 '
                     sx={{}}
                 >
                     <TextField id="outlined-basic"
