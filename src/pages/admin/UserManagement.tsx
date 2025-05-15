@@ -79,11 +79,11 @@ const UserManagement = () => {
   return (
     <div className="flex min-h-lvh">
 
-      <div className="bg-primary mt-10 md:mr-10 rounded-t-2xl md:px-4 py-4 flex-1 ">
+      <div className="bg-primary md:mt-10 md:px-4 md:py-4 rounded-t-2xl  flex-1 ">
 
         <div className="md:bg-seconday py-6 rounded-xl">
 
-          <div className="font-medium text-lg mb-8 px-6">All User</div>
+          <div className="font-medium text-lg my-8 px-6">All User</div>
           {totalPages === 0 ? <EmptyUsers Icon={Users} text='No Users' /> :
             <>
               <AdminSearch onSearch={handleSearch} />

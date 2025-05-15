@@ -84,7 +84,7 @@ const CollectorFeedback = () => {
 
   return (
     <div className="flex min-h-lvh">
-      <div className="bg-primary mt-10 mr-10 rounded-t-2xl px-4 py-4 flex-1">
+      <div className="bg-primary md:mt-10 md:mr-5 px-4 py-10 md:py-5 rounded-t-2xl flex-1">
         {isLoadingFeedbacks && feedbacks.length === 0 ? (
           <ComponentSpinner />
         ) : feedbacks.length === 0 ? (

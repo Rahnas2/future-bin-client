@@ -82,9 +82,9 @@ const WasteTypesManagement = () => {
   return (
     <>
       <div className='flex min-h-lvh'>
-        <div className="py-4 flex-1 bg-primary mt-10 mr-10 rounded-t-2xl px-4 ">
+        <div className="py-4 flex-1 bg-primary md:mt-10 md:mr-5 rounded-t-2xl md:px-4 ">
 
-          <div className="bg-seconday py-6 rounded-xl">
+          <div className="md:bg-seconday py-6 rounded-xl">
 
             <div className="font-medium mb-8 px-6">All Waste Types</div>
 

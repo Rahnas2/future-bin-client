@@ -192,7 +192,7 @@ function Profile() {
 
                     <ThemeProvider theme={Input}>
                         <Box
-                            className='grid grid-cols-2 gap-x-7 md:gap-x-20 gap-y-10 md:pr-5 '
+                            className='grid md:grid-cols-2 gap-x-5 md:gap-x-20 gap-y-6 md:gap-y-10 md:pr-5 '
                             sx={{ my: 3, }}
                         >
                             <TextField id="outlined-basic"
@@ -220,7 +220,6 @@ function Profile() {
                                 label="Email"
                                 variant="outlined"
                                 name="email"
-
                                 value={data.email}
                                 onChange={isEdit ? handleChange : undefined}
                                 error={!!errors.email}
@@ -254,7 +253,7 @@ function Profile() {
                     <div className="mb-6 font-bold">Address Information</div>
                     <ThemeProvider theme={Input}>
                         <Box
-                            className='grid grid-cols-2 gap-x-20 gap-y-8 pr-5 '
+                            className='grid grid-col-1 md:grid-cols-2 gap-x-20 gap-y-8 md:pr-5 '
                             sx={{}}
                         >
                             <TextField id="outlined-basic"

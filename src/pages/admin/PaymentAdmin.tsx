@@ -45,7 +45,7 @@ const PaymentAdmin = () => {
   }, [])
   return (
     <div className='flex min-h-lvh'>
-      <div className="py-4 min-h-lvh bg-primary mt-10 mr-10 rounded-t-2xl px-4 flex-1 flex flex-col gap-5">
+      <div className="min-h-lvh bg-primary md:mt-10 px-4 py-15 md:py-4 rounded-t-2xl flex-1 flex flex-col gap-5">
         {isLoading ? <ComponentSpinner /> :
           <>
             <h1 className="text-lg font-medium ">Payment Dashboard</h1>

@@ -42,20 +42,19 @@ const UserPickupRequestComp = () => {
     }
 
     return (
-        <div>
+        <div className='w-full'>
             <div className='text-lg font-medium mb-5'>Requests</div>
             <UserRequestHistoryTabs
                 currentTab={tab}
                 setTab={handleTabChange}
-                requestHistory={requests}
             />
 
             {
                 isLoading ? <ComponentSpinner /> :
-                    requests.length === 0 ? <div className="flex justify-center items-center h-64 text-gray-500">
-                        <p>No requests found</p>
+                    requests.length === 0 ? <div className="flex justify-center items-center w-full h-64 text-gray-500">
+                        <p className=''>No requests found</p>
                     </div> :
-                        <div className='flex flex-col gap-5'>
+                        <div className='flex flex-col gap-5 '>
                             <UserRequestHistoryTable reqeustHistory={requests} />
                             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                         </div>

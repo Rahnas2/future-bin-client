@@ -1,11 +1,8 @@
-
-import { pickupRequestType } from '@/types/PickupRequest'
 import { pickupRequestStatusType } from '@/types/pickupRequestStatus'
 
 type Props = {
     currentTab: 'all' | pickupRequestStatusType,
     setTab: (tab: 'all' | pickupRequestStatusType) => void
-    requestHistory: pickupRequestType[]
 }
 
 const UserRequestHistoryTabs = (props: Props) => {
@@ -15,7 +12,7 @@ const UserRequestHistoryTabs = (props: Props) => {
     }
     
     return (
-        <div className='flex justify-between md:gap-5 md:w-fit bg-primary rounded-2xl text-sm  [&>*]:md:rounded-2xl  [&>*]:md:px-6 [&>*]:py-2 [&>*]:md:py-3 [&>*]:cursor-pointer'>
+        <div className='flex justify-between md:gap-5 w-full md:w-fit bg-primary rounded-2xl text-sm  [&>*]:md:rounded-2xl  [&>*]:md:px-6 [&>*]:py-2 [&>*]:md:py-3 [&>*]:cursor-pointer'>
             <span onClick={() => handleTab('all')} className={`${props.currentTab === 'all' ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2 transform duration-1000': 'hover:text-accent2'} `}>All</span>
             <span onClick={() => handleTab('pending')} className={` ${props.currentTab === 'pending' ?  'md:bg-accent  md:border-b-0 border-b border-b-accent2 transform duration-1000': 'hover:text-accent2'} `}>Pending</span>
             <span onClick={() => handleTab('accepted')} className={` ${props.currentTab === 'accepted' ? 'md:bg-accent  md:border-b-0 border-b border-b-accent2 transform duration-1000': 'hover:text-accent2'} `}>Accepted</span>

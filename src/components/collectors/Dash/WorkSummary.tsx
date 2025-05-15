@@ -11,7 +11,7 @@ type Props = {
 
 const WorkSummary = (props: Props) => {
   return (
-    <div className="flex justify-between gap-5 [&>*]:bg-seconday [&>*]:px-8 [&>*]:py-6 [&>*]:rounded-lg [&>*]:w-2xs [&>*]:shadow-2xl">
+    <div className="flex justify-between gap-5 [&>*]:bg-seconday [&>*]:px-8 [&>*]:py-6 [&>*]:rounded-lg [&>*]:w-2xs [&>*]:shadow-2xl overflow-auto">
     
                     <div className="shadow-2xl">
                         <div className="flex items-center justify-between mb-10">
