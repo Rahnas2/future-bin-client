@@ -26,7 +26,6 @@ function CollectorDetails({ }: Props) {
 
     const { userId, type } = location.state
 
-
     const [data, setData] = useState({
         _id: '',
         firstName: '',
@@ -77,13 +76,14 @@ function CollectorDetails({ }: Props) {
 
     const toggleCollectorStatus = async () => {
         try {
-            // await axiosInstance.patch('/admin/user/status', { userId: data._id })
             await blockUserApi(data._id)
             const message = data.isBlock ? 'ublocked' : 'blocked'
             setData({ ...data, isBlock: !data.isBlock })
             toast.success('collector ' + message + ' successfully')
         } catch (error) {
             console.log('toggle status error ', error)
+        } finally {
+
         }
     }
 
@@ -91,7 +91,6 @@ function CollectorDetails({ }: Props) {
     const handleAccept = async () => {
         try {
             setAction('accepting')
-            // const response = await axiosInstance.patch('/admin/collector/request/approve', {collectorId, name: data.firstName + ' ' + data.lastName, email: data.email})
             const response = await acceptRegisterationReqeustApi(collectorId, data.firstName + ' ' + data.lastName, data.email)
             toast.success(response.message)
             navigate(-1)
@@ -106,7 +105,6 @@ function CollectorDetails({ }: Props) {
     const handleReject = async () => {
         try {
             setAction('rejecting')
-            // const response = await axiosInstance.patch('/admin/collector/request/reject', {collectorId, name: data.firstName + ' ' + data.lastName, email: data.email})
             const response = await rejectRegisterationRequestApi(collectorId, data.firstName + ' ' + data.lastName, data.email)
             toast.success(response.message)
             navigate(-1)

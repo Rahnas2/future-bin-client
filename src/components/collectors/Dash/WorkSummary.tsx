@@ -11,9 +11,9 @@ type Props = {
 
 const WorkSummary = (props: Props) => {
   return (
-    <div className="flex justify-between gap-5 [&>*]:bg-seconday [&>*]:px-8 [&>*]:py-6 [&>*]:rounded-lg [&>*]:w-2xs [&>*]:shadow-2xl overflow-auto">
+    <div className="flex justify-between gap-5 [&>*]:bg-seconday [&>*]:px-8 [&>*]:py-6 [&>*]:rounded-lg [&>*]:w-2xs [&>*]:shadow-2xl">
     
-                    <div className="shadow-2xl">
+                    <div className="shadow-2xl transform duration-300 ease-in-out hover:scale-105">
                         <div className="flex items-center justify-between mb-10">
                             <SiVirustotal className="inline text-accent2 text-2xl" />
                             <button className="border border-gray-500 px-3 py-1 rounded-full text-sm">View Detail</button>
@@ -24,7 +24,7 @@ const WorkSummary = (props: Props) => {
                         <div className="font-bold text-xl">{props.totalCollectionCount}</div>
                     </div>
     
-                    <div>
+                    <div className='transform duration-300 ease-in-out hover:scale-105'>
                         <div className="flex items-center justify-between mb-10">
                             <MdPending className="inline text-accent2 text-2xl" />
                             <button className="border border-gray-500 px-3 py-1 rounded-full text-sm" >View Detail</button>
@@ -35,7 +35,7 @@ const WorkSummary = (props: Props) => {
                         <div className="font-bold text-xl">{props.totalPendingWorkCount}</div>
                     </div>
     
-                    <div>
+                    <div className='transform duration-300 ease-in-out hover:scale-105'>
                         <div className="flex items-center justify-between mb-10">
                             <IoCheckmarkDoneCircleSharp className="inline text-accent2 text-2xl" />
                             <button className="border border-gray-500 px-3 py-1 rounded-full text-sm">View Detail</button>
@@ -46,7 +46,7 @@ const WorkSummary = (props: Props) => {
                     </div>
     
     
-                    <div>
+                    <div className='transform duration-300 ease-in-out hover:scale-105'>
                         <div className="flex items-center justify-between mb-10">
                             <MdCancel className="inline text-accent2 text-2xl" />
                             <button className="border border-gray-500 px-3 py-1 rounded-full text-sm">View Detail</button>

@@ -66,7 +66,7 @@ const ChangePasswordModal = (props: Props) => {
     }
     return (
         <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center">
-            <div className="w-xs bg-primary border border-gray-500 px-3 py-3 rounded-lg">
+            <div className="w-xs bg-primary border border-gray-700 px-3 py-3 rounded-md">
                 <div onClick={props.onClose} className="font-bold text-end text-accent2 cursor-pointer"><IoMdClose className="inline" /></div>
                 <div className='px-8 py-4'>
                     <ThemeProvider theme={Input}>

@@ -5,6 +5,7 @@ import Input from '../../themes/input'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { forgotPasswordApi } from '../../api/authService'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 type Props = {
     onClose: () => void
@@ -23,8 +24,9 @@ const ForgotPasswordModal = (props: Props) => {
         try {
             await forgotPasswordApi(email)
             navigate('/otp-verification', { state: { email: email, mode: 'forgot-password' } })
-        } catch (error) {
-            console.log('error ')
+        } catch (error: any) {
+            console.log('error ', error)
+            toast.error(error.response.data.message)
         }
     }
 

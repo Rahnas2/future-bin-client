@@ -31,8 +31,6 @@ function Profile() {
         mobile: ''
     })
 
-
-
     const { user } = useSelector((state: IRootState) => state.user)
 
     const dispatch = useDispatch<AppDispatch>()
@@ -240,10 +238,13 @@ function Profile() {
 
                     </ ThemeProvider>
 
-                    <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div>
+                    {!user?.googleId && !user?.facebookId ?
+                        <div onClick={handleOpen} className="text-accent2 font-bold text-sm cursor-pointer">Change password?</div> :
+                        <></>
+                    }
 
                     {isEdit && <div className="flex justify-center my-5 "><button disabled={isEditing} onClick={handleSubmit} className="flex w-30 justify-center py-2 bg-accent rounded-lg cursor-pointer">
-                        {isEditing ? <ButtonSpinner/> : <span>Submit</span>}   
+                        {isEditing ? <ButtonSpinner /> : <span>Submit</span>}
                     </button>
                     </div>}
                 </div>
@@ -261,9 +262,6 @@ function Profile() {
                                 variant="outlined"
                                 name="firstName"
                                 value={user?.address?.street}
-                            // onChange={handleChange}
-                            // error={!!errors.firstName}
-                            // helperText={errors.firstName}
                             />
 
                             <TextField id="outlined-basic"
@@ -271,9 +269,6 @@ function Profile() {
                                 variant="outlined"
                                 name='lastName'
                                 value={user?.address?.houseNo}
-                            // onChange={handleChange}
-                            // error={!!errors.lastName}
-                            // helperText={errors.lastName}
                             />
 
                             <TextField id="outlined-basic"
@@ -281,9 +276,7 @@ function Profile() {
                                 variant="outlined"
                                 name="firstName"
                                 value={user?.address?.district}
-                            // onChange={handleChange}
-                            // error={!!errors.firstName}
-                            // helperText={errors.firstName}
+
                             />
 
                             <TextField id="outlined-basic"
@@ -291,9 +284,6 @@ function Profile() {
                                 variant="outlined"
                                 name='lastName'
                                 value={user?.address?.city}
-                            // onChange={handleChange}
-                            // error={!!errors.lastName}
-                            // helperText={errors.lastName}
                             />
 
                             <TextField id="outlined-basic"
@@ -301,9 +291,6 @@ function Profile() {
                                 variant="outlined"
                                 name="firstName"
                                 value={user?.address?.pincode}
-                            // onChange={handleChange}
-                            // error={!!errors.firstName}
-                            // helperText={errors.firstName}
                             />
 
                         </Box>
