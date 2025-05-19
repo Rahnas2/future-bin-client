@@ -5,6 +5,7 @@ export interface UserType {
         email: string
         mobile: string
         googleId: string | null
+        facebookId: string | null
         role: string
         image: string | null
         address: {

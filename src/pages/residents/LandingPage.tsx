@@ -11,7 +11,7 @@ const LandingPage = () => {
 
     return (
         <>
-            <div className='flex flex-col gap-15 mb-8'>
+            <div className='flex flex-col gap-15 mb-8 max:w-full overflow-x-hidden'>
                 <Hero />
                 <AboutUs />
                 <SubscriptionPlans />
