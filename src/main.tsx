@@ -9,12 +9,8 @@ import App from './App'
 createRoot(document.getElementById('root')!).render(
   
   <>
-    {/* <Router> */}
       <Provider store={store}>
         <App />
-      {/* <AppRoutes />
-      <Toaster /> */}
       </Provider>
-    {/* </Router> */}
   </>,
 )

@@ -46,7 +46,7 @@ axiosInstance.interceptors.response.use(
         const isAdminRoute = currentPath.startsWith('/admin');
         const redirectTo = isAdminRoute ? '/admin/login' : '/';
         window.localStorage.href = redirectTo
-        return Promise.reject(refreshError);
+        return Promise.reject(refreshError)
       }
     }
 

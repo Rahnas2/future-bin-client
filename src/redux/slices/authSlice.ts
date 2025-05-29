@@ -88,7 +88,7 @@ export const login = createAsyncThunk('/auth/login', async ({ email, password }:
         return response
     } catch (error: any) {
         console.log('error response form slice ', error)
-        return rejectWithValue(error.response.data)
+        return rejectWithValue(error?.response?.data || 'someting went wrong') 
     }
 })
 
@@ -99,7 +99,7 @@ export const googleLogin = createAsyncThunk('/auth/googleLogin', async (code: st
         return response
     } catch (error: any) {
         console.log('the error ', error)
-        return rejectWithValue(error.response.data)
+        return rejectWithValue(error?.response?.data || 'someting went wrong')
     }
 })
 

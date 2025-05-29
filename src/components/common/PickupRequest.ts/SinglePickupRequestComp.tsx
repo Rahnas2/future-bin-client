@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import ComponentSpinner from '../ComponentSpinner'
 import Address from '@/components/Address'
 import SingleWasteTypeAndWeight from '../WasteTypes/SingleWasteTypeAndWeight'
-import { CalendarDays, Clock9, MessageCircle } from 'lucide-react'
+import { CalendarDays, Clock9, MessageCircle, Wallet } from 'lucide-react'
 import PickupRequestProgressBar from './PickupRequestProgressBar'
 import { useSelector } from 'react-redux'
 import { IRootState } from '@/redux/slices'
@@ -15,6 +15,16 @@ import { fetchUserReviewWithCollectorIdApi } from '@/api/reviewService'
 import CancelPickupRequestModal from './CancelPickupRequestModal'
 import ChatModal from '@/components/collectors/ChatModal'
 import { requestCancellationType } from '@/types/requestCancellation'
+import { getClientSecretApi } from '@/api/paymentService'
+import PaymentForm from '@/components/common/Payment/PaymentForm';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const appearance = {
+    theme: 'stripe' as 'stripe',
+};
+const loader = 'auto';
 
 type Props = {
     requestId: string
@@ -34,6 +44,10 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
     const [chatModal, setChatModal] = useState(false)
 
+    //Payment 
+    const [paymentForm, setPaymentForm] = useState(false)
+    const [clientSecret, setClientSecret] = useState<string | null>(null)
+
     const handleAddEditModalOpen = () => {
         setAddEditModal(true)
     }
@@ -48,6 +62,17 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
     const handleCancelModalClose = () => {
         setCancelModal(false)
+    }
+
+    const handlePaymentForm = async () => {
+        console.log('start ')
+        try {
+            const result = await getClientSecretApi(requestId)
+            setClientSecret(result.clientSecret)
+            setPaymentForm(true);
+        } catch (error) {
+            console.error('error getting client secret ', error)
+        }
     }
 
     const handlePickupCancelled = (cancellationData: requestCancellationType) => {
@@ -126,8 +151,8 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                                 <span className='uppercase font-bold'>{pickupRequest?.type}</span>
                             </div>
                             {pickupRequest?.type === 'on-demand' ? pickupRequest?.wasteTypes.map(waste => (
-                                <div className='mb-3'>
-                                    <SingleWasteTypeAndWeight key={waste.name} waste={waste} />
+                                <div className='mb-3' key={waste.name}>
+                                    <SingleWasteTypeAndWeight waste={waste} />
                                 </div>
                             )) :
                                 <></>
@@ -227,6 +252,15 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
                     }
 
                     <div className='text-end [&>*]:px-4 [&>*]:py-2 [&>*]:rounded-md [&>*]:cursor-pointer mt-10'>
+                        {role === 'resident' && pickupRequest?.status === 'accepted' && (
+                            <button
+                                onClick={handlePaymentForm}
+                                className='bg-accent  hover:bg-green-400 transition-all duration-300 font-medium mr-10'
+                            >
+                                <Wallet className='inline mr-2' size={18} />
+                                Make Payment
+                            </button>
+                        )}
                         {role === 'resident' && pickupRequest?.status === 'completed' && (
                             <button onClick={handleAddEditModalOpen} className='bg-blue-500 hover:bg-blue-400'>{feedback ? 'Update Feedback About the Collector' : 'Add Your Feedback About the Collector'}</button>
                         )}
@@ -258,8 +292,22 @@ const SinglePickupRequestComp: React.FC<Props> = ({ requestId }) => {
 
             }
             {addEditModal && <FeedBackAddEditModal onClose={handleAddEditModalClose} mode={feedback ? 'edit' : 'add'} review={feedback ? feedback : undefined} setReview={setFeedback} type='collector' collectorId={pickupRequest?.collectorId as string} />}
-            {cancelModal && <CancelPickupRequestModal onClose={handleCancelModalClose} pickupRequestId={pickupRequest?._id as string} onCancelSuccess={handlePickupCancelled}/>}
+            {cancelModal && <CancelPickupRequestModal onClose={handleCancelModalClose} pickupRequestId={pickupRequest?._id as string} onCancelSuccess={handlePickupCancelled} />}
+
+            {paymentForm && clientSecret && (
+                <div className='fixed inset-0  bg-opacity-50 backdrop-blur-xs flex justify-center items-center overflow-hidden z-50'>
+                    <div className="bg-white p-6 rounded-lg max-h-[90vh] overflow-y-auto">
+                        <Elements options={{ clientSecret: clientSecret!, appearance, loader }} stripe={stripePromise} >
+                            <PaymentForm />
+                        </Elements>
+                        <button onClick={() => setPaymentForm(false)} className="mt-4 text-red-500">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )} 
         </>
+
     )
 }
 

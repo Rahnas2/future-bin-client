@@ -100,7 +100,7 @@ const Login = () => {
         setError(ValidationErrors)
       } else {
         console.error('error ', error)
-        error.message && toast.error(error?.message)
+        error.message ? toast.error(error?.message) : toast.error('something went wrong')
       }
 
     }
