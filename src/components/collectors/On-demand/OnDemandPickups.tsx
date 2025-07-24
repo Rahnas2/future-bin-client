@@ -15,7 +15,7 @@ const OnDemandPickups = () => {
     const navigate = useNavigate()
 
     const [OnDemandPickups, setOnDemandPickups] = useState<OnDemandPickupRequestType[] | null>(null)
-    // const [selectedPickupRequest, setSelectedPickupRequest] = useState({id: '', email: ''})
+    const [selectedPickupRequest, setSelectedPickupRequest] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const [isSendingOtp, setIsSendingOtp] = useState(false)
@@ -43,6 +43,7 @@ const OnDemandPickups = () => {
         if (action === 'completed') {
 
             try {
+                setSelectedPickupRequest(id)
                 setIsSendingOtp(true)
                 await sendOtpService(email!)
             } catch (error) {
@@ -50,6 +51,7 @@ const OnDemandPickups = () => {
                 return toast.error('something went wrong please try again')
             } finally {
                 setIsSendingOtp(false)
+                setSelectedPickupRequest('')
             }
 
             navigate('/otp-verification', { state: { email: email, mode: 'on-demand-completed', id: id } })
@@ -128,7 +130,7 @@ const OnDemandPickups = () => {
                             <div className="md:flex-1"><span className="opacity-50">Total Weight</span> <br /> <span className="font-medium">{req.totalWeight}</span></div>
                             <div className="md:text-end">
                                 <button disabled={isSendingOtp} onClick={() => handleRequestAction(req._id as string, 'completed', req.email)} className="w-40 md:w-xs py-2 flex justify-center border border-gray-500 cursor-pointer rounded-md  shadow-lg">
-                                    {isSendingOtp ? <ButtonSpinner /> : <>Completed Pickup</>}
+                                    {isSendingOtp && selectedPickupRequest === req._id ? <ButtonSpinner /> : <>Completed Pickup</>}
                                 </button>
                             </div>
                         </div>
@@ -136,7 +138,9 @@ const OnDemandPickups = () => {
                         <div className="flex justify-between">
                             <div className="md:flex-1"><span className="opacity-50">Total Price</span> <br /> <span className="font-medium">{req.totalAmount}</span></div>
                             <div className="md:flex-1"><span className="opacity-50">Assigned At</span> <br /> <span className="font-medium"></span>{new Date(req.assignedAt!).toDateString()}</div>
-                            <div className="md:text-end"><button onClick={() => handleRequestAction(req._id as string, 'cancel')} className=" px-3 py-2  border border-red-500 bg-red-500 cursor-pointer rounded-md w-40 md:w-xs">Cancel Pickup</button></div>
+                            <div className="md:text-end">
+                                <button onClick={() => handleRequestAction(req._id as string, 'cancel')} className=" px-3 py-2  border border-red-500 bg-red-500 cursor-pointer rounded-md w-40 md:w-xs">Cancel Pickup</button>
+                            </div>
                         </div>
                     </div>
                 </div>
